@@ -17,3 +17,4 @@ class Eventos():
             sys.exit()
         else:
             mbox.hide()
+#prueba
