@@ -14,6 +14,7 @@ class Main(QtWidgets.QMainWindow):
         conexion.Conexion.db_conexion(self)
         eventos.Eventos.cargarProv(self)
         eventos.Eventos.cargarMuni(self)
+        eventos.Eventos.comprobarDNI(self)
 
         '''
         Zona de eventos del menubar

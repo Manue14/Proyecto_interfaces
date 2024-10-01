@@ -31,3 +31,6 @@ class Eventos():
         var.ui.cmbMunicli.clear()
         listado = conexion.Conexion.listMuni(self)
         var.ui.cmbMunicli.addItems(listado)
+
+    def comprobarDNI(self):
+        var.ui.txtDnicli.textChanged.connect(lambda: print(var.ui.txtDnicli.text()))
