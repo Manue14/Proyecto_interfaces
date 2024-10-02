@@ -416,7 +416,7 @@
      <x>0</x>
      <y>0</y>
      <width>1024</width>
-     <height>19</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArchivo">
@@ -434,6 +434,22 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>panPrincipal</tabstop>
+  <tabstop>txtDnicli</tabstop>
+  <tabstop>txtApelcli</tabstop>
+  <tabstop>txtNomcli</tabstop>
+  <tabstop>chkHistoriacli</tabstop>
+  <tabstop>txtEmailCli</tabstop>
+  <tabstop>txtMovilcli</tabstop>
+  <tabstop>txtDircli</tabstop>
+  <tabstop>cmbProcli</tabstop>
+  <tabstop>cmbMunicli</tabstop>
+  <tabstop>btnGrabarcli</tabstop>
+  <tabstop>btnModifcli</tabstop>
+  <tabstop>btnDelcli</tabstop>
+  <tabstop>tabClientes</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

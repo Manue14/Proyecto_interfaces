@@ -47,7 +47,7 @@ class Conexion:
         query.prepare("SELECT * FROM provincias;")
         if query.exec():
             while query.next():
-                listaprov.append(query.value(1))
+                listaprov.append([query.value(0), query.value(1)])
         return listaprov
 
     @staticmethod
@@ -59,3 +59,14 @@ class Conexion:
             while query.next():
                 listamuni.append(query.value(0))
         return listamuni
+
+    @staticmethod
+    def list_mun_by_prov(self, prov_id):
+        mun_list = []
+        query = QtSql.QSqlQuery()
+        query.prepare(f"SELECT * FROM municipios where idprov = {prov_id};")
+        if query.exec():
+            while query.next():
+                print(query.value(1))
+                mun_list.append([query.value(1), query.value(2)])
+        return mun_list

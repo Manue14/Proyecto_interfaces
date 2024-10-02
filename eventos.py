@@ -25,7 +25,19 @@ class Eventos():
     def cargarProv(self):
         var.ui.cmbProcli.clear()
         listado = conexion.Conexion.listProv(self)
-        var.ui.cmbProcli.addItems(listado)
+        for prov in listado:
+            var.ui.cmbProcli.addItem(prov[1], prov[0])
+
+    def prov_listener(self):
+        var.ui.cmbProcli.currentIndexChanged.connect(lambda: Eventos.cargar_muni_by_prov(Eventos, var.ui.cmbProcli.currentIndex()))
+
+    @staticmethod
+    def cargar_muni_by_prov(cls, prov_id):
+        var.ui.cmbMunicli.clear()
+        print("hello")
+        listado = conexion.Conexion.list_mun_by_prov(cls, prov_id)
+        for mun in listado:
+            var.ui.cmbMuni.addItem(mun[1], mun[0])
 
     def cargarMuni(self):
         var.ui.cmbMunicli.clear()
@@ -51,9 +63,9 @@ class Eventos():
     @staticmethod
     def changeStyleDNI(cls, dni: str, object):
         if cls.checkDNI(cls, dni):
-            object.setStyleSheet(f"background-color: #90EE90;")
+            object.setStyleSheet("background-color: #90EE90;")
         else:
             if not dni:
-                object.setStyleSheet(f"background-color: #FFFCDC;")
+                object.setStyleSheet("background-color: #FFFCDC;")
             else:
-                object.setStyleSheet(f"background-color: #FFCCCB;")
+                object.setStyleSheet("background-color: #FFCCCB;")

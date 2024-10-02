@@ -13,7 +13,8 @@ class Main(QtWidgets.QMainWindow):
         self.setStyleSheet(styles.load_stylesheet())
         conexion.Conexion.db_conexion(self)
         eventos.Eventos.cargarProv(self)
-        eventos.Eventos.cargarMuni(self)
+        eventos.Eventos.prov_listener(self)
+        #eventos.Eventos.cargarMuni(self)
         eventos.Eventos.dniTextBoxChecker(self)
 
         '''
