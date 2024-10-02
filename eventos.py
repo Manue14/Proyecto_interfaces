@@ -23,7 +23,7 @@ class Eventos():
             mbox.hide()
 
     def cargarProv(self):
-        var.ui.cmbProcli.clear()
+        #var.ui.cmbProcli.clear()
         listado = conexion.Conexion.listProv(self)
         for prov in listado:
             var.ui.cmbProcli.addItem(prov[1], prov[0])
@@ -34,10 +34,10 @@ class Eventos():
     @staticmethod
     def cargar_muni_by_prov(cls, prov_id):
         var.ui.cmbMunicli.clear()
-        print("hello")
+        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
         listado = conexion.Conexion.list_mun_by_prov(cls, prov_id)
         for mun in listado:
-            var.ui.cmbMuni.addItem(mun[1], mun[0])
+            var.ui.cmbMunicli.addItem(mun[0], mun[1])
 
     def cargarMuni(self):
         var.ui.cmbMunicli.clear()

@@ -67,6 +67,5 @@ class Conexion:
         query.prepare(f"SELECT * FROM municipios where idprov = {prov_id};")
         if query.exec():
             while query.next():
-                print(query.value(1))
                 mun_list.append([query.value(1), query.value(2)])
         return mun_list
