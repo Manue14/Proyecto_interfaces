@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_venPrincipal(object):
     def setupUi(self, venPrincipal):
         venPrincipal.setObjectName("venPrincipal")
-        venPrincipal.resize(1048, 851)
+        venPrincipal.resize(1060, 851)
         venPrincipal.setMaximumSize(QtCore.QSize(16777215, 16777215))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("/home/manu/Proyecto_interfaces/templates/img/house.ico"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
@@ -22,6 +22,7 @@ class Ui_venPrincipal(object):
         self.gridLayout_2 = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.panPrincipal = QtWidgets.QTabWidget(parent=self.centralwidget)
+        self.panPrincipal.setMinimumSize(QtCore.QSize(0, 0))
         self.panPrincipal.setMaximumSize(QtCore.QSize(16777215, 1500))
         self.panPrincipal.setObjectName("panPrincipal")
         self.pesClientes = QtWidgets.QWidget()
@@ -157,7 +158,7 @@ class Ui_venPrincipal(object):
         self.gridLayout_2.addItem(spacerItem7, 0, 0, 1, 1)
         venPrincipal.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(parent=venPrincipal)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1048, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1060, 22))
         self.menubar.setObjectName("menubar")
         self.menuArchivo = QtWidgets.QMenu(parent=self.menubar)
         self.menuArchivo.setObjectName("menuArchivo")

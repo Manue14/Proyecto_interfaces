@@ -6,6 +6,7 @@ QMainWindow {
 /* ---- Estilo para QTabWidget ---- */
 QTabWidget {
 	background-color: none;
+	width: 100em;
 }
 
 /* ---- Estilo menu bar ---- */
@@ -20,5 +21,3 @@ QPushButton {
 	border: 1px solid black;
 	border-radius: 5px;
 }
-
-/*test*/
