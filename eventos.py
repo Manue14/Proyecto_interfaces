@@ -1,4 +1,6 @@
 import sys
+import time
+
 import var
 from PyQt6 import QtWidgets, QtGui
 
@@ -22,8 +24,12 @@ class Eventos():
         else:
             mbox.hide()
 
+    def cargamunicli(self):
+        var.ui.cmbMunicli.clear()
+
+
     def cargarProv(self):
-        #var.ui.cmbProcli.clear()
+        var.ui.cmbProcli.clear()
         listado = conexion.Conexion.listProv(self)
         for prov in listado:
             var.ui.cmbProcli.addItem(prov[1], prov[0])
@@ -69,3 +75,21 @@ class Eventos():
                 object.setStyleSheet("background-color: #FFFCDC;")
             else:
                 object.setStyleSheet("background-color: #FFCCCB;")
+
+    def abrirCalendar(op):
+        try:
+            var.panel = op
+            var.uicalendar.show()
+        except Exception as error:
+            print("error en abrir calendar ", error)
+
+    def cargaFecha(qDate):
+        try:
+            data = ('{:02d}/{:02d}/{:4d}'.format(qDate.day(), qDate.month(), qDate.year()))
+            if var.panel == var.ui.panPrincipal.currentIndex():
+                var.ui.txtAltacli.setText(str(data))
+            time.sleep(0.5)
+            var.uicalendar.hide()
+            return data
+        except Exception as error:
+            print("error en cargar fecha: ", error)

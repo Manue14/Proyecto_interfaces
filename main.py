@@ -4,24 +4,37 @@ import styles
 from venPrincipal import *
 import sys
 import var
+from venPrincipal import *
+from venAux import *
 
 class Main(QtWidgets.QMainWindow):
     def __init__(self):
         super(Main, self).__init__()
         var.ui = Ui_venPrincipal()
         var.ui.setupUi(self)
+        var.uicalendar = Calendar()
         self.setStyleSheet(styles.load_stylesheet())
         conexion.Conexion.db_conexion(self)
-        eventos.Eventos.cargarProv(self)
-        eventos.Eventos.cargar_muni_default(self)
-        eventos.Eventos.prov_listener(self)
-        #eventos.Eventos.cargarMuni(self)
         eventos.Eventos.dniTextBoxChecker(self)
 
         '''
         Zona de eventos del menubar
         '''
         var.ui.actionSalir.triggered.connect(eventos.Eventos.mensajeSalir)
+
+        '''
+        Zona eventos botones
+        '''
+        #var.ui.btnAltaCli.clicked.connect(clientes.Clientes.altaCliente)
+        var.ui.btnAltaCli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0))
+
+        '''
+        Zona eventos combox
+        '''
+        #var.ui.cmbProvcli.currentIndexChanged.connect(eventos.Eventos.cargamunicli)
+        #eventos.Eventos.cargarProv(self)
+        #eventos.Eventos.cargar_muni_default(self)
+        #eventos.Eventos.prov_listener(self)
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
