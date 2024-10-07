@@ -24,31 +24,17 @@ class Eventos():
         else:
             mbox.hide()
 
-    def cargamunicli(self):
+    def cargar_muni_cli(self, provId = 1):
         var.ui.cmbMunicli.clear()
-
+        listado = conexion.Conexion.list_mun_by_prov(provId)
+        for mun in listado:
+            var.ui.cmbMunicli.addItem(mun[0], mun[1])
 
     def cargarProv(self):
         var.ui.cmbProcli.clear()
-        listado = conexion.Conexion.listProv(self)
+        listado = conexion.Conexion.list_prov(self)
         for prov in listado:
             var.ui.cmbProcli.addItem(prov[1], prov[0])
-
-    def prov_listener(self):
-        var.ui.cmbProcli.currentIndexChanged.connect(lambda: Eventos.cargar_muni_by_prov(Eventos, var.ui.cmbProcli.itemData(var.ui.cmbProcli.currentIndex())))
-
-    @staticmethod
-    def cargar_muni_by_prov(cls, prov_id):
-        var.ui.cmbMunicli.clear()
-        listado = conexion.Conexion.list_mun_by_prov(cls, prov_id)
-        for mun in listado:
-            var.ui.cmbMunicli.addItem(mun[0], mun[1])
-
-    def cargar_muni_default(self):
-        var.ui.cmbMunicli.clear()
-        listado = conexion.Conexion.list_mun_by_prov(self, 1)
-        for mun in listado:
-            var.ui.cmbMunicli.addItem(mun[0], mun[1])
 
     def dniTextBoxChecker(self):
         var.ui.txtDnicli.textChanged.connect(lambda: Eventos.changeStyleDNI(Eventos, var.ui.txtDnicli.text(), var.ui.txtDnicli))

@@ -31,11 +31,10 @@ class Main(QtWidgets.QMainWindow):
         '''
         Zona eventos combox
         '''
-        #var.ui.cmbProvcli.currentIndexChanged.connect(eventos.Eventos.cargamunicli)
-        #eventos.Eventos.cargarProv(self)
-        #eventos.Eventos.cargar_muni_default(self)
-        #eventos.Eventos.prov_listener(self)
-
+        eventos.Eventos.cargarProv(self)
+        eventos.Eventos.cargar_muni_cli(self)
+        var.ui.cmbProcli.currentIndexChanged.connect(lambda: eventos.Eventos.cargar_muni_cli(self, var.ui.cmbProcli.itemData(var.ui.cmbProcli.currentIndex())))
+        
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
     window = Main()
