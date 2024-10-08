@@ -27,6 +27,7 @@ class Main(QtWidgets.QMainWindow):
         Zona eventos comprobaciones
         '''
         var.ui.txtEmailCli.editingFinished.connect(lambda: clientes.Clientes.checkEmail(var.ui.txtEmailCli.text))
+        #var.ui.txtDnicli.textChanged.connect(lambda: to-do)
         '''
         Zona eventos botones
         '''

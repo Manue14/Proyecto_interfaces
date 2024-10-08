@@ -61,12 +61,13 @@ class Conexion:
                 mun_list.append([query.value(1), query.value(2)])
         return mun_list
 
+    @staticmethod
     def altaCliente(nuevocli):
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT into clientes (dnicli, altacli, apelcli, nomecli, emailcli, movilcli, "
-                          "dircli, provcli, municli) VALUES (:dnicli, :altacli, :apelcli, :nomecli, :emailcli, "
-                          " :movilcli, :dircli, :provcli, :municli)")
+                          "dircli, procli, municli) VALUES (:dnicli, :altacli, :apelcli, :nomecli, :emailcli, "
+                          " :movilcli, :dircli, :procli, :municli)")
             query.bindValue(":dnicli", nuevocli[0])
             query.bindValue(":altacli", nuevocli[1])
             query.bindValue(":apelcli", nuevocli[2])
@@ -74,10 +75,11 @@ class Conexion:
             query.bindValue(":emailcli", nuevocli[4])
             query.bindValue(":movilcli", nuevocli[5])
             query.bindValue(":dircli", nuevocli[6])
-            query.bindValue(":provcli", nuevocli[7])
+            query.bindValue(":procli", nuevocli[7])
             query.bindValue(":municli", nuevocli[8])
             if query.exec():
-                return True
+                QtWidgets.QMessageBox.information(None, 'Aviso', 'Cliente grabado en la base de datos',
+                                                  QtWidgets.QMessageBox.StandardButton.Ok)
             else:
                 QtWidgets.QMessageBox.critical(None, 'Error', 'No se pudo dar de alta el cliente en la base de datos.',
                                                QtWidgets.QMessageBox.StandardButton.Cancel)
