@@ -4,6 +4,7 @@ import styles
 from venPrincipal import *
 import sys
 import var
+import clientes
 from venPrincipal import *
 from venAux import *
 
@@ -23,9 +24,13 @@ class Main(QtWidgets.QMainWindow):
         var.ui.actionSalir.triggered.connect(eventos.Eventos.mensajeSalir)
 
         '''
+        Zona eventos comprobaciones
+        '''
+        var.ui.txtEmailCli.editingFinished.connect(lambda: clientes.Clientes.checkEmail(var.ui.txtEmailCli.text))
+        '''
         Zona eventos botones
         '''
-        #var.ui.btnAltaCli.clicked.connect(clientes.Clientes.altaCliente)
+        var.ui.btnGrabarcli.clicked.connect(clientes.Clientes.altaCliente)
         var.ui.btnAltaCli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0))
 
         '''
