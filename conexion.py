@@ -78,10 +78,8 @@ class Conexion:
             query.bindValue(":procli", nuevocli[7])
             query.bindValue(":municli", nuevocli[8])
             if query.exec():
-                QtWidgets.QMessageBox.information(None, 'Aviso', 'Cliente grabado en la base de datos',
-                                                  QtWidgets.QMessageBox.StandardButton.Ok)
+                return True
             else:
-                QtWidgets.QMessageBox.critical(None, 'Error', 'No se pudo dar de alta el cliente en la base de datos.',
-                                               QtWidgets.QMessageBox.StandardButton.Cancel)
+                return False
         except Exception as error:
             print("error alta cliente", error)

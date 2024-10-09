@@ -16,7 +16,7 @@ class Main(QtWidgets.QMainWindow):
         var.uicalendar = Calendar()
         self.setStyleSheet(styles.load_stylesheet())
         conexion.Conexion.db_conexion(self)
-        eventos.Eventos.dniTextBoxChecker(self)
+        eventos.Eventos.dniTextBoxChecker(self) #to change
 
         '''
         Zona de eventos del menubar
