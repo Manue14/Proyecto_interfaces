@@ -1,7 +1,7 @@
 import os
 from PyQt6 import QtSql, QtWidgets
 from PyQt6.uic.properties import QtGui
-
+import sqlite3
 
 class Conexion:
 
@@ -81,5 +81,8 @@ class Conexion:
                 return True
             else:
                 return False
+        except sqlite3.IntegrityError:
+            return False
         except Exception as error:
             print("error alta cliente", error)
+            return False

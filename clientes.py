@@ -1,5 +1,3 @@
-import sqlite3
-
 from PyQt6 import QtWidgets, QtGui
 
 import var
@@ -52,5 +50,3 @@ class Clientes:
 
         except Exception as error:
             print("error alta cliente", error)
-        except sqlite3.IntegrityError:
-            return False
