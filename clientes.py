@@ -1,10 +1,22 @@
 from PyQt6 import QtWidgets, QtGui
-
+from PyQt6.QtWidgets import QTableWidgetItem
 import var
 import eventos
 import conexion
 
 class Clientes:
+    def checkDni():
+        try:
+            dni = str(var.ui.txtDnicli.text())
+            if eventos.Eventos.checkDNI(dni):
+                var.ui.txtDnicli.setStyleSheet("background-color: #90EE90;")
+                var.ui.txtDnicli.setText(dni.upper())
+            else:
+                var.ui.txtDnicli.setStyleSheet('background-color:#FFC0CB;')
+                var.ui.txtDnicli.setText(None)
+        except Exception as error:
+            print("error check dni cliente", error)
+
     def checkEmail(mail):
         try:
             mail = str(var.ui.txtEmailCli.text())
@@ -27,6 +39,18 @@ class Clientes:
                     var.ui.txtEmailCli.text(), var.ui.txtMovilcli.text(), var.ui.txtDircli.text(), var.ui.cmbProcli.currentText(),
                     var.ui.cmbMunicli.currentText()]
             if conexion.Conexion.altaCliente(nuevocli):
+                var.ui.tabClientes.clear()
+                var.ui.tabClientes.setRowCount(1)
+                var.ui.tabClientes.setColumnCount(len(nuevocli))
+                var.ui.tabClientes.setHorizontalHeaderLabels(("DNI", "Fecha Alta", "Apellidos", "Nombre", "Email", "Móvil", "Dirección", "Provincia", "Municipio"))
+                columna = 0
+                tableWidth = var.ui.tabClientes.viewport().width()
+                for value in nuevocli:
+                    item = QTableWidgetItem(value)
+                    var.ui.tabClientes.setColumnWidth(columna, tableWidth // len(nuevocli))
+                    var.ui.tabClientes.setItem(0, columna, item)
+                    columna += 1
+
                 mbox = QtWidgets.QMessageBox()
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
                 mbox.setWindowIcon(QtGui.QIcon("img/house.ico"))
@@ -46,7 +70,6 @@ class Clientes:
                 mbox.setStandardButtons(
                     QtWidgets.QMessageBox.StandardButton.Cancel)
                 mbox.exec()
-            print(nuevocli)
 
         except Exception as error:
             print("error alta cliente", error)

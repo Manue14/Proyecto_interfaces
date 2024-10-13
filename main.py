@@ -16,7 +16,6 @@ class Main(QtWidgets.QMainWindow):
         var.uicalendar = Calendar()
         self.setStyleSheet(styles.load_stylesheet())
         conexion.Conexion.db_conexion(self)
-        eventos.Eventos.dniTextBoxChecker(self) #to change
 
         '''
         Zona de eventos del menubar
@@ -27,7 +26,7 @@ class Main(QtWidgets.QMainWindow):
         Zona eventos comprobaciones
         '''
         var.ui.txtEmailCli.editingFinished.connect(lambda: clientes.Clientes.checkEmail(var.ui.txtEmailCli.text))
-        #var.ui.txtDnicli.textChanged.connect(lambda: to-do)
+        var.ui.txtDnicli.editingFinished.connect(lambda: clientes.Clientes.checkDni())
         '''
         Zona eventos botones
         '''

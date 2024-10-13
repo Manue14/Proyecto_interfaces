@@ -36,11 +36,7 @@ class Eventos:
         for prov in listado:
             var.ui.cmbProcli.addItem(prov[1], prov[0])
 
-    def dniTextBoxChecker(self):
-        var.ui.txtDnicli.textChanged.connect(lambda: Eventos.changeStyleDNI(Eventos, var.ui.txtDnicli.text(), var.ui.txtDnicli))
-
-    @staticmethod
-    def checkDNI(cls, dni: str):
+    def checkDNI(dni: str):
         valid_letters = "TRWAGMYFPDXBNJZSQVHLCKE"
         if len(dni) != 9 :
             return False
@@ -51,16 +47,6 @@ class Eventos:
         if dni[8] != correct_letter:
             return False
         return True
-
-    @staticmethod
-    def changeStyleDNI(cls, dni: str, object):
-        if cls.checkDNI(cls, dni):
-            object.setStyleSheet("background-color: #90EE90;")
-        else:
-            if not dni:
-                object.setStyleSheet("background-color: #FFFCDC;")
-            else:
-                object.setStyleSheet("background-color: #FFCCCB;")
 
     def abrirCalendar(op):
         try:
