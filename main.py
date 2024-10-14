@@ -7,6 +7,7 @@ import var
 import clientes
 from venPrincipal import *
 from venAux import *
+import conexionserver
 
 class Main(QtWidgets.QMainWindow):
     def __init__(self):
@@ -14,19 +15,29 @@ class Main(QtWidgets.QMainWindow):
         var.ui = Ui_venPrincipal()
         var.ui.setupUi(self)
         var.uicalendar = Calendar()
+        var.dlgabrir = FileDialogAbrir()
         self.setStyleSheet(styles.load_stylesheet())
         conexion.Conexion.db_conexion(self)
+        #conexionserver.ConexionServer.crear_conexion(self)
+
+        '''
+        Zona de eventos de tablas
+        #eventos.Eventos.resizeTablaClientes(self)
+        #clientes.Clientes.cargaTablaClientes(self)
+        '''
 
         '''
         Zona de eventos del menubar
         '''
         var.ui.actionSalir.triggered.connect(eventos.Eventos.mensajeSalir)
-
+        var.ui.actionCrear_Backup.triggered.connect(eventos.Eventos.crearBackup)
+        var.ui.actionRestaurar_Backup.triggered.connect(eventos.Eventos.restaurarBackup)
         '''
         Zona eventos comprobaciones
         '''
-        var.ui.txtEmailCli.editingFinished.connect(lambda: clientes.Clientes.checkEmail(var.ui.txtEmailCli.text))
-        var.ui.txtDnicli.editingFinished.connect(lambda: clientes.Clientes.checkDni())
+        var.ui.txtEmailCli.editingFinished.connect(lambda: clientes.Clientes.checkEmail(var.ui.txtEmailCli.text)) #to-change
+        var.ui.txtDnicli.editingFinished.connect(lambda: clientes.Clientes.checkDni()) #to-change
+
         '''
         Zona eventos botones
         '''

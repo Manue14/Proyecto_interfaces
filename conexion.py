@@ -86,3 +86,5 @@ class Conexion:
         except Exception as error:
             print("error alta cliente", error)
             return False
+
+    #def listadoClientes(self): to-do

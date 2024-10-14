@@ -5,3 +5,4 @@ global ui
 global uicalendar
 global op
 global panel
+global dlgabrir

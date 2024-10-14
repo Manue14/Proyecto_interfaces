@@ -1,11 +1,22 @@
 import sys
 import time
 import re
+from datetime import datetime
+import os
+
+import clientes
+import eventos
 import var
 from PyQt6 import QtWidgets, QtGui
-
 import conexion
+import locale
+import zipfile
+import shutil
+import conexionserver
+#Establecer configuración regional
 
+locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+locale.setlocale(locale.LC_MONETARY, 'es_ES.UTF-8')
 
 class Eventos:
     def mensajeSalir(self=None):
@@ -27,12 +38,14 @@ class Eventos:
     def cargar_muni_cli(self, provId = 1):
         var.ui.cmbMunicli.clear()
         listado = conexion.Conexion.list_mun_by_prov(provId)
+        #listado = conexionserver.ConexionServer.listaMuniProv(provId)
         for mun in listado:
             var.ui.cmbMunicli.addItem(mun[0], mun[1])
 
     def cargarProv(self):
         var.ui.cmbProcli.clear()
         listado = conexion.Conexion.list_prov(self)
+        #listado = conexionserver.ConexionServer.listaProv(self)
         for prov in listado:
             var.ui.cmbProcli.addItem(prov[1], prov[0])
 
@@ -73,3 +86,55 @@ class Eventos:
             return True
         else:
             return False
+
+    def crearBackup(self):
+        try:
+            fecha = datetime.now()
+            fecha = fecha.strftime('%Y_/%m_/%d_%H_%M_%S')
+            copia = str(fecha) + "_backup.zip"
+            directorio, fichero = var.dlgabrir.getSaveFileName(None, "Guardar Copia Seguridad", copia, '.zip')
+            if var.dlgabrir.accept and fichero:
+                fichzip = zipfile.ZipFile(fichero, 'w')
+                fichzip.write('bbdd.sqlite', os.path.basename('bbdd.sqlite'), zipfile.ZIP_DEFLATED)
+                fichzip.close()
+                shutil.move(fichero, directorio)
+
+                mbox = QtWidgets.QMessageBox()
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                mbox.setWindowIcon(QtGui.QIcon("img/house.ico"))
+                mbox.setWindowTitle('Copia de Seguridad')
+                mbox.setText("Copia de seguridad guardada")
+                mbox.setStandardButtons(
+                    QtWidgets.QMessageBox.StandardButton.Ok)
+                mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
+                mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText("Aceptar")
+                mbox.exec()
+        except Exception as error:
+            print("error en crear backup: ", error)
+
+    def restaurarBackup(self):
+        try:
+            filename = var.dlgabrir.getOpenFileName(None, "Restaurar Copia Seguridad", '', "*.zip;;All Files(*)")
+            file = filename[0]
+
+            if file:
+                with zipfile.ZipFile(file, 'r') as bbdd:
+                    bbdd.extractall(pwd=None)
+                bbdd.close()
+
+                mbox = QtWidgets.QMessageBox()
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                mbox.setWindowIcon(QtGui.QIcon("img/house.ico"))
+                mbox.setWindowTitle('Copia de Seguridad')
+                mbox.setText("Copia de seguridad restaurada")
+                mbox.setStandardButtons(
+                    QtWidgets.QMessageBox.StandardButton.Ok)
+                mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
+                mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText("Aceptar")
+                mbox.exec()
+
+                conexion.Conexion.db_conexion(self)
+                eventos.Eventos.cargarProv(self)
+                clientes.Clientes.cargaTablaClientes(self)
+        except Exception as error:
+            print("error en restaurar backup: ", error)

@@ -1,5 +1,8 @@
 from PyQt6 import QtWidgets, QtGui
 from PyQt6.QtWidgets import QTableWidgetItem
+from PyQt6.uic.properties import QtCore
+
+import conexionserver
 import var
 import eventos
 import conexion
@@ -73,3 +76,28 @@ class Clientes:
 
         except Exception as error:
             print("error alta cliente", error)
+
+    @staticmethod
+    def cargaTablaClientes(self):
+        try:
+            # listado = conexion.Conexion.listadoClientes(self)
+            listado = conexionserver.ConexionServer.listadoClientes(self)
+            index = 0
+            for registro in listado:
+                var.ui.tablaClientes.setRowCount(index + 1)
+                var.ui.tablaClientes.setItem(index, 0, QtWidgets.QTableWidgetItem(registro[2]))
+                var.ui.tablaClientes.setItem(index, 1, QtWidgets.QTableWidgetItem(registro[3]))
+                var.ui.tablaClientes.setItem(index, 2, QtWidgets.QTableWidgetItem("  " + registro[5] + "  "))
+                var.ui.tablaClientes.setItem(index, 3, QtWidgets.QTableWidgetItem(registro[7]))
+                var.ui.tablaClientes.setItem(index, 4, QtWidgets.QTableWidgetItem(registro[8]))
+                var.ui.tablaClientes.setItem(index, 5, QtWidgets.QTableWidgetItem("  " + registro[9] + "  "))
+                var.ui.tablaClientes.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tablaClientes.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tablaClientes.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+                var.ui.tablaClientes.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tablaClientes.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tablaClientes.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+                index += 1
+
+        except Exception as e:
+            print("error cargaTablaClientes", e)
