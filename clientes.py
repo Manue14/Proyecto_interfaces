@@ -42,6 +42,8 @@ class Clientes:
                     var.ui.txtEmailCli.text(), var.ui.txtMovilcli.text(), var.ui.txtDircli.text(), var.ui.cmbProcli.currentText(),
                     var.ui.cmbMunicli.currentText()]
             if conexion.Conexion.altaCliente(nuevocli):
+
+                '''
                 var.ui.tabClientes.clear()
                 var.ui.tabClientes.setRowCount(1)
                 var.ui.tabClientes.setColumnCount(len(nuevocli))
@@ -53,6 +55,7 @@ class Clientes:
                     var.ui.tabClientes.setColumnWidth(columna, tableWidth // len(nuevocli))
                     var.ui.tabClientes.setItem(0, columna, item)
                     columna += 1
+                '''
 
                 mbox = QtWidgets.QMessageBox()
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
@@ -80,23 +83,24 @@ class Clientes:
     @staticmethod
     def cargaTablaClientes(self):
         try:
-            # listado = conexion.Conexion.listadoClientes(self)
-            listado = conexionserver.ConexionServer.listadoClientes(self)
+            listado = conexion.Conexion.listadoClientes(self)
+            #listado = conexionserver.ConexionServer.listadoClientes(self)
             index = 0
             for registro in listado:
-                var.ui.tablaClientes.setRowCount(index + 1)
-                var.ui.tablaClientes.setItem(index, 0, QtWidgets.QTableWidgetItem(registro[2]))
-                var.ui.tablaClientes.setItem(index, 1, QtWidgets.QTableWidgetItem(registro[3]))
-                var.ui.tablaClientes.setItem(index, 2, QtWidgets.QTableWidgetItem("  " + registro[5] + "  "))
-                var.ui.tablaClientes.setItem(index, 3, QtWidgets.QTableWidgetItem(registro[7]))
-                var.ui.tablaClientes.setItem(index, 4, QtWidgets.QTableWidgetItem(registro[8]))
-                var.ui.tablaClientes.setItem(index, 5, QtWidgets.QTableWidgetItem("  " + registro[9] + "  "))
-                var.ui.tablaClientes.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tablaClientes.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tablaClientes.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-                var.ui.tablaClientes.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tablaClientes.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tablaClientes.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+                var.ui.tabClientes.setRowCount(index + 1)
+                var.ui.tabClientes.setItem(index, 0, QtWidgets.QTableWidgetItem(registro[2]))
+                var.ui.tabClientes.setItem(index, 1, QtWidgets.QTableWidgetItem(registro[3]))
+                var.ui.tabClientes.setItem(index, 2, QtWidgets.QTableWidgetItem("  " + registro[5] + "  "))
+                var.ui.tabClientes.setItem(index, 3, QtWidgets.QTableWidgetItem(registro[7]))
+                var.ui.tabClientes.setItem(index, 4, QtWidgets.QTableWidgetItem(registro[8]))
+                var.ui.tabClientes.setItem(index, 5, QtWidgets.QTableWidgetItem("  " + registro[9] + "  "))
+
+                var.ui.tabClientes.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tabClientes.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tabClientes.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+                var.ui.tabClientes.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tabClientes.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tabClientes.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
                 index += 1
 
         except Exception as e:

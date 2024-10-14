@@ -86,6 +86,22 @@ class Eventos:
             return True
         else:
             return False
+        
+    def resizeTablaClientes(self):
+        try:
+            header = var.ui.tabClientes.horizontalHeader()
+            for i in range(header.count()):
+                if (i == 0 or i == 1 or i == 3 or i == 4):
+                    header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.Stretch)
+                else:
+                    header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                header_items = var.ui.tabClientes.horizontalHeaderItem(i)
+                font = header_items.font()
+                font.setBold(True)
+                header_items.setFont(font)
+        except Exception as error:
+            print("error en resize tabla clientes: " + error)
+
 
     def crearBackup(self):
         try:

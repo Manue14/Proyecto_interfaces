@@ -22,10 +22,10 @@ class Main(QtWidgets.QMainWindow):
 
         '''
         Zona de eventos de tablas
-        #eventos.Eventos.resizeTablaClientes(self)
-        #clientes.Clientes.cargaTablaClientes(self)
         '''
-
+        eventos.Eventos.resizeTablaClientes(self)
+        clientes.Clientes.cargaTablaClientes(self)
+        
         '''
         Zona de eventos del menubar
         '''

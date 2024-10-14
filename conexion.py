@@ -87,4 +87,18 @@ class Conexion:
             print("error alta cliente", error)
             return False
 
-    #def listadoClientes(self): to-do
+    def listadoClientes(self):
+        try:
+            list_cli = []
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM clientes;")
+            if query.exec():
+                while query.next():
+                    list_cli.append([query.value(0), query.value(1), query.value(2), query.value(3),
+                                     query.value(4), query.value(5), query.value(6), query.value(7), query.value(8), query.value(9)])
+                return list_cli
+        except sqlite3.IntegrityError:
+            return []
+        except Exception as error:
+            print("error listado clientes", error)
+            return []
