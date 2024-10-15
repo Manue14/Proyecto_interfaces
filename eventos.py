@@ -91,10 +91,10 @@ class Eventos:
         try:
             header = var.ui.tabClientes.horizontalHeader()
             for i in range(header.count()):
-                if (i == 0 or i == 1 or i == 3 or i == 4):
-                    header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.Stretch)
+                if (i == 1 or i == 2 or i == 4 or i == 5):
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
                 else:
-                    header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
                 header_items = var.ui.tabClientes.horizontalHeaderItem(i)
                 font = header_items.font()
                 font.setBold(True)

@@ -2,6 +2,7 @@ from PyQt6 import QtWidgets, QtGui
 from PyQt6.QtWidgets import QTableWidgetItem
 from PyQt6.uic.properties import QtCore
 
+import clientes
 import conexionserver
 import var
 import eventos
@@ -88,20 +89,82 @@ class Clientes:
             index = 0
             for registro in listado:
                 var.ui.tabClientes.setRowCount(index + 1)
-                var.ui.tabClientes.setItem(index, 0, QtWidgets.QTableWidgetItem(registro[2]))
-                var.ui.tabClientes.setItem(index, 1, QtWidgets.QTableWidgetItem(registro[3]))
-                var.ui.tabClientes.setItem(index, 2, QtWidgets.QTableWidgetItem("  " + registro[5] + "  "))
-                var.ui.tabClientes.setItem(index, 3, QtWidgets.QTableWidgetItem(registro[7]))
-                var.ui.tabClientes.setItem(index, 4, QtWidgets.QTableWidgetItem(registro[8]))
-                var.ui.tabClientes.setItem(index, 5, QtWidgets.QTableWidgetItem("  " + registro[9] + "  "))
+                var.ui.tabClientes.setItem(index, 0, QtWidgets.QTableWidgetItem(registro[0]))
+                var.ui.tabClientes.setItem(index, 1, QtWidgets.QTableWidgetItem(registro[2]))
+                var.ui.tabClientes.setItem(index, 2, QtWidgets.QTableWidgetItem(registro[3]))
+                var.ui.tabClientes.setItem(index, 3, QtWidgets.QTableWidgetItem("  " + registro[5] + "  "))
+                var.ui.tabClientes.setItem(index, 4, QtWidgets.QTableWidgetItem(registro[7]))
+                var.ui.tabClientes.setItem(index, 5, QtWidgets.QTableWidgetItem(registro[8]))
+                var.ui.tabClientes.setItem(index, 6, QtWidgets.QTableWidgetItem("  " + registro[9] + "  "))
 
-                var.ui.tabClientes.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                '''
+                var.ui.tabClientes.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
                 var.ui.tabClientes.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tabClientes.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-                var.ui.tabClientes.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tabClientes.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tabClientes.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
                 var.ui.tabClientes.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tabClientes.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+                var.ui.tabClientes.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tabClientes.item(index, 6).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+                '''
+
+                var.ui.tabClientes.item(index, 0)
+                var.ui.tabClientes.item(index, 1)
+                var.ui.tabClientes.item(index, 2)
+                var.ui.tabClientes.item(index, 3)
+                var.ui.tabClientes.item(index, 4)
+                var.ui.tabClientes.item(index, 5)
+                var.ui.tabClientes.item(index, 6)
+
                 index += 1
 
         except Exception as e:
             print("error cargaTablaClientes", e)
+
+    def cargaOneCliente(self):
+        try:
+            fila = var.ui.tabClientes.selectedItems()
+            datos = [dato.text() for dato in fila]
+            registro = conexion.Conexion.datosOneCliente(str(datos[0]))
+            listado = [var.ui.txtDnicli, var.ui.txtAltacli, var.ui.txtApelcli,
+                        var.ui.txtNomcli,
+                        var.ui.txtEmailCli, var.ui.txtMovilcli, var.ui.txtDircli,
+                        var.ui.cmbProcli,
+                        var.ui.cmbMunicli]
+            for i in range(len(listado)):
+                if i == 7 or i == 8:
+                    listado[i].setCurrentText(registro[i])
+                else:
+                    listado[i].setText(registro[i])
+        except Exception as error:
+            print("error cargaOneCliente", error)
+
+    def modifCliente(self):
+        try:
+            modifcli = [var.ui.txtDnicli.text(), var.ui.txtAltacli.text(), var.ui.txtApelcli.text(), var.ui.txtNomcli.text(),
+                    var.ui.txtEmailCli.text(), var.ui.txtMovilcli.text(), var.ui.txtDircli.text(), var.ui.cmbProcli.currentText(),
+                    var.ui.cmbMunicli.currentText()]
+            if conexion.Conexion.modifCliente(modifcli):
+                mbox = QtWidgets.QMessageBox()
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                mbox.setWindowIcon(QtGui.QIcon("img/house.ico"))
+                mbox.setWindowTitle('Aviso')
+                mbox.setText("Datos cliente modificados correctamente")
+                mbox.setStandardButtons(
+                    QtWidgets.QMessageBox.StandardButton.Ok)
+                mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
+                mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText("Aceptar")
+                mbox.exec()
+                clientes.Clientes.cargaTablaClientes(self)
+            else:
+                mbox = QtWidgets.QMessageBox()
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+                mbox.setWindowIcon(QtGui.QIcon("img/house.ico"))
+                mbox.setWindowTitle('Aviso')
+                mbox.setText("Error al modificar los datos del cliente")
+                mbox.setStandardButtons(
+                    QtWidgets.QMessageBox.StandardButton.Ok)
+                mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
+                mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText("Aceptar")
+                mbox.exec()
+        except Exception as error:
+            print("error modifCliente", error)

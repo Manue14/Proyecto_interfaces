@@ -19,13 +19,13 @@ class Main(QtWidgets.QMainWindow):
         self.setStyleSheet(styles.load_stylesheet())
         conexion.Conexion.db_conexion(self)
         #conexionserver.ConexionServer.crear_conexion(self)
+        clientes.Clientes.cargaTablaClientes(self)
 
         '''
         Zona de eventos de tablas
         '''
         eventos.Eventos.resizeTablaClientes(self)
-        clientes.Clientes.cargaTablaClientes(self)
-        
+        var.ui.tabClientes.clicked.connect(clientes.Clientes.cargaOneCliente)
         '''
         Zona de eventos del menubar
         '''
@@ -35,15 +35,15 @@ class Main(QtWidgets.QMainWindow):
         '''
         Zona eventos comprobaciones
         '''
-        var.ui.txtEmailCli.editingFinished.connect(lambda: clientes.Clientes.checkEmail(var.ui.txtEmailCli.text)) #to-change
-        var.ui.txtDnicli.editingFinished.connect(lambda: clientes.Clientes.checkDni()) #to-change
+        var.ui.txtEmailCli.editingFinished.connect(lambda: clientes.Clientes.checkEmail(var.ui.txtEmailCli.text)) #to-change parameter use
+        var.ui.txtDnicli.editingFinished.connect(lambda: clientes.Clientes.checkDni()) #to-change parameter use
 
         '''
         Zona eventos botones
         '''
         var.ui.btnGrabarcli.clicked.connect(clientes.Clientes.altaCliente)
         var.ui.btnAltaCli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0))
-
+        var.ui.btnModifcli.clicked.connect(clientes.Clientes.modifCliente)
         '''
         Zona eventos combox
         '''
