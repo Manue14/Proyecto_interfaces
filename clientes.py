@@ -168,3 +168,32 @@ class Clientes:
                 mbox.exec()
         except Exception as error:
             print("error modifCliente", error)
+
+    def bajaCliente(self):
+        try:
+            datos = [var.ui.txtBajacli.text(), var.ui.txtDnicli.text()]
+            if conexion.Conexion.bajaCliente(datos):
+                mbox = QtWidgets.QMessageBox()
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                mbox.setWindowIcon(QtGui.QIcon("img/house.ico"))
+                mbox.setWindowTitle('Aviso')
+                mbox.setText("Cliente dado de baja")
+                mbox.setStandardButtons(
+                    QtWidgets.QMessageBox.StandardButton.Ok)
+                mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
+                mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText("Aceptar")
+                mbox.exec()
+                clientes.Clientes.cargaTablaClientes(self)
+            else:
+                mbox = QtWidgets.QMessageBox()
+                mbox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+                mbox.setWindowIcon(QtGui.QIcon("img/house.ico"))
+                mbox.setWindowTitle('Aviso')
+                mbox.setText("Error baja cliente: cliente no existe o dado de baja")
+                mbox.setStandardButtons(
+                    QtWidgets.QMessageBox.StandardButton.Ok)
+                mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
+                mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText("Aceptar")
+                mbox.exec()
+        except Exception as error:
+            print("error bajaCliente", error)

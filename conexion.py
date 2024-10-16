@@ -91,7 +91,7 @@ class Conexion:
         try:
             list_cli = []
             query = QtSql.QSqlQuery()
-            query.prepare("SELECT * FROM clientes;")
+            query.prepare("SELECT * FROM clientes ORDER BY nomecli, apelcli ASC;")
             if query.exec():
                 while query.next():
                     list_cli.append([query.value(0), query.value(1), query.value(2), query.value(3),
@@ -138,3 +138,16 @@ class Conexion:
                 return False
         except Exception as error:
             print("error modificar cliente", error)
+
+    def bajaCliente(datos):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("UPDATE clientes SET bajacli = :bajacli WHERE dnicli = :dnicli")
+            query.bindValue(":bajacli", str(datos[0]))
+            query.bindValue(":dnicli", str(datos[1]))
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as error:
+            print("error baja cliente", error)
