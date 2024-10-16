@@ -21,3 +21,7 @@ QPushButton {
 	border: 1px solid black;
 	border-radius: 5px;
 }
+
+QToolbar {
+    background-color: whitesmoke;
+}

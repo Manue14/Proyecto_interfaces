@@ -157,3 +157,15 @@ class Eventos:
                 clientes.Clientes.cargaTablaClientes(self)
         except Exception as error:
             print("error en restaurar backup: ", error)
+
+    def limpiarPanel(self):
+        objetosPanelCli = [var.ui.txtDnicli, var.ui.txtAltacli, var.ui.txtApelcli,
+                    var.ui.txtNomcli, var.ui.txtEmailCli, var.ui.txtMovilcli, var.ui.txtDircli,
+                    var.ui.cmbProcli, var.ui.cmbMunicli, var.ui.txtBajacli]
+        for i, dato in enumerate(objetosPanelCli):
+            if i == 7 and i == 8:
+                pass
+            else:
+                dato.setText("")
+        eventos.Eventos.cargarProv(self)
+        eventos.Eventos.cargar_muni_cli(self)

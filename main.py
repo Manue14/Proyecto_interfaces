@@ -52,7 +52,12 @@ class Main(QtWidgets.QMainWindow):
         eventos.Eventos.cargarProv(self)
         eventos.Eventos.cargar_muni_cli(self)
         var.ui.cmbProcli.currentIndexChanged.connect(lambda: eventos.Eventos.cargar_muni_cli(self, var.ui.cmbProcli.itemData(var.ui.cmbProcli.currentIndex())))
-        
+
+        '''
+        Zona eventos toolbar
+        '''
+        var.ui.actionbarSalir.triggered.connect(eventos.Eventos.mensajeSalir)
+        var.ui.actionbarLimpiar.triggered.connect(eventos.Eventos.limpiarPanel)
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
     window = Main()
