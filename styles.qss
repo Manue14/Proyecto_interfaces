@@ -22,6 +22,29 @@ QPushButton {
 	border-radius: 5px;
 }
 
+/* ---- Estilos tabla ---- */
+QTableWidget {
+
+}
+
+QTableWidget::item:alternate {
+	background-color: white;
+}
+
+QTableWidget::item:selected {
+	background-color: ghostwhite;
+	color: black;
+}
+
+QHeaderView::section {
+    background-color: #d7eff6;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px;
+    border: 1px solid black;
+}
+
 QToolbar {
     background-color: whitesmoke;
 }

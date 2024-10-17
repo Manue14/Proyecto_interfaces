@@ -87,6 +87,7 @@ class Clientes:
             listado = conexion.Conexion.listadoClientes(self)
             #listado = conexionserver.ConexionServer.listadoClientes(self)
             index = 0
+            var.ui.tabClientes.verticalHeader().setVisible(False)
             for registro in listado:
                 var.ui.tabClientes.setRowCount(index + 1)
                 var.ui.tabClientes.setItem(index, 0, QtWidgets.QTableWidgetItem(registro[0]))
