@@ -1,6 +1,6 @@
 /* ---- Estilo para QMainWindow ---- */
 QMainWindow {
-    background-color: #d7eff6;
+    background-color: #34495e;
 }
 
 /* ---- Estilo para QTabWidget ---- */
@@ -28,7 +28,7 @@ QTableWidget {
 }
 
 QTableWidget::item:alternate {
-	background-color: white;
+	background-color: whitesmoke;
 }
 
 QTableWidget::item:selected {
@@ -47,4 +47,10 @@ QHeaderView::section {
 
 QToolbar {
     background-color: whitesmoke;
+}
+
+/* ---- Estilos campos obligatorios ---- */
+QLineEdit#txtDnicli, QLineEdit#txtApelcli, QLineEdit#txtDircli, QLineEdit#txtAltacli,
+QLineEdit#txtNomcli, QLineEdit#txtMovilcli {
+	background-color: #f5f3e4;
 }

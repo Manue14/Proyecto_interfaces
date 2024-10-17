@@ -35,7 +35,7 @@ class Main(QtWidgets.QMainWindow):
         '''
         Zona eventos comprobaciones
         '''
-        var.ui.txtEmailCli.editingFinished.connect(lambda: clientes.Clientes.checkEmail(var.ui.txtEmailCli.text)) #to-change parameter use
+        var.ui.txtEmailcli.editingFinished.connect(lambda: clientes.Clientes.checkEmail(var.ui.txtEmailcli.text)) #to-change parameter use
         var.ui.txtDnicli.editingFinished.connect(lambda: clientes.Clientes.checkDni()) #to-change parameter use
 
         '''

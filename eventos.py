@@ -160,7 +160,7 @@ class Eventos:
 
     def limpiarPanel(self):
         objetosPanelCli = [var.ui.txtDnicli, var.ui.txtAltacli, var.ui.txtApelcli,
-                    var.ui.txtNomcli, var.ui.txtEmailCli, var.ui.txtMovilcli, var.ui.txtDircli,
+                    var.ui.txtNomcli, var.ui.txtEmailcli, var.ui.txtMovilcli, var.ui.txtDircli,
                     var.ui.cmbProcli, var.ui.cmbMunicli, var.ui.txtBajacli]
         for i, dato in enumerate(objetosPanelCli):
             if i == 7 and i == 8:

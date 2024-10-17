@@ -23,16 +23,16 @@ class Clientes:
 
     def checkEmail(mail):
         try:
-            mail = str(var.ui.txtEmailCli.text())
+            mail = str(var.ui.txtEmailcli.text())
             if eventos.Eventos.validarMail(mail):
-                var.ui.txtEmailCli.setStyleSheet('background-color: rgb(255, 255, 255);')
-                var.ui.txtEmailCli.setText(mail.lower())
+                var.ui.txtEmailcli.setStyleSheet('background-color: rgb(255, 255, 255);')
+                var.ui.txtEmailcli.setText(mail.lower())
 
             else:
-                var.ui.txtEmailCli.setStyleSheet('background-color:#FFC0CB; font-style: italic;')
-                var.ui.txtEmailCli.setText(None)
-                var.ui.txtEmailCli.setText("correo no válido")
-                var.ui.txtEmailCli.setFocus()
+                var.ui.txtEmailcli.setStyleSheet('background-color:#FFC0CB; font-style: italic;')
+                var.ui.txtEmailcli.setText(None)
+                var.ui.txtEmailcli.setText("correo no válido")
+                var.ui.txtEmailcli.setFocus()
 
         except Exception as error:
             print("error check cliente", error)
@@ -40,7 +40,7 @@ class Clientes:
     def altaCliente(self):
         try:
             nuevocli = [var.ui.txtDnicli.text(), var.ui.txtAltacli.text(), var.ui.txtApelcli.text(), var.ui.txtNomcli.text(),
-                    var.ui.txtEmailCli.text(), var.ui.txtMovilcli.text(), var.ui.txtDircli.text(), var.ui.cmbProcli.currentText(),
+                    var.ui.txtEmailcli.text(), var.ui.txtMovilcli.text(), var.ui.txtDircli.text(), var.ui.cmbProcli.currentText(),
                     var.ui.cmbMunicli.currentText()]
             if conexion.Conexion.altaCliente(nuevocli):
 
@@ -128,7 +128,7 @@ class Clientes:
             registro = conexion.Conexion.datosOneCliente(str(datos[0]))
             listado = [var.ui.txtDnicli, var.ui.txtAltacli, var.ui.txtApelcli,
                         var.ui.txtNomcli,
-                        var.ui.txtEmailCli, var.ui.txtMovilcli, var.ui.txtDircli,
+                        var.ui.txtEmailcli, var.ui.txtMovilcli, var.ui.txtDircli,
                         var.ui.cmbProcli,
                         var.ui.cmbMunicli]
             for i in range(len(listado)):
@@ -142,7 +142,7 @@ class Clientes:
     def modifCliente(self):
         try:
             modifcli = [var.ui.txtDnicli.text(), var.ui.txtAltacli.text(), var.ui.txtApelcli.text(), var.ui.txtNomcli.text(),
-                    var.ui.txtEmailCli.text(), var.ui.txtMovilcli.text(), var.ui.txtDircli.text(), var.ui.cmbProcli.currentText(),
+                    var.ui.txtEmailcli.text(), var.ui.txtMovilcli.text(), var.ui.txtDircli.text(), var.ui.cmbProcli.currentText(),
                     var.ui.cmbMunicli.currentText()]
             if conexion.Conexion.modifCliente(modifcli):
                 mbox = QtWidgets.QMessageBox()
