@@ -2,6 +2,7 @@ import os
 from PyQt6 import QtSql, QtWidgets
 from PyQt6.uic.properties import QtGui
 import sqlite3
+import var
 
 class Conexion:
 
@@ -90,13 +91,21 @@ class Conexion:
     def listadoClientes(self):
         try:
             list_cli = []
-            query = QtSql.QSqlQuery()
-            query.prepare("SELECT * FROM clientes ORDER BY nomecli, apelcli ASC;")
-            if query.exec():
-                while query.next():
-                    list_cli.append([query.value(0), query.value(1), query.value(2), query.value(3),
-                                     query.value(4), query.value(5), query.value(6), query.value(7), query.value(8), query.value(9)])
-                return list_cli
+            if var.historico == 1:
+                query = QtSql.QSqlQuery()
+                query.prepare("SELECT * FROM clientes WHERE bajacli is NULL ORDER BY nomecli, apelcli ASC;")
+                if query.exec():
+                    while query.next():
+                        fila = [query.value(i) for i in range(query.record().count())]
+                        list_cli.append(fila)
+            elif var.historico == 0:
+                query = QtSql.QSqlQuery()
+                query.prepare("SELECT * FROM clientes ORDER BY nomecli, apelcli ASC;")
+                if query.exec():
+                    while query.next():
+                        fila = [query.value(i) for i in range(query.record().count())]
+                        list_cli.append(fila)
+            return list_cli
         except sqlite3.IntegrityError:
             return []
         except Exception as error:
@@ -120,20 +129,35 @@ class Conexion:
     def modifCliente(registro):
         try:
             query = QtSql.QSqlQuery()
-            query.prepare("UPDATE clientes SET altacli = :altacli, apelcli = :apelcli, nomecli = :nomecli, "
-                          " emailcli = :emailcli, movilcli = :movilcli, dircli = :dircli, "
-                          " procli = :provcli, municli = :municli WHERE dnicli = :dni;")
-            query.bindValue(":altacli", str(registro[1]))
-            query.bindValue(":apelcli", str(registro[2]))
-            query.bindValue(":nomecli", str(registro[3]))
-            query.bindValue(":emailcli", str(registro[4]))
-            query.bindValue(":movilcli", str(registro[5]))
-            query.bindValue(":dircli", str(registro[6]))
-            query.bindValue(":provcli", str(registro[7]))
-            query.bindValue(":municli", str(registro[8]))
+            query.prepare("select count(*) from clientes where dnicli = :dni")
             query.bindValue(":dni", str(registro[0]))
-            if query.exec():
-                return True
+            
+            if query.exec() and query.next() and query.value(0) > 0:
+                query.prepare("UPDATE clientes set altacli = :altacli, apelcli = :apelcli, nomecli = :nomecli, "
+                            "emailcli = :emailcli, movilcli = :movilcli, dircli = :dircli, provcli = :provcli, "
+                            "municli = :municli, bajacli = :bajacli where dnicli = :dni")
+                
+                query.bindValue(":dni", str(registro[0]))
+                query.bindValue(":altacli", str(registro[1]))
+                query.bindValue(":apelcli", str(registro[2]))
+                query.bindValue(":nomecli", str(registro[3]))
+                query.bindValue(":emailcli", str(registro[4]))
+                query.bindValue(":movilcli", str(registro[5]))
+                query.bindValue(":dircli", str(registro[6]))
+                query.bindValue(":provcli", str(registro[7]))
+                query.bindValue(":municli", str(registro[8]))
+                
+                if registro[9] == "":
+                    query.bindValue(":bajacli", None)
+                else:
+                    query.bindValue(":bajacli", str(registro[9]))
+
+                if query.exec():
+                    return True
+                else:
+                    print(query.executedQuery())
+                    print(query.lastError().text())
+                    return False
             else:
                 return False
         except Exception as error:

@@ -143,7 +143,7 @@ class Clientes:
         try:
             modifcli = [var.ui.txtDnicli.text(), var.ui.txtAltacli.text(), var.ui.txtApelcli.text(), var.ui.txtNomcli.text(),
                     var.ui.txtEmailcli.text(), var.ui.txtMovilcli.text(), var.ui.txtDircli.text(), var.ui.cmbProcli.currentText(),
-                    var.ui.cmbMunicli.currentText()]
+                    var.ui.cmbMunicli.currentText(), var.ui.txtBajacli.text()]
             if conexion.Conexion.modifCliente(modifcli):
                 mbox = QtWidgets.QMessageBox()
                 mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
@@ -198,3 +198,13 @@ class Clientes:
                 mbox.exec()
         except Exception as error:
             print("error bajaCliente", error)
+
+    def historicoCli(self):
+        try:
+            if var.ui.chkHistoriacli.isChecked():
+                var.historico = 0
+            else:
+                var.historico = 1
+            Clientes.cargaTablaClientes(self)
+        except Exception as Error:
+            print("checkbox histórico", Error)
