@@ -17,7 +17,7 @@ class Main(QtWidgets.QMainWindow):
         var.dlgabrir = FileDialogAbrir()
         self.setStyleSheet(styles.load_stylesheet())
         conexion.Conexion.db_conexion(self)
-        var.historico = 0
+        var.historico = 1
         #conexionserver.ConexionServer.crear_conexion(self)
         clientes.Clientes.cargaTablaClientes(self)
 
@@ -26,17 +26,20 @@ class Main(QtWidgets.QMainWindow):
         '''
         eventos.Eventos.resizeTablaClientes(self)
         var.ui.tabClientes.clicked.connect(clientes.Clientes.cargaOneCliente)
+
         '''
         Zona de eventos del menubar
         '''
         var.ui.actionSalir.triggered.connect(eventos.Eventos.mensajeSalir)
         var.ui.actionCrear_Backup.triggered.connect(eventos.Eventos.crearBackup)
         var.ui.actionRestaurar_Backup.triggered.connect(eventos.Eventos.restaurarBackup)
+
         '''
         Zona eventos comprobaciones
         '''
-        var.ui.txtEmailcli.editingFinished.connect(lambda: clientes.Clientes.checkEmail(var.ui.txtEmailcli.text)) #to-change parameter use
-        var.ui.txtDnicli.editingFinished.connect(lambda: clientes.Clientes.checkDni()) #to-change parameter use
+        var.ui.txtEmailcli.editingFinished.connect(clientes.Clientes.checkEmail)
+        var.ui.txtDnicli.editingFinished.connect(clientes.Clientes.checkDni)
+        var.ui.txtMovilcli.editingFinished.connect(clientes.Clientes.checkPhone)
 
         '''
         Zona eventos botones
@@ -46,6 +49,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btnBajacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0, 1))
         var.ui.btnModifcli.clicked.connect(clientes.Clientes.modifCliente)
         var.ui.btnDelcli.clicked.connect(clientes.Clientes.bajaCliente)
+
         '''
         Zona eventos combox
         '''
@@ -63,6 +67,7 @@ class Main(QtWidgets.QMainWindow):
         Zona eventos checkbox
         '''
         var.ui.chkHistoriacli.stateChanged.connect(clientes.Clientes.historicoCli)
+
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
     window = Main()

@@ -61,6 +61,21 @@ class Eventos:
             return False
         return True
 
+    def validarMail(mail):
+        mail = mail.lower()
+        regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'
+        if re.match(regex, mail):
+            return True
+        else:
+            return False
+
+    def validarPhone(phone):
+        regex = r'(\+34|0034|34)?(6|7)([0-9]){8}'
+        if re.match(regex, phone):
+            return True
+        else:
+            return False
+
     def abrirCalendar(pan, btn):
         try:
             var.panel = pan
@@ -81,14 +96,6 @@ class Eventos:
             return data
         except Exception as error:
             print("error en cargar fecha: ", error)
-
-    def validarMail(mail):
-        mail = mail.lower()
-        regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'
-        if re.match(regex, mail):
-            return True
-        else:
-            return False
         
     def resizeTablaClientes(self):
         try:

@@ -133,10 +133,10 @@ class Conexion:
             query.bindValue(":dni", str(registro[0]))
             
             if query.exec() and query.next() and query.value(0) > 0:
-                query.prepare("UPDATE clientes set altacli = :altacli, apelcli = :apelcli, nomecli = :nomecli, "
-                            "emailcli = :emailcli, movilcli = :movilcli, dircli = :dircli, provcli = :provcli, "
-                            "municli = :municli, bajacli = :bajacli where dnicli = :dni")
-                
+                query.prepare("UPDATE clientes SET altacli = :altacli, apelcli = :apelcli, nomecli = :nomecli, "
+                            "emailcli = :emailcli, movilcli = :movilcli, dircli = :dircli, procli = :provcli, "
+                            "municli = :municli, bajacli = :bajacli WHERE dnicli = :dni")
+
                 query.bindValue(":dni", str(registro[0]))
                 query.bindValue(":altacli", str(registro[1]))
                 query.bindValue(":apelcli", str(registro[2]))
@@ -155,8 +155,6 @@ class Conexion:
                 if query.exec():
                     return True
                 else:
-                    print(query.executedQuery())
-                    print(query.lastError().text())
                     return False
             else:
                 return False

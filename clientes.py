@@ -9,6 +9,7 @@ import eventos
 import conexion
 
 class Clientes:
+    @staticmethod
     def checkDni():
         try:
             dni = str(var.ui.txtDnicli.text())
@@ -21,7 +22,8 @@ class Clientes:
         except Exception as error:
             print("error check dni cliente", error)
 
-    def checkEmail(mail):
+    @staticmethod
+    def checkEmail():
         try:
             mail = str(var.ui.txtEmailcli.text())
             if eventos.Eventos.validarMail(mail):
@@ -34,6 +36,21 @@ class Clientes:
                 var.ui.txtEmailcli.setText("correo no válido")
                 var.ui.txtEmailcli.setFocus()
 
+        except Exception as error:
+            print("error check cliente", error)
+
+    @staticmethod
+    def checkPhone():
+        try:
+            phone = str(var.ui.txtMovilcli.text())
+
+            if eventos.Eventos.validarPhone(phone):
+                var.ui.txtMovilcli.setStyleSheet('background-color: rgb(255, 255, 255);')
+            else:
+                var.ui.txtMovilcli.setStyleSheet('background-color:#FFC0CB; font-style: italic;')
+                var.ui.txtMovilcli.setText(None)
+                var.ui.txtMovilcli.setText("móvil no válido")
+                var.ui.txtMovilcli.setFocus()
         except Exception as error:
             print("error check cliente", error)
 
@@ -208,3 +225,24 @@ class Clientes:
             Clientes.cargaTablaClientes(self)
         except Exception as Error:
             print("checkbox histórico", Error)
+
+    def checkCampos(self):
+        dni = var.ui.txtDnicli.text()
+        apellido = var.ui.txtApelcli.text()
+        email = var.ui.txtEmailcli.text()
+        direccion = var.ui.txtDircli.tetx()
+        fechaAlta = var.ui.txtAltacli.text()
+        nombre = var.ui.txtNomcli.text()
+        movil = var.ui.txtMovilcli.text()
+        provincia = var.ui.cmbProcli.currentText()
+        municipio = var.ui.cmbMunicli.currentText()
+
+        if (not eventos.Eventos.checkDNI(dni) or not
+        eventos.Eventos.validarMail(email) or not eventos.Eventos.validarPhone(movil)):
+            return False
+
+        if (not dni.strip() or not apellido.strip() or not direccion.strip() or not fechaAlta.strip()
+        or not nombre.strip() or not movil.strip() or not provincia.strip() or not municipio.strip()):
+            return False
+
+        return True
