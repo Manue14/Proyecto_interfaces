@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1389</width>
+    <width>1476</width>
     <height>755</height>
    </rect>
   </property>
@@ -996,8 +996,8 @@
        <widget class="QTabWidget" name="panPrincipal_2">
         <property name="geometry">
          <rect>
-          <x>0</x>
-          <y>-20</y>
+          <x>220</x>
+          <y>-30</y>
           <width>1359</width>
           <height>636</height>
          </rect>
@@ -1852,8 +1852,8 @@
            <rect>
             <x>0</x>
             <y>10</y>
-            <width>1347</width>
-            <height>233</height>
+            <width>1572</width>
+            <height>259</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_6">
@@ -1864,26 +1864,19 @@
              </property>
             </widget>
            </item>
-           <item row="4" column="12">
-            <widget class="QLineEdit" name="txtSuperprop"/>
-           </item>
            <item row="4" column="4">
             <widget class="QSpinBox" name="spinHabprop"/>
            </item>
            <item row="4" column="8">
             <widget class="QSpinBox" name="spinBanosProp"/>
            </item>
-           <item row="4" column="11">
-            <widget class="QLabel" name="lblSuperprop">
-             <property name="text">
-              <string>Superficie</string>
-             </property>
-            </widget>
-           </item>
            <item row="4" column="7">
             <widget class="QLabel" name="lbpBanosprop">
              <property name="text">
               <string>Baños</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
@@ -1902,6 +1895,9 @@
              <property name="text">
               <string>Fecha Baja</string>
              </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
             </widget>
            </item>
            <item row="0" column="2">
@@ -1914,7 +1910,7 @@
              </property>
              <property name="sizeHint" stdset="0">
               <size>
-               <width>60</width>
+               <width>40</width>
                <height>20</height>
               </size>
              </property>
@@ -1959,6 +1955,9 @@
             <widget class="QLabel" name="lblMovilprop">
              <property name="text">
               <string>Móvil</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
@@ -2036,9 +2035,6 @@
            <item row="0" column="4">
             <widget class="QLineEdit" name="txtFechaprop_2"/>
            </item>
-           <item row="6" column="1">
-            <widget class="QTextEdit" name="areatxtDescriprop"/>
-           </item>
            <item row="2" column="1">
             <widget class="QLineEdit" name="txtDirprop_2"/>
            </item>
@@ -2079,31 +2075,12 @@
              </property>
             </widget>
            </item>
-           <item row="8" column="1">
-            <widget class="QLineEdit" name="txtNomeprop_2">
-             <property name="minimumSize">
-              <size>
-               <width>300</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>300</width>
-               <height>16777215</height>
-              </size>
-             </property>
-            </widget>
-           </item>
            <item row="6" column="0">
             <widget class="QLabel" name="lblDescriprop">
              <property name="text">
               <string>Observaciones</string>
              </property>
             </widget>
-           </item>
-           <item row="2" column="4">
-            <widget class="QComboBox" name="cmbProvprop_2"/>
            </item>
            <item row="8" column="4">
             <widget class="QLineEdit" name="txtMovilprop"/>
@@ -2117,13 +2094,6 @@
            </item>
            <item row="4" column="15">
             <widget class="QLineEdit" name="txtPrecioprop"/>
-           </item>
-           <item row="6" column="7">
-            <widget class="QLabel" name="lblTipoperprop">
-             <property name="text">
-              <string>Tipo de Operación</string>
-             </property>
-            </widget>
            </item>
            <item row="8" column="7">
             <widget class="QCheckBox" name="chkHistoriaprop">
@@ -2160,25 +2130,6 @@
               <string>Precio(Venta/Alquiler)</string>
              </property>
             </widget>
-           </item>
-           <item row="0" column="6">
-            <spacer name="horizontalSpacer_14">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeType">
-              <enum>QSizePolicy::Fixed</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>60</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="2" column="8">
-            <widget class="QComboBox" name="cmbMuniprop_2"/>
            </item>
            <item row="6" column="11">
             <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -2217,31 +2168,6 @@
              </item>
             </layout>
            </item>
-           <item row="6" column="8">
-            <layout class="QVBoxLayout" name="verticalLayout">
-             <item>
-              <widget class="QCheckBox" name="chkAlquiprop">
-               <property name="text">
-                <string>Alquiler</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="chkVentaprop">
-               <property name="text">
-                <string>Venta</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="chkInterprop">
-               <property name="text">
-                <string>Intercambio</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
            <item row="0" column="10">
             <spacer name="horizontalSpacer_15">
              <property name="orientation">
@@ -2262,6 +2188,9 @@
             <widget class="QLabel" name="lblMuniprop_2">
              <property name="text">
               <string>Municipio</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
@@ -2336,6 +2265,67 @@
              </property>
             </spacer>
            </item>
+           <item row="8" column="1" colspan="2">
+            <widget class="QLineEdit" name="txtNomeprop_2">
+             <property name="minimumSize">
+              <size>
+               <width>300</width>
+               <height>0</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1" colspan="4">
+            <widget class="QTextEdit" name="areatxtDescriprop"/>
+           </item>
+           <item row="6" column="6">
+            <widget class="QLabel" name="lblTipoperprop">
+             <property name="text">
+              <string>Tipo de Operación</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="7">
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <widget class="QCheckBox" name="chkAlquiprop">
+               <property name="text">
+                <string>Alquiler</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="chkVentaprop">
+               <property name="text">
+                <string>Venta</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="chkInterprop">
+               <property name="text">
+                <string>Intercambio</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="2" column="4" colspan="3">
+            <widget class="QComboBox" name="cmbProvprop_2"/>
+           </item>
+           <item row="2" column="8" colspan="3">
+            <widget class="QComboBox" name="cmbMuniprop_2"/>
+           </item>
+           <item row="4" column="10">
+            <widget class="QLabel" name="lblSuperprop">
+             <property name="text">
+              <string>Superficie</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="11">
+            <widget class="QLineEdit" name="txtSuperprop"/>
+           </item>
           </layout>
          </widget>
         </widget>
@@ -2350,8 +2340,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1389</width>
-     <height>21</height>
+     <width>1476</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArchivo">
