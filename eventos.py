@@ -176,3 +176,9 @@ class Eventos:
                 dato.setText("")
         eventos.Eventos.cargarProv(self)
         eventos.Eventos.cargar_muni_cli(self)
+
+    def abrirTipoprop(pan, btn):
+        try:
+            var.dlggestion.show()
+        except Exception as error:
+            print("error en abrir gestión propiedades ", error)

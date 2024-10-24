@@ -18,3 +18,9 @@ class Calendar(QtWidgets.QDialog):
 class FileDialogAbrir(QtWidgets.QFileDialog):
     def __init__(self):
         super(FileDialogAbrir, self).__init__()
+
+class dlgGestionprop(QtWidgets.QFileDialog):
+    def __init__(self):
+        super(dlgGestionprop, self).__init__()
+        var.dlggestion = Ui_dlgGestion()
+        var.dlggestion.setupUi(self)
