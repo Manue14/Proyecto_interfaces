@@ -15,7 +15,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.setupUi(self)
         var.uicalendar = Calendar()
         var.dlgabrir = FileDialogAbrir()
-        var.dlggestion = dlg_Tipo_prop()
+        #var.dlggestion = dlgGestionprop()
         self.setStyleSheet(styles.load_stylesheet())
         conexion.Conexion.db_conexion(self)
         var.historico = 1
