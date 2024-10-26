@@ -182,3 +182,18 @@ class Eventos:
             var.dlggestion.show()
         except Exception as error:
             print("error en abrir gestión propiedades ", error)
+
+    def resizeTablaPropiedades(self):
+        try:
+            header = var.ui.tabPropiedades.horizontalHeader()
+            for i in range(header.count()):
+                if (i == 1 or i == 2 or i == 4 or i == 5):
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
+                else:
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                header_items = var.ui.tabPropiedades.horizontalHeaderItem(i)
+                font = header_items.font()
+                font.setBold(True)
+                header_items.setFont(font)
+        except Exception as error:
+            print("error en resize tabla propiedades: " + error)
