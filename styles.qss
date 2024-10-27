@@ -49,8 +49,142 @@ QToolbar {
     background-color: whitesmoke;
 }
 
+/* ---- Estilos campos ---- */
+QLineEdit#txtEmailcli, QLineEdit#txtBajacli {
+	border-bottom: 1px solid #93c5fd; /*Blue 300*/
+	background-color: #dbeafe; /*Blue 100*/
+	border-radius: 2px 2px 0px 2px;
+}
+
+QLineEdit#txtEmailcli:focus, QLineEdit#txtBajacli:focus {
+	border-bottom: 1.5px solid #2563eb; /*Blue 600*/
+	background-color: #bfdbfe; /*Blue 200*/
+}
 /* ---- Estilos campos obligatorios ---- */
 QLineEdit#txtDnicli, QLineEdit#txtApelcli, QLineEdit#txtDircli, QLineEdit#txtAltacli,
 QLineEdit#txtNomcli, QLineEdit#txtMovilcli {
-	background-color: #f5f3e4;
+	border-bottom: 1px solid #fdba74; /*Orange 300*/
+	background-color: #ffedd5; /*Orange 100*/
+	border-radius: 2px 2px 0px 2px;
 }
+
+QLineEdit#txtDnicli:focus, QLineEdit#txtApelcli:focus, QLineEdit#txtDircli:focus, QLineEdit#txtAltacli:focus,
+QLineEdit#txtNomcli:focus, QLineEdit#txtMovilcli:focus {
+	border-bottom: 1.5px solid #ea580c; /*Orange 600*/
+	background-color: #fed7aa; /*Orange 200*/
+}
+/* ---- Estilos campos fechas (solo lectura) ---- */
+QLineEdit#txtBajacli {
+	border-top: 1px solid #93c5fd; /*Blue 300*/
+	border-right: 1px solid #93c5fd; /*Blue 300*/
+	border-left: 1px solid #93c5fd; /*Blue 300*/
+}
+
+QLineEdit#txtBajacli:focus {
+	border-top: 1.5px solid #2563eb; /*Blue 600*/
+	border-right: 1.5px solid #2563eb; /*Blue 600*/
+	border-left: 1.5px solid #2563eb; /*Blue 600*/
+}
+
+QLineEdit#txtAltacli {
+	border-top: 1px solid #fdba74; /*Orange 300*/
+	border-right: 1px solid #fdba74; /*Orange 300*/
+	border-left: 1px solid #fdba74; /*Orange 300*/
+}
+
+QLineEdit#txtAltacli:focus {
+	border-top: 1.5px solid #ea580c; /*Orange 600*/
+	border-right: 1.5px solid #ea580c; /*Orange 600*/
+	border-left: 1.5px solid #ea580c; /*Orange 600*/
+}
+
+/* ---- Estilos botones ---- */
+QPushButton#btnGrabarcli, QPushButton#btnModifcli, QPushButton#btnGrabarprop, QPushButton#btnModifprop,
+QPushButton#btnDelcli, QPushButton#btnDelprop {
+	border: none;
+	border-radius: 10px;
+}
+
+QPushButton#btnGrabarcli, QPushButton#btnModifcli, QPushButton#btnGrabarprop, QPushButton#btnModifprop {
+	background-color: #3b82f6; /*Blue 500*/
+}
+
+QPushButton#btnGrabarcli:hover, QPushButton#btnModifcli:hover, QPushButton#btnGrabarprop:hover, QPushButton#btnModifprop:hover {
+	background-color: #93c5fd; /*Blue 300*/
+}
+
+QPushButton#btnDelcli, QPushButton#btnDelprop {
+	background-color: #ef4444; /*Red 500*/
+}
+
+QPushButton#btnDelcli:hover, QPushButton#btnDelprop:hover {
+	background-color: #fca5a5; /*Red 300*/
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'xuntaNaranja': {
+          50: '#fee7cd',
+          100: '#fdcf9b',
+          200: '#fdb768',
+          300: '#fca036',
+          400: '#fc972c',
+          500: '#fb8004',
+          600: '#c96603',
+          700: '#b05903',
+          800: '#974d02',
+          900: '#643302',
+          950: '#321a01'
+        },
+        'xuntaAzul': {
+          50: '#d3e7f8',
+          100: '#bddcf5',
+          200: '#a7d0f1',
+          300: '#91c4ee',
+          400: '#65ace7',
+          500: '#3895e0',
+          600: '#1f7bc7',
+          700: '#18609a',
+          800: '#11446e',
+          900: '#0e3758',
+          950: '#0a2942'
+        },
+        'xuntaGris': {
+          50: '#edeff5',
+          100: '#cfd4e3',
+          200: '#c0c6d8',
+          300: '#b3b9cc',
+          400: '#989fb3',
+          500: '#808699',
+          600: '#666c7f',
+          700: '#4f5463',
+          800: '#444855',
+          900: '#393c47',
+          950: '#2d3039'
+        },
+        'xuntaRojo': {
+          50: '#fdd3ce',
+          100: '#fcbcb5',
+          200: '#fba69d',
+          300: '#fb9489',
+          400: '#fa8072',
+          500: '#f84a3a',
+          600: '#f73322',
+          700: '#dd1a08',
+          800: '#c51707',
+          900: '#ac1406',
+          950: '#7b0e04'
+        }
