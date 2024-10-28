@@ -21,7 +21,7 @@ class FileDialogAbrir(QtWidgets.QFileDialog):
     def __init__(self):
         super(FileDialogAbrir, self).__init__()
 
-class dlgGestionprop(QtWidgets.QFileDialog):
+class dlgGestionprop(QtWidgets.QDialog):
     def __init__(self):
         super(dlgGestionprop, self).__init__()
         var.dlggestion = Ui_dlgGestion()

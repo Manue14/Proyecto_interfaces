@@ -179,7 +179,7 @@ class Eventos:
         eventos.Eventos.cargarProv(self)
         eventos.Eventos.cargar_muni_cli(self)
 
-    def abrirTipoprop(pan):
+    def abrirTipoprop():
         try:
             var.dlggestion.show()
         except Exception as error:
