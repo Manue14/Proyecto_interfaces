@@ -7,6 +7,7 @@ import var
 import clientes
 from venAux import *
 import conexionserver
+import propiedades
 
 class Main(QtWidgets.QMainWindow):
     def __init__(self):
@@ -15,7 +16,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.setupUi(self)
         var.uicalendar = Calendar()
         var.dlgabrir = FileDialogAbrir()
-        #var.dlggestion = dlgGestionprop()
+        var.dlggestion = dlgGestionprop()
         self.setStyleSheet(styles.load_stylesheet())
         conexion.Conexion.db_conexion(self)
         var.historico = 1
@@ -35,7 +36,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.actionSalir.triggered.connect(eventos.Eventos.mensajeSalir)
         var.ui.actionCrear_Backup.triggered.connect(eventos.Eventos.crearBackup)
         var.ui.actionRestaurar_Backup.triggered.connect(eventos.Eventos.restaurarBackup)
-        var.ui.actionTipo_Porpiedades.triggered.connect(eventos.Eventos.abrirTipoprop)
+        var.ui.actionTipo_Propiedades.triggered.connect(eventos.Eventos.abrirTipoprop)
 
         '''
         Zona eventos comprobaciones
@@ -50,8 +51,10 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btnGrabarcli.clicked.connect(clientes.Clientes.altaCliente)
         var.ui.btnAltaCli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0, 0))
         var.ui.btnBajacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0, 1))
+        var.ui.btnFechaprop.clicked.connect(lambda: eventos.Eventos.abrirCalendar(1, 0))
         var.ui.btnModifcli.clicked.connect(clientes.Clientes.modifCliente)
         var.ui.btnDelcli.clicked.connect(clientes.Clientes.bajaCliente)
+        var.ui.btnGrabarprop.clicked.connect(propiedades.Propiedades.altaPropiedad)
 
         '''
         Zona eventos combox

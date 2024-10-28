@@ -91,6 +91,8 @@ class Eventos:
                 var.ui.txtAltacli.setText(str(data))
             elif var.panel == var.ui.panPrincipal.currentIndex() and var.btn == 1:
                 var.ui.txtBajacli.setText(str(data))
+            elif var.panel == var.ui.panPrincipal.currentIndex() and var.btn == 2:
+                var.ui.txtFechaprop.setText(str(data))
             time.sleep(0.5)
             var.uicalendar.hide()
             return data
@@ -177,7 +179,7 @@ class Eventos:
         eventos.Eventos.cargarProv(self)
         eventos.Eventos.cargar_muni_cli(self)
 
-    def abrirTipoprop(pan, btn):
+    def abrirTipoprop(pan):
         try:
             var.dlggestion.show()
         except Exception as error:

@@ -40,7 +40,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="pesClientes">
        <attribute name="title">
@@ -898,7 +898,7 @@
           </widget>
          </item>
          <item row="4" column="14">
-          <widget class="QLineEdit" name="txtPrecioprop">
+          <widget class="QLineEdit" name="txtPrecioalquilerprop">
            <property name="minimumSize">
             <size>
              <width>120</width>
@@ -910,6 +910,12 @@
              <width>120</width>
              <height>16777215</height>
             </size>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="placeholderText">
+            <string>Precio Alquiler €</string>
            </property>
           </widget>
          </item>
@@ -1159,7 +1165,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Precio(Venta/Alquiler):</string>
+            <string>Precio(Alquiler/Venta):</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1384,7 +1390,7 @@
           </widget>
          </item>
          <item row="4" column="8">
-          <widget class="QSpinBox" name="spinBanosProp">
+          <widget class="QSpinBox" name="spinBanosprop">
            <property name="minimumSize">
             <size>
              <width>40</width>
@@ -1434,6 +1440,12 @@
              <width>110</width>
              <height>16777215</height>
             </size>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="placeholderText">
+            <string>m2</string>
            </property>
           </widget>
          </item>
@@ -1637,6 +1649,28 @@
            </property>
           </widget>
          </item>
+         <item row="4" column="15">
+          <widget class="QLineEdit" name="txtPrecioventaprop">
+           <property name="minimumSize">
+            <size>
+             <width>120</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>120</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="placeholderText">
+            <string>Precio Venta €</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </widget>
@@ -1650,7 +1684,7 @@
      <x>0</x>
      <y>0</y>
      <width>2153</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArchivo">
@@ -1675,7 +1709,7 @@
     <property name="title">
      <string>Gestión</string>
     </property>
-    <addaction name="actionTipo_Porpiedades"/>
+    <addaction name="actionTipo_Propiedades"/>
    </widget>
    <addaction name="menuArchivo"/>
    <addaction name="menuGesti_n"/>
@@ -1742,9 +1776,9 @@
     <string>Alt+R</string>
    </property>
   </action>
-  <action name="actionTipo_Porpiedades">
+  <action name="actionTipo_Propiedades">
    <property name="text">
-    <string>Tipo Porpiedades</string>
+    <string>Tipo Propiedades</string>
    </property>
   </action>
  </widget>

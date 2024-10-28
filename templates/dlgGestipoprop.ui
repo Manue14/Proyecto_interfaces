@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>dlgGestion</class>
  <widget class="QDialog" name="dlgGestion">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -25,7 +28,10 @@
   <property name="windowTitle">
    <string>Gestión Tipo Propiedades</string>
   </property>
-  <widget class="QWidget" name="">
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -47,7 +53,7 @@
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>20</y>
+         <y>50</y>
          <width>280</width>
          <height>30</height>
         </rect>
@@ -80,7 +86,7 @@
        <property name="geometry">
         <rect>
          <x>80</x>
-         <y>60</y>
+         <y>90</y>
          <width>150</width>
          <height>20</height>
         </rect>
@@ -96,6 +102,25 @@
          <width>150</width>
          <height>20</height>
         </size>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>10</y>
+         <width>51</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>../img/house.ico</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
        </property>
       </widget>
      </widget>
