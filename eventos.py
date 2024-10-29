@@ -76,9 +76,8 @@ class Eventos:
         else:
             return False
 
-    def abrirCalendar(pan, btn):
+    def abrirCalendar(btn):
         try:
-            var.panel = pan
             var.btn = btn
             var.uicalendar.show()
         except Exception as error:
@@ -87,12 +86,14 @@ class Eventos:
     def cargaFecha(qDate):
         try:
             data = ('{:02d}/{:02d}/{:4d}'.format(qDate.day(), qDate.month(), qDate.year()))
-            if var.panel == var.ui.panPrincipal.currentIndex() and var.btn == 0:
+            if var.ui.panPrincipal.currentIndex() == 0 and var.btn == 0:
                 var.ui.txtAltacli.setText(str(data))
-            elif var.panel == var.ui.panPrincipal.currentIndex() and var.btn == 1:
+            elif var.ui.panPrincipal.currentIndex() == 0 and var.btn == 1:
                 var.ui.txtBajacli.setText(str(data))
-            elif var.panel == var.ui.panPrincipal.currentIndex() and var.btn == 2:
+            elif var.ui.panPrincipal.currentIndex() == 1 and var.btn == 0:
                 var.ui.txtFechaprop.setText(str(data))
+            elif var.ui.panPrincipal.currentIndex == 1 and var.btn == 1:
+                var.ui.txtFechabajaprop.setText(str(data))
             time.sleep(0.5)
             var.uicalendar.hide()
             return data
@@ -199,3 +200,8 @@ class Eventos:
                 header_items.setFont(font)
         except Exception as error:
             print("error en resize tabla propiedades: " + error)
+
+    def cargarTipoprop(self):
+        registro = conexion.Conexion.cargarTipoprop(self)
+        var.ui.cmbTipoprop.clear()
+        var.ui.cmbTipoprop.addItems(registro)

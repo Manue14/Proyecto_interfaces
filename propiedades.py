@@ -1,10 +1,35 @@
+from PyQt6.uic.properties import QtWidgets, QtGui
+
+import conexion
+import eventos
 import var
 import dlgGestipoprop
 
 class Propiedades():
     def altaTipopropiedad(self):
-        tipo = var.dlggestion.txtGestipoprop.text()
-        print(tipo)
+        try:
+            tipo = var.dlggestion.ui.txtGestipoprop.text()
+            registro = conexion.Conexion.altaTipoprop(tipo)
+            if registro:
+                eventos.Eventos.cargarTipoprop(self)
+            else:
+                print("Ya existe")
+            var.dlggestion.ui.txtGestipoprop.setText("")
+        except Exception as e:
+            print(f"Error: {e}")
+
+    def bajaTipopropiedad(self):
+        try:
+            tipo = var.dlggestion.ui.txtGestipoprop.text()
+            if conexion.Conexion.bajaTipoprop(tipo):
+                eventos.Eventos.cargarTipoprop(self)
+                print("baja")
+            else:
+                print("No existe")
+            var.dlggestion.ui.txtGestipoprop.setText("")
+        except Exception as e:
+            print(f"Error: {e}")
+
 
     def altaPropiedad(self):
         try:
@@ -16,3 +41,6 @@ class Propiedades():
             print(propiedad)
         except Exception as e:
             print(e)
+
+    def bajaPropiedad(self):
+        print("a")

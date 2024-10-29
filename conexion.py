@@ -173,3 +173,45 @@ class Conexion:
                 return False
         except Exception as error:
             print("error baja cliente", error)
+
+    def altaTipoprop(tipo):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("INSERT into tipopropiedad (TIPO) VALUES (:tipo) ")
+            query.bindValue(":tipo", str(tipo))
+            if query.exec():
+                query = QtSql.QSqlQuery()
+                query.prepare("SELECT tipo FROM tipopropiedad")
+                if query.exec():
+                    registro = []
+                    while query.next():
+                        registro.append(query.value(0))
+                    return registro
+            else:
+                return False
+        except Exception as error:
+            print("error alta tipo propiedad", error)
+
+    def cargarTipoprop(self):
+        query = QtSql.QSqlQuery()
+        query.prepare("SELECT tipo FROM tipopropiedad ASC")
+        if query.exec():
+            registro = []
+            while query.next():
+                registro.append(query.value(0))
+            return registro
+
+    def bajaTipoprop(tipo):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("DELETE from tipopropiedad WHERE tipo = :tipo")
+            query.bindValue(":tipo", str(tipo))
+            if query.exec():
+                if query.numRowsAffected() > 0:
+                    return True
+                else:
+                    return False
+            else:
+                return False
+        except Exception as error:
+            print("error baja tipo propiedad", error)

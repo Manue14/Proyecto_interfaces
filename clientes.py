@@ -238,12 +238,14 @@ class Clientes:
         provincia = var.ui.cmbProcli.currentText()
         municipio = var.ui.cmbMunicli.currentText()
 
-        if (not eventos.Eventos.checkDNI(dni) or not
-        eventos.Eventos.validarMail(email) or not eventos.Eventos.validarPhone(movil)):
+        if (not eventos.Eventos.checkDNI(dni) or not eventos.Eventos.validarPhone(movil)):
             return False
 
         if (not dni.strip() or not apellido.strip() or not direccion.strip() or not fechaAlta.strip()
         or not nombre.strip() or not movil.strip() or not provincia.strip() or not municipio.strip()):
+            return False
+
+        if (email.strip() and not eventos.Eventos.validarMail(email)):
             return False
 
         return True
