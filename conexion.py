@@ -215,3 +215,15 @@ class Conexion:
                 return False
         except Exception as error:
             print("error baja tipo propiedad", error)
+
+    def altaPropiedad(propiedad):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("INSERT into propiedades (altaprop, dirprop, provprop, muniprop, tipoprop, habprop, "
+                          "banprop, superprop, prealquiprop, prevenprop, cpprop, obserprop, tipooper, estadoprop, "
+                          "nomeprop, movilprop) VALUES (:altaprop, :dirprop, :provprop, :muniprop, :tipoprop, :habprop, "
+                          ":banprop, :superprop, :prealquiprop, :prevenprop, :cpprop, :obserprop, :tipooper, :estadoprop, "
+                          ":nomeprop, :movilprop)")
+            #query.bindValue()
+        except Exception as error:
+            print("error al dar de alta la propiedad en la base de datos")

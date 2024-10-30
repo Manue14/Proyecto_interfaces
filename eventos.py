@@ -92,7 +92,7 @@ class Eventos:
                 var.ui.txtBajacli.setText(str(data))
             elif var.ui.panPrincipal.currentIndex() == 1 and var.btn == 0:
                 var.ui.txtFechaprop.setText(str(data))
-            elif var.ui.panPrincipal.currentIndex == 1 and var.btn == 1:
+            elif var.ui.panPrincipal.currentIndex() == 1 and var.btn == 1:
                 var.ui.txtFechabajaprop.setText(str(data))
             time.sleep(0.5)
             var.uicalendar.hide()
