@@ -2,10 +2,10 @@
 Fichero de variables globales
 '''
 global ui
-global uicalendar
+global ui_calendar
 global op
 global panel
-global dlgabrir
+global dlg_abrir
 global btn
 global historico
-global dlggestion
+global dlg_gestion_propiedad_tipo

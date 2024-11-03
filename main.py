@@ -1,80 +1,92 @@
 import conexion
 import eventos
 import styles
-from venPrincipal import *
+from ventana_principal import *
 import sys
 import var
 import clientes
-from venAux import *
-import conexionserver
+from ventana_auxiliar import *
+import conexion_server
 import propiedades
 
 class Main(QtWidgets.QMainWindow):
     def __init__(self):
         super(Main, self).__init__()
-        var.ui = Ui_venPrincipal()
+        var.ui = Ui_VentanaPrincipal()
         var.ui.setupUi(self)
-        var.uicalendar = Calendar()
-        var.dlgabrir = FileDialogAbrir()
-        var.dlggestion = dlgGestionprop()
+        var.ui_calendar = Calendar()
+        var.dlg_abrir = FileDialogAbrir()
+        var.dlg_gestion_propiedad_tipo = DlgGestionPropiedadTipo()
         self.setStyleSheet(styles.load_stylesheet())
         conexion.Conexion.db_conexion(self)
         var.historico = 1
         #conexionserver.ConexionServer.crear_conexion(self)
-        clientes.Clientes.cargaTablaClientes(self)
+        clientes.Clientes.cargar_cli_tab(self)
 
         '''
         Zona de eventos de tablas
         '''
-        eventos.Eventos.resizeTablaClientes(self)
-        var.ui.tabClientes.clicked.connect(clientes.Clientes.cargaOneCliente)
-        eventos.Eventos.resizeTablaPropiedades(self)
+        eventos.Eventos.resize_cli_tab(self)
+        var.ui.tab_cli.clicked.connect(clientes.Clientes.cargar_cliente)
+        eventos.Eventos.resize_pro_tab(self)
 
         '''
         Zona de eventos del menubar
         '''
-        var.ui.actionSalir.triggered.connect(eventos.Eventos.mensajeSalir)
-        var.ui.actionCrear_Backup.triggered.connect(eventos.Eventos.crearBackup)
-        var.ui.actionRestaurar_Backup.triggered.connect(eventos.Eventos.restaurarBackup)
-        var.ui.actionTipo_Propiedades.triggered.connect(eventos.Eventos.abrirTipoprop)
+        var.ui.action_archivo_salir.triggered.connect(eventos.Eventos.mensaje_salir)
+        var.ui.action_archivo_backup_crear.triggered.connect(eventos.Eventos.crear_backup)
+        var.ui.action_archivo_backup_restaurar.triggered.connect(eventos.Eventos.restaurar_backup)
+        var.ui.action_gestion_propiedades_tipo.triggered.connect(eventos.Eventos.abrir_dlg_propiedades_tipo)
 
         '''
         Zona eventos comprobaciones
         '''
-        var.ui.txtEmailcli.editingFinished.connect(clientes.Clientes.checkEmail)
-        var.ui.txtDnicli.editingFinished.connect(clientes.Clientes.checkDni)
-        var.ui.txtMovilcli.editingFinished.connect(clientes.Clientes.checkPhone)
+        var.ui.txt_cli_email.editingFinished.connect(clientes.Clientes.validar_email)
+        var.ui.txt_cli_dni.editingFinished.connect(clientes.Clientes.validar_dni)
+        var.ui.txt_cli_movil.editingFinished.connect(clientes.Clientes.validar_movil)
+        var.ui.txt_cli_alta.editingFinished.connect(clientes.Clientes.validar_fecha_alta)
+        var.ui.txt_cli_baja.editingFinished.connect(clientes.Clientes.validar_fecha_baja)
+
+        var.ui.txt_pro_movil.editingFinished.connect(propiedades.Propiedades.validar_movil)
+        var.ui.txt_pro_alta.editingFinished.connect(propiedades.Propiedades.validar_fecha_alta)
+        var.ui.txt_pro_baja.editingFinished.connect(propiedades.Propiedades.validar_fecha_baja)
+        var.ui.txt_pro_postal.editingFinished.connect(propiedades.Propiedades.validar_postal)
+        var.ui.txt_pro_superficie.editingFinished.connect(propiedades.Propiedades.validar_superficie)
+        var.ui.txt_pro_precio_alquiler.editingFinished.connect(propiedades.Propiedades.validar_precio_alquiler)
+        var.ui.txt_pro_precio_venta.editingFinished.connect(propiedades.Propiedades.validar_precio_venta)
 
         '''
         Zona eventos botones
         '''
-        var.ui.btnGrabarcli.clicked.connect(clientes.Clientes.altaCliente)
-        var.ui.btnAltaCli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0))
-        var.ui.btnBajacli.clicked.connect(lambda: eventos.Eventos.abrirCalendar(1))
-        var.ui.btnFechaprop.clicked.connect(lambda: eventos.Eventos.abrirCalendar(0))
-        var.ui.btnFechabajaprop.clicked.connect(lambda: eventos.Eventos.abrirCalendar(1))
-        var.ui.btnModifcli.clicked.connect(clientes.Clientes.modifCliente)
-        var.ui.btnDelcli.clicked.connect(clientes.Clientes.bajaCliente)
-        var.ui.btnGrabarprop.clicked.connect(propiedades.Propiedades.altaPropiedad)
+        var.ui.btn_cli_grabar.clicked.connect(clientes.Clientes.alta_cliente)
+        var.ui.btn_cli_alta.clicked.connect(lambda: eventos.Eventos.abrir_calendar(0))
+        var.ui.btn_cli_baja.clicked.connect(lambda: eventos.Eventos.abrir_calendar(1))
+        var.ui.btn_pro_alta.clicked.connect(lambda: eventos.Eventos.abrir_calendar(0))
+        var.ui.btn_pro_baja.clicked.connect(lambda: eventos.Eventos.abrir_calendar(1))
+        var.ui.btn_cli_modificar.clicked.connect(clientes.Clientes.modificar_cliente)
+        var.ui.btn_cli_eliminar.clicked.connect(clientes.Clientes.baja_cliente)
+        var.ui.btn_pro_grabar.clicked.connect(propiedades.Propiedades.alta_propiedad)
 
         '''
         Zona eventos combox
         '''
-        eventos.Eventos.cargarProv(self)
-        eventos.Eventos.cargar_muni_cli(self)
-        var.ui.cmbProcli.currentIndexChanged.connect(lambda: eventos.Eventos.cargar_muni_cli(self, var.ui.cmbProcli.itemData(var.ui.cmbProcli.currentIndex())))
-        eventos.Eventos.cargarTipoprop(self)
+        eventos.Eventos.cargar_provincias(self)
+        eventos.Eventos.cargar_municipios_cli(self)
+        eventos.Eventos.cargar_municipios_pro(self)
+        var.ui.cmb_cli_provincia.currentIndexChanged.connect(lambda: eventos.Eventos.cargar_municipios_cli(self, var.ui.cmb_cli_provincia.itemData(var.ui.cmb_cli_provincia.currentIndex())))
+        var.ui.cmb_pro_provincia.currentIndexChanged.connect(lambda: eventos.Eventos.cargar_municipios_pro(self, var.ui.cmb_pro_provincia.itemData(var.ui.cmb_pro_provincia.currentIndex())))
+        eventos.Eventos.cargar_propiedad_tipos(self)
 
         '''
         Zona eventos toolbar
         '''
-        var.ui.actionbarSalir.triggered.connect(eventos.Eventos.mensajeSalir)
-        var.ui.actionbarLimpiar.triggered.connect(eventos.Eventos.limpiarPanel)
+        var.ui.action_tool_salir.triggered.connect(eventos.Eventos.mensaje_salir)
+        var.ui.action_tool_limpiar.triggered.connect(eventos.Eventos.limpiar_panel)
 
         '''
         Zona eventos checkbox
         '''
-        var.ui.chkHistoriacli.stateChanged.connect(clientes.Clientes.historicoCli)
+        var.ui.chk_cli_historico.stateChanged.connect(clientes.Clientes.set_historico_cliente)
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])

@@ -3,249 +3,296 @@ from PyQt6.QtWidgets import QTableWidgetItem
 from PyQt6.uic.properties import QtCore
 
 import clientes
-import conexionserver
+import conexion_server
 import var
 import eventos
 import conexion
 
 class Clientes:
+    campos = {}
+
+    def inicializar_campos():
+        Clientes.campos = {
+            "dni": var.ui.txt_cli_dni,
+            "fecha_alta": var.ui.txt_cli_alta,
+            "apellido": var.ui.txt_cli_apellido,
+            "nombre": var.ui.txt_cli_nombre,
+            "email": var.ui.txt_cli_email,
+            "movil": var.ui.txt_cli_movil, 
+            "direccion": var.ui.txt_cli_direccion,
+            "provincia": var.ui.cmb_cli_provincia,
+            "municipio": var.ui.cmb_cli_municipio,
+            "fecha_baja": var.ui.txt_cli_baja
+        }
+
+    def construir_cliente():
+        cliente = {"dni": Clientes.campos["dni"].text(), "fecha_alta": Clientes.campos["fecha_alta"].text(), "apellido": Clientes.campos["apellido"].text(),
+                    "nombre": Clientes.campos["nombre"].text(), "email": Clientes.campos["email"].text(), "movil": Clientes.campos["movil"].text(),
+                    "direccion": Clientes.campos["direccion"].text(), "provincia": Clientes.campos["provincia"].currentText(),
+                    "municipio": Clientes.campos["municipio"].currentText(), "fecha_baja": Clientes.campos["fecha_baja"].text()}
+        return cliente
+    
     @staticmethod
-    def checkDni():
+    def validar_dni():
+        Clientes.inicializar_campos()
         try:
-            dni = str(var.ui.txtDnicli.text())
-            if eventos.Eventos.checkDNI(dni):
-                var.ui.txtDnicli.setStyleSheet("background-color: #90EE90;")
-                var.ui.txtDnicli.setText(dni.upper())
+            dni = str(Clientes.campos["dni"].text())
+            if eventos.Eventos.validar_dni(dni):
+                Clientes.campos["dni"].setStyleSheet('''QLineEdit#txt_cli_dni {border-bottom: 1px solid #fdba74;
+                                                                                background-color: #ffedd5;}
+                                                        QLineEdit#txt_cli_dni:focus {border-bottom: 1.5px solid #ea580c;
+                                                                                        background-color: #fed7aa;}''')
+                Clientes.campos["dni"].setText(dni.upper())
             else:
-                var.ui.txtDnicli.setStyleSheet('background-color:#FFC0CB;')
-                var.ui.txtDnicli.setText(None)
+                Clientes.campos["dni"].setStyleSheet('''QLineEdit#txt_cli_dni {border-bottom: 1px solid #f87171;
+                                                                                background-color: #fecaca;}
+                                                        QLineEdit#txt_cli_dni:focus {border-bottom: 1.5px solid #dc2626;
+                                                                                        background-color: #fca5a5;}''')
+                Clientes.campos["dni"].setText(None)
         except Exception as error:
             print("error check dni cliente", error)
 
     @staticmethod
-    def checkEmail():
+    def validar_email():
+        Clientes.inicializar_campos()
         try:
-            mail = str(var.ui.txtEmailcli.text())
-            if eventos.Eventos.validarMail(mail):
-                var.ui.txtEmailcli.setStyleSheet('''QLineEdit#txtEmailcli {background-color: #dbeafe;}
-                                                 QLineEdit#txtEmailcli:focus {background-color: #bfdbfe;}''')
-                var.ui.txtEmailcli.setText(mail.lower())
+            mail = str(Clientes.campos["email"].text())
+            if eventos.Eventos.validar_email(mail) or mail == "":
+                Clientes.campos["email"].setStyleSheet('''QLineEdit#txt_cli_email {border-bottom: 1px solid #93c5fd;
+                                                                                background-color: #dbeafe;}
+                                                        QLineEdit#txt_cli_email:focus {border-bottom: 1.5px solid #2563eb;
+                                                                                        background-color: #bfdbfe;}''')
+                Clientes.campos["email"].setText(mail.lower())
 
             else:
-                var.ui.txtEmailcli.setStyleSheet('background-color:#FFC0CB; font-style: italic;')
-                var.ui.txtEmailcli.setText(None)
-                var.ui.txtEmailcli.setText("correo no válido")
-                var.ui.txtEmailcli.setFocus()
+                Clientes.campos["email"].setStyleSheet('''QLineEdit#txt_cli_email {border-bottom: 1px solid #f87171;
+                                                                                background-color: #fecaca;}
+                                                        QLineEdit#txt_cli_email:focus {border-bottom: 1.5px solid #dc2626;
+                                                                                        background-color: #fca5a5;}''')
+                Clientes.campos["email"].setText(None)
+                Clientes.campos["email"].setText("correo no válido")
+                Clientes.campos["email"].setFocus()
 
         except Exception as error:
             print("error check cliente", error)
 
     @staticmethod
-    def checkPhone():
+    def validar_movil():
+        Clientes.inicializar_campos()
         try:
-            phone = str(var.ui.txtMovilcli.text())
+            phone = str(Clientes.campos["movil"].text())
 
-            if eventos.Eventos.validarPhone(phone):
-                var.ui.txtMovilcli.setStyleSheet('background-color: rgb(255, 255, 255);')
+            if eventos.Eventos.validar_movil(phone):
+                Clientes.campos["movil"].setStyleSheet('''QLineEdit#txt_cli_movil {border-bottom: 1px solid #fdba74;
+                                                                                background-color: #ffedd5;}
+                                                        QLineEdit#txt_cli_movil:focus {border-bottom: 1.5px solid #ea580c;
+                                                                                        background-color: #fed7aa;}''')
             else:
-                var.ui.txtMovilcli.setStyleSheet('background-color:#FFC0CB; font-style: italic;')
-                var.ui.txtMovilcli.setText(None)
-                var.ui.txtMovilcli.setText("móvil no válido")
-                var.ui.txtMovilcli.setFocus()
+                Clientes.campos["movil"].setStyleSheet('''QLineEdit#txt_cli_movil {border-bottom: 1px solid #f87171;
+                                                                                background-color: #fecaca;}
+                                                        QLineEdit#txt_cli_movil:focus {border-bottom: 1.5px solid #dc2626;
+                                                                                        background-color: #fca5a5;}''')
+                Clientes.campos["movil"].setText(None)
+                Clientes.campos["movil"].setText("móvil no válido")
+                Clientes.campos["movil"].setFocus()
         except Exception as error:
             print("error check cliente", error)
 
-    def altaCliente(self):
+    @staticmethod
+    def validar_fecha_alta():
+        Clientes.inicializar_campos()
         try:
-            nuevocli = [var.ui.txtDnicli.text(), var.ui.txtAltacli.text(), var.ui.txtApelcli.text(), var.ui.txtNomcli.text(),
-                    var.ui.txtEmailcli.text(), var.ui.txtMovilcli.text(), var.ui.txtDircli.text(), var.ui.cmbProcli.currentText(),
-                    var.ui.cmbMunicli.currentText()]
-            if conexion.Conexion.altaCliente(nuevocli):
+            fecha = Clientes.campos["fecha_alta"].text()
 
-                '''
-                var.ui.tabClientes.clear()
-                var.ui.tabClientes.setRowCount(1)
-                var.ui.tabClientes.setColumnCount(len(nuevocli))
-                var.ui.tabClientes.setHorizontalHeaderLabels(("DNI", "Fecha Alta", "Apellidos", "Nombre", "Email", "Móvil", "Dirección", "Provincia", "Municipio"))
-                columna = 0
-                tableWidth = var.ui.tabClientes.viewport().width()
-                for value in nuevocli:
-                    item = QTableWidgetItem(value)
-                    var.ui.tabClientes.setColumnWidth(columna, tableWidth // len(nuevocli))
-                    var.ui.tabClientes.setItem(0, columna, item)
-                    columna += 1
-                '''
-
-                mbox = QtWidgets.QMessageBox()
-                mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
-                mbox.setWindowIcon(QtGui.QIcon("img/house.ico"))
-                mbox.setWindowTitle('Aviso')
-                mbox.setText("Alta cliente en la base de datos")
-                mbox.setStandardButtons(
-                    QtWidgets.QMessageBox.StandardButton.Ok)
-                mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
-                mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText("Aceptar")
-                mbox.exec()
+            if eventos.Eventos.validar_fecha(fecha):
+                Clientes.campos["fecha_alta"].setStyleSheet('''QLineEdit#txt_cli_alta {border-bottom: 1px solid #fdba74;
+                                                                                background-color: #ffedd5;}
+                                                        QLineEdit#txt_cli_alta:focus {border-bottom: 1.5px solid #ea580c;
+                                                                                        background-color: #fed7aa;}''')
             else:
-                mbox = QtWidgets.QMessageBox()
-                mbox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
-                mbox.setWindowIcon(QtGui.QIcon("img/house.ico"))
-                mbox.setWindowTitle('Aviso')
-                mbox.setText("Error faltan datos o el cliente existe")
-                mbox.setStandardButtons(
-                    QtWidgets.QMessageBox.StandardButton.Cancel)
-                mbox.exec()
+                Clientes.campos["fecha_alta"].setStyleSheet('''QLineEdit#txt_cli_alta {border-bottom: 1px solid #f87171;
+                                                                                background-color: #fecaca;}
+                                                        QLineEdit#txt_cli_alta:focus {border-bottom: 1.5px solid #dc2626;
+                                                                                        background-color: #fca5a5;}''')
+                Clientes.campos["fecha_alta"].setText(None)
+                Clientes.campos["fecha_alta"].setText("fecha no válida")
+                Clientes.campos["fecha_alta"].setFocus()
+        except Exception as error:
+            print("Error al validar la fecha de alta", error)
 
+    @staticmethod
+    def validar_fecha_baja():
+        Clientes.inicializar_campos()
+        try:
+            fecha = Clientes.campos["fecha_baja"].text()
+
+            if eventos.Eventos.validar_fecha(fecha) or fecha == "":
+                Clientes.campos["fecha_baja"].setStyleSheet('''QLineEdit#txt_cli_baja {border-bottom: 1px solid #93c5fd;
+                                                                                background-color: #dbeafe;}
+                                                        QLineEdit#txt_cli_baja:focus {border-bottom: 1.5px solid #2563eb;
+                                                                                        background-color: #bfdbfe;}''')
+            else:
+                Clientes.campos["fecha_baja"].setStyleSheet('''QLineEdit#txt_cli_baja {border-bottom: 1px solid #f87171;
+                                                                                background-color: #fecaca;}
+                                                        QLineEdit#txt_cli_baja:focus {border-bottom: 1.5px solid #dc2626;
+                                                                                        background-color: #fca5a5;}''')
+                Clientes.campos["fecha_baja"].setText(None)
+                Clientes.campos["fecha_baja"].setText("fecha no válida")
+                Clientes.campos["fecha_baja"].setFocus()
+        except Exception as error:
+            print("Error al validar la fecha de baja", error)
+
+    def alta_cliente(self):
+        Clientes.inicializar_campos()
+        if not Clientes.validar_campos_cli():
+            eventos.Eventos.mensaje_error("Aviso", "Faltan datos por introducir")
+            return
+        
+        try:
+            cliente = Clientes.construir_cliente()
+            if conexion.Conexion.alta_cliente(cliente):
+                eventos.Eventos.mensaje_exito("Aviso", "Alta cliente en la base de datos")
+            else:
+                eventos.Eventos.mensaje_error("Aviso", "El cliente ya existe")
+            clientes.Clientes.cargar_cli_tab(self)
         except Exception as error:
             print("error alta cliente", error)
 
-    @staticmethod
-    def cargaTablaClientes(self):
+    def modificar_cliente(self):
+        Clientes.inicializar_campos()
+        if not Clientes.validar_campos_cli():
+            eventos.Eventos.mensaje_error("Aviso", "Faltan datos por introducir")
+            return
+        
         try:
-            listado = conexion.Conexion.listadoClientes(self)
-            #listado = conexionserver.ConexionServer.listadoClientes(self)
+            cliente = Clientes.construir_cliente()
+            if not Clientes.check_existe_cli(cliente["dni"]):
+                eventos.Eventos.mensaje_error("Aviso", "El cliente que intentas modificar no existe")
+                return
+            if conexion.Conexion.modificar_cliente(cliente):
+                eventos.Eventos.mensaje_exito("Aviso", "Datos cliente modificados correctamente")
+                clientes.Clientes.cargar_cli_tab(self)
+            else:
+                eventos.Eventos.mensaje_error("Aviso", "Error al modificar los datos del cliente")
+            clientes.Clientes.cargar_cli_tab(self)
+        except Exception as error:
+            print("error modificar_cliente", error)
+
+    def baja_cliente(self):
+        try:
+            cliente = Clientes.construir_cliente()
+            if not Clientes.check_existe_cli(cliente["dni"]):
+                eventos.Eventos.mensaje_error("Aviso", "El cliente que intentas dar de baja no existe")
+                return
+            if cliente["fecha_baja"].strip() == "":
+                eventos.Eventos.mensaje_error("Aviso", "Para dar de baja al cliente es necesario introducir una fecha de baja")
+                return 
+            
+            if conexion.Conexion.baja_cliente(cliente):
+                eventos.Eventos.mensaje_exito("Aviso", "Cliente dado de baja")
+                clientes.Clientes.cargar_cli_tab(self)
+            else:
+                eventos.Eventos.mensaje_error("Aviso", "Error baja cliente: cliente no existe o dado de baja")
+            clientes.Clientes.cargar_cli_tab(self)
+        except Exception as error:
+            print("error baja_cliente", error)
+
+    def cargar_cliente(self):
+        Clientes.inicializar_campos()
+        try:
+            fila = var.ui.tab_cli.selectedItems()
+            datos = [dato.text() for dato in fila]
+            cliente = conexion.Conexion.get_cliente(str(datos[0]))
+            for key in cliente:
+                if key == "provincia" or key == "municipio":
+                    Clientes.campos[key].setCurrentText(cliente[key])
+                else:
+                    Clientes.campos[key].setText(cliente[key])
+        except Exception as error:
+            print("error cargar_cliente", error)
+
+    @staticmethod
+    def cargar_cli_tab(self):
+        try:
+            clientes = conexion.Conexion.listar_clientes(self)
+            #listado = conexionserver.ConexionServer.listar_clientes(self)
             index = 0
-            var.ui.tabClientes.verticalHeader().setVisible(False)
-            for registro in listado:
-                var.ui.tabClientes.setRowCount(index + 1)
-                var.ui.tabClientes.setItem(index, 0, QtWidgets.QTableWidgetItem(registro[0]))
-                var.ui.tabClientes.setItem(index, 1, QtWidgets.QTableWidgetItem(registro[2]))
-                var.ui.tabClientes.setItem(index, 2, QtWidgets.QTableWidgetItem(registro[3]))
-                var.ui.tabClientes.setItem(index, 3, QtWidgets.QTableWidgetItem("  " + registro[5] + "  "))
-                var.ui.tabClientes.setItem(index, 4, QtWidgets.QTableWidgetItem(registro[7]))
-                var.ui.tabClientes.setItem(index, 5, QtWidgets.QTableWidgetItem(registro[8]))
-                var.ui.tabClientes.setItem(index, 6, QtWidgets.QTableWidgetItem("  " + registro[9] + "  "))
+            var.ui.tab_cli.verticalHeader().setVisible(False)
+            for cliente in clientes:
+                var.ui.tab_cli.setRowCount(index + 1)
+                var.ui.tab_cli.setItem(index, 0, QtWidgets.QTableWidgetItem(cliente["dni"]))
+                var.ui.tab_cli.setItem(index, 1, QtWidgets.QTableWidgetItem(cliente["apellido"]))
+                var.ui.tab_cli.setItem(index, 2, QtWidgets.QTableWidgetItem(cliente["nombre"]))
+                var.ui.tab_cli.setItem(index, 3, QtWidgets.QTableWidgetItem("  " + cliente["movil"] + "  "))
+                var.ui.tab_cli.setItem(index, 4, QtWidgets.QTableWidgetItem(cliente["provincia"]))
+                var.ui.tab_cli.setItem(index, 5, QtWidgets.QTableWidgetItem(cliente["municipio"]))
+                var.ui.tab_cli.setItem(index, 6, QtWidgets.QTableWidgetItem("  " + cliente["fecha_baja"] + "  "))
 
                 '''
-                var.ui.tabClientes.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-                var.ui.tabClientes.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tabClientes.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tabClientes.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-                var.ui.tabClientes.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tabClientes.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tabClientes.item(index, 6).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+                var.ui.tab_cli.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+                var.ui.tab_cli.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tab_cli.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tab_cli.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+                var.ui.tab_cli.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tab_cli.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+                var.ui.tab_cli.item(index, 6).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
                 '''
 
-                var.ui.tabClientes.item(index, 0)
-                var.ui.tabClientes.item(index, 1)
-                var.ui.tabClientes.item(index, 2)
-                var.ui.tabClientes.item(index, 3)
-                var.ui.tabClientes.item(index, 4)
-                var.ui.tabClientes.item(index, 5)
-                var.ui.tabClientes.item(index, 6)
+                var.ui.tab_cli.item(index, 0)
+                var.ui.tab_cli.item(index, 1)
+                var.ui.tab_cli.item(index, 2)
+                var.ui.tab_cli.item(index, 3)
+                var.ui.tab_cli.item(index, 4)
+                var.ui.tab_cli.item(index, 5)
+                var.ui.tab_cli.item(index, 6)
 
                 index += 1
 
         except Exception as e:
-            print("error cargaTablaClientes", e)
+            print("error cargar_cli_tab", e)
 
-    def cargaOneCliente(self):
+    def set_historico_cliente(self):
         try:
-            fila = var.ui.tabClientes.selectedItems()
-            datos = [dato.text() for dato in fila]
-            registro = conexion.Conexion.datosOneCliente(str(datos[0]))
-            listado = [var.ui.txtDnicli, var.ui.txtAltacli, var.ui.txtApelcli,
-                        var.ui.txtNomcli,
-                        var.ui.txtEmailcli, var.ui.txtMovilcli, var.ui.txtDircli,
-                        var.ui.cmbProcli,
-                        var.ui.cmbMunicli]
-            for i in range(len(listado)):
-                if i == 7 or i == 8:
-                    listado[i].setCurrentText(registro[i])
-                else:
-                    listado[i].setText(registro[i])
-        except Exception as error:
-            print("error cargaOneCliente", error)
-
-    def modifCliente(self):
-        try:
-            modifcli = [var.ui.txtDnicli.text(), var.ui.txtAltacli.text(), var.ui.txtApelcli.text(), var.ui.txtNomcli.text(),
-                    var.ui.txtEmailcli.text(), var.ui.txtMovilcli.text(), var.ui.txtDircli.text(), var.ui.cmbProcli.currentText(),
-                    var.ui.cmbMunicli.currentText(), var.ui.txtBajacli.text()]
-            if conexion.Conexion.modifCliente(modifcli):
-                mbox = QtWidgets.QMessageBox()
-                mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
-                mbox.setWindowIcon(QtGui.QIcon("img/house.ico"))
-                mbox.setWindowTitle('Aviso')
-                mbox.setText("Datos cliente modificados correctamente")
-                mbox.setStandardButtons(
-                    QtWidgets.QMessageBox.StandardButton.Ok)
-                mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
-                mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText("Aceptar")
-                mbox.exec()
-                clientes.Clientes.cargaTablaClientes(self)
-            else:
-                mbox = QtWidgets.QMessageBox()
-                mbox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
-                mbox.setWindowIcon(QtGui.QIcon("img/house.ico"))
-                mbox.setWindowTitle('Aviso')
-                mbox.setText("Error al modificar los datos del cliente")
-                mbox.setStandardButtons(
-                    QtWidgets.QMessageBox.StandardButton.Ok)
-                mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
-                mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText("Aceptar")
-                mbox.exec()
-        except Exception as error:
-            print("error modifCliente", error)
-
-    def bajaCliente(self):
-        try:
-            datos = [var.ui.txtBajacli.text(), var.ui.txtDnicli.text()]
-            if conexion.Conexion.bajaCliente(datos):
-                mbox = QtWidgets.QMessageBox()
-                mbox.setIcon(QtWidgets.QMessageBox.Icon.Information)
-                mbox.setWindowIcon(QtGui.QIcon("img/house.ico"))
-                mbox.setWindowTitle('Aviso')
-                mbox.setText("Cliente dado de baja")
-                mbox.setStandardButtons(
-                    QtWidgets.QMessageBox.StandardButton.Ok)
-                mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
-                mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText("Aceptar")
-                mbox.exec()
-                clientes.Clientes.cargaTablaClientes(self)
-            else:
-                mbox = QtWidgets.QMessageBox()
-                mbox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
-                mbox.setWindowIcon(QtGui.QIcon("img/house.ico"))
-                mbox.setWindowTitle('Aviso')
-                mbox.setText("Error baja cliente: cliente no existe o dado de baja")
-                mbox.setStandardButtons(
-                    QtWidgets.QMessageBox.StandardButton.Ok)
-                mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
-                mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText("Aceptar")
-                mbox.exec()
-        except Exception as error:
-            print("error bajaCliente", error)
-
-    def historicoCli(self):
-        try:
-            if var.ui.chkHistoriacli.isChecked():
+            if var.ui.chk_cli_historico.isChecked():
                 var.historico = 0
             else:
                 var.historico = 1
-            Clientes.cargaTablaClientes(self)
+            Clientes.cargar_cli_tab(self)
         except Exception as Error:
             print("checkbox histórico", Error)
 
-    def checkCampos(self):
-        dni = var.ui.txtDnicli.text()
-        apellido = var.ui.txtApelcli.text()
-        email = var.ui.txtEmailcli.text()
-        direccion = var.ui.txtDircli.tetx()
-        fechaAlta = var.ui.txtAltacli.text()
-        nombre = var.ui.txtNomcli.text()
-        movil = var.ui.txtMovilcli.text()
-        provincia = var.ui.cmbProcli.currentText()
-        municipio = var.ui.cmbMunicli.currentText()
-
-        if (not eventos.Eventos.checkDNI(dni) or not eventos.Eventos.validarPhone(movil)):
+    def check_existe_cli(dni):
+        cliente = conexion.Conexion.get_cliente(dni)
+        if (cliente["dni"] == ""):
             return False
+        else:
+            return True
 
-        if (not dni.strip() or not apellido.strip() or not direccion.strip() or not fechaAlta.strip()
+    def validar_campos_cli():
+        Clientes.inicializar_campos()
+        dni = Clientes.campos["dni"].text()
+        apellido = Clientes.campos["apellido"].text()
+        email = Clientes.campos["email"].text()
+        direccion = Clientes.campos["direccion"].text()
+        fecha_alta = Clientes.campos["fecha_alta"].text()
+        nombre = Clientes.campos["nombre"].text()
+        movil = Clientes.campos["movil"].text()
+        provincia = Clientes.campos["provincia"].currentText()
+        municipio = Clientes.campos["municipio"].currentText()
+        fecha_baja = Clientes.campos["fecha_baja"].text()
+
+        if (not dni.strip() or not apellido.strip() or not direccion.strip() or not fecha_alta.strip()
         or not nombre.strip() or not movil.strip() or not provincia.strip() or not municipio.strip()):
             return False
+        
+        if (not eventos.Eventos.validar_dni(dni) or not eventos.Eventos.validar_movil(movil)
+            or not eventos.Eventos.validar_fecha(fecha_alta)):
+            return False
 
-        if (email.strip() and not eventos.Eventos.validarMail(email)):
+        if (email.strip() and not eventos.Eventos.validar_email(email)):
+            return False
+        
+        if (fecha_baja.strip() and not eventos.Eventos.validar_fecha(fecha_baja)):
             return False
 
         return True

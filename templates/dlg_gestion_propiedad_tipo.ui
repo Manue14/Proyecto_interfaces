@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>dlgGestion</class>
- <widget class="QDialog" name="dlgGestion">
+ <class>DlgGestionPropiedadTipo</class>
+ <widget class="QDialog" name="DlgGestionPropiedadTipo">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>
@@ -94,7 +94,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QLabel" name="lblGestipoprop">
+        <widget class="QLabel" name="lbl_pro_gestion_tipo">
          <property name="minimumSize">
           <size>
            <width>280</width>
@@ -125,7 +125,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_4">
        <item>
-        <widget class="QLineEdit" name="txtGestipoprop">
+        <widget class="QLineEdit" name="txt_pro_gestion_tipo">
          <property name="minimumSize">
           <size>
            <width>150</width>
@@ -145,7 +145,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QPushButton" name="btnAltatipoprop">
+        <widget class="QPushButton" name="btn_pro_tipo_alta">
          <property name="minimumSize">
           <size>
            <width>80</width>
@@ -164,7 +164,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="btnDeltipoprop">
+        <widget class="QPushButton" name="btn_pro_tipo_eliminar">
          <property name="minimumSize">
           <size>
            <width>80</width>

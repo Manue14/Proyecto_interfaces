@@ -44,7 +44,7 @@ class Conexion:
             return False
 
     @staticmethod
-    def list_prov(self):
+    def listar_provincias(self):
         listaprov = []
         query = QtSql.QSqlQuery()
         query.prepare("SELECT * FROM provincias;")
@@ -53,7 +53,7 @@ class Conexion:
                 listaprov.append([query.value(0), query.value(1)])
         return listaprov
 
-    def list_mun_by_prov(prov_id):
+    def listar_municipios(prov_id):
         mun_list = []
         query = QtSql.QSqlQuery()
         query.prepare(f"SELECT * FROM municipios where idprov = {prov_id};")
@@ -63,21 +63,26 @@ class Conexion:
         return mun_list
 
     @staticmethod
-    def altaCliente(nuevocli):
+    def alta_cliente(cliente):
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT into clientes (dnicli, altacli, apelcli, nomecli, emailcli, movilcli, "
-                          "dircli, procli, municli) VALUES (:dnicli, :altacli, :apelcli, :nomecli, :emailcli, "
-                          " :movilcli, :dircli, :procli, :municli)")
-            query.bindValue(":dnicli", nuevocli[0])
-            query.bindValue(":altacli", nuevocli[1])
-            query.bindValue(":apelcli", nuevocli[2])
-            query.bindValue(":nomecli", nuevocli[3])
-            query.bindValue(":emailcli", nuevocli[4])
-            query.bindValue(":movilcli", nuevocli[5])
-            query.bindValue(":dircli", nuevocli[6])
-            query.bindValue(":procli", nuevocli[7])
-            query.bindValue(":municli", nuevocli[8])
+                          "dircli, procli, municli, bajacli) VALUES (:dnicli, :altacli, :apelcli, :nomecli, :emailcli, "
+                          " :movilcli, :dircli, :procli, :municli, :bajacli)")
+            query.bindValue(":dnicli", cliente["dni"])
+            query.bindValue(":altacli", cliente["fecha_alta"])
+            query.bindValue(":apelcli", cliente["apellido"])
+            query.bindValue(":nomecli", cliente["nombre"])
+            query.bindValue(":emailcli", cliente["email"])
+            query.bindValue(":movilcli", cliente["movil"])
+            query.bindValue(":dircli", cliente["direccion"])
+            query.bindValue(":procli", cliente["provincia"])
+            query.bindValue(":municli", cliente["municipio"])
+
+            if cliente["fecha_baja"] == "":
+                query.bindValue(":bajacli", None)
+            else:
+                query.bindValue(":bajacli", cliente["fecha_baja"])
             if query.exec():
                 return True
             else:
@@ -88,69 +93,91 @@ class Conexion:
             print("error alta cliente", error)
             return False
 
-    def listadoClientes(self):
+    def listar_clientes(self):
         try:
-            list_cli = []
+            clientes = []
+            cliente = {"dni": "",
+                "fecha_alta": "",
+                "apellido": "",
+                "nombre": "",
+                "email": "",
+                "movil": "", 
+                "direccion": "",
+                "provincia": "",
+                "municipio": "",
+                "fecha_baja": ""}
+            keys = list(cliente.keys())
+
+            query = QtSql.QSqlQuery()
             if var.historico == 1:
-                query = QtSql.QSqlQuery()
                 query.prepare("SELECT * FROM clientes WHERE bajacli is NULL ORDER BY nomecli, apelcli ASC;")
-                if query.exec():
-                    while query.next():
-                        fila = [query.value(i) for i in range(query.record().count())]
-                        list_cli.append(fila)
+                
             elif var.historico == 0:
-                query = QtSql.QSqlQuery()
                 query.prepare("SELECT * FROM clientes ORDER BY nomecli, apelcli ASC;")
-                if query.exec():
-                    while query.next():
-                        fila = [query.value(i) for i in range(query.record().count())]
-                        list_cli.append(fila)
-            return list_cli
+
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        cliente[keys[i]] = str(query.value(i))
+                    clientes.append(cliente.copy())
+            return clientes
         except sqlite3.IntegrityError:
             return []
         except Exception as error:
             print("error listado clientes", error)
             return []
 
-    def datosOneCliente(dni):
+    def get_cliente(dni):
         try:
-            registro = []
+            cliente = {"dni": "",
+                "fecha_alta": "",
+                "apellido": "",
+                "nombre": "",
+                "email": "",
+                "movil": "", 
+                "direccion": "",
+                "provincia": "",
+                "municipio": "",
+                "fecha_baja": ""}
+            keys = list(cliente.keys())
+
             query = QtSql.QSqlQuery()
             query.prepare("SELECT * FROM clientes WHERE dnicli = :dni;")
             query.bindValue(":dni", dni)
             if query.exec():
                 while query.next():
                     for i in range(query.record().count()):
-                        registro.append(str(query.value(i)))
-                return registro
+                        cliente[keys[i]] = str(query.value(i))
+                return cliente
         except Exception as error:
             print("error datos un cliente", error)
 
-    def modifCliente(registro):
+    def modificar_cliente(cliente):
         try:
             query = QtSql.QSqlQuery()
             query.prepare("select count(*) from clientes where dnicli = :dni")
-            query.bindValue(":dni", str(registro[0]))
-            
+            query.bindValue(":dni", str(cliente["dni"]))
+
             if query.exec() and query.next() and query.value(0) > 0:
                 query.prepare("UPDATE clientes SET altacli = :altacli, apelcli = :apelcli, nomecli = :nomecli, "
-                            "emailcli = :emailcli, movilcli = :movilcli, dircli = :dircli, procli = :provcli, "
+                            "emailcli = :emailcli, movilcli = :movilcli, dircli = :dircli, procli = :procli, "
                             "municli = :municli, bajacli = :bajacli WHERE dnicli = :dni")
 
-                query.bindValue(":dni", str(registro[0]))
-                query.bindValue(":altacli", str(registro[1]))
-                query.bindValue(":apelcli", str(registro[2]))
-                query.bindValue(":nomecli", str(registro[3]))
-                query.bindValue(":emailcli", str(registro[4]))
-                query.bindValue(":movilcli", str(registro[5]))
-                query.bindValue(":dircli", str(registro[6]))
-                query.bindValue(":provcli", str(registro[7]))
-                query.bindValue(":municli", str(registro[8]))
-                
-                if registro[9] == "":
+                query.bindValue(":dni", cliente["dni"])
+                query.bindValue(":altacli", cliente["fecha_alta"])
+                query.bindValue(":apelcli", cliente["apellido"])
+                query.bindValue(":nomecli", cliente["nombre"])
+                query.bindValue(":emailcli", cliente["email"])
+                query.bindValue(":movilcli", cliente["movil"])
+                query.bindValue(":dircli", cliente["direccion"])
+                query.bindValue(":procli", cliente["provincia"])
+                query.bindValue(":municli", cliente["municipio"])
+
+                if cliente["fecha_baja"] == "":
                     query.bindValue(":bajacli", None)
                 else:
-                    query.bindValue(":bajacli", str(registro[9]))
+                    print(cliente["fecha_baja"])
+                    query.bindValue(":bajacli", cliente["fecha_baja"])
 
                 if query.exec():
                     return True
@@ -161,12 +188,12 @@ class Conexion:
         except Exception as error:
             print("error modificar cliente", error)
 
-    def bajaCliente(datos):
+    def baja_cliente(cliente):
         try:
             query = QtSql.QSqlQuery()
             query.prepare("UPDATE clientes SET bajacli = :bajacli WHERE dnicli = :dnicli")
-            query.bindValue(":bajacli", str(datos[0]))
-            query.bindValue(":dnicli", str(datos[1]))
+            query.bindValue(":bajacli", str(cliente["fecha_baja"]))
+            query.bindValue(":dnicli", str(cliente["dni"]))
             if query.exec():
                 return True
             else:
@@ -174,7 +201,7 @@ class Conexion:
         except Exception as error:
             print("error baja cliente", error)
 
-    def altaTipoprop(tipo):
+    def alta_propiedad_tipo(tipo):
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT into tipopropiedad (TIPO) VALUES (:tipo) ")
@@ -192,7 +219,7 @@ class Conexion:
         except Exception as error:
             print("error alta tipo propiedad", error)
 
-    def cargarTipoprop(self):
+    def cargar_propiedad_tipos(self):
         query = QtSql.QSqlQuery()
         query.prepare("SELECT tipo FROM tipopropiedad ASC")
         if query.exec():
@@ -201,7 +228,7 @@ class Conexion:
                 registro.append(query.value(0))
             return registro
 
-    def bajaTipoprop(tipo):
+    def baja_propiedad_tipo(tipo):
         try:
             query = QtSql.QSqlQuery()
             query.prepare("DELETE from tipopropiedad WHERE tipo = :tipo")
@@ -216,14 +243,15 @@ class Conexion:
         except Exception as error:
             print("error baja tipo propiedad", error)
 
-    def altaPropiedad(propiedad):
-        try:
-            query = QtSql.QSqlQuery()
-            query.prepare("INSERT into propiedades (altaprop, dirprop, provprop, muniprop, tipoprop, habprop, "
-                          "banprop, superprop, prealquiprop, prevenprop, cpprop, obserprop, tipooper, estadoprop, "
-                          "nomeprop, movilprop) VALUES (:altaprop, :dirprop, :provprop, :muniprop, :tipoprop, :habprop, "
-                          ":banprop, :superprop, :prealquiprop, :prevenprop, :cpprop, :obserprop, :tipooper, :estadoprop, "
-                          ":nomeprop, :movilprop)")
+    def alta_propiedad(propiedad):
+        print(propiedad)
+        #try:
+            #query = QtSql.QSqlQuery()
+            #query.prepare("INSERT into propiedades (altaprop, dirprop, provprop, muniprop, tipoprop, habprop, "
+                          #"banprop, superprop, prealquiprop, prevenprop, cpprop, obserprop, tipooper, estadoprop, "
+                          #"nomeprop, movilprop) VALUES (:altaprop, :dirprop, :provprop, :muniprop, :tipoprop, :habprop, "
+                          #":banprop, :superprop, :prealquiprop, :prevenprop, :cpprop, :obserprop, :tipooper, :estadoprop, "
+                          #":nomeprop, :movilprop)")
             #query.bindValue()
-        except Exception as error:
-            print("error al dar de alta la propiedad en la base de datos")
+        #except Exception as error:
+            #print("error al dar de alta la propiedad en la base de datos")

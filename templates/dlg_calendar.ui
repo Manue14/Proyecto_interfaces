@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>dlgCalendar</class>
- <widget class="QDialog" name="dlgCalendar">
+ <class>DlgCalendar</class>
+ <widget class="QDialog" name="DlgCalendar">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>

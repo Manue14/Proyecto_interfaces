@@ -24,7 +24,7 @@ class ConexionServer():
         return None
 
     @staticmethod
-    def listaProv(self=None):
+    def listar_provincias(self=None):
         listaprov = []
         conexion = ConexionServer().crear_conexion()
 
@@ -42,7 +42,7 @@ class ConexionServer():
         return listaprov
 
     @staticmethod
-    def listaMuniProv(provincia):
+    def listar_municipios(provincia):
         try:
             conexion = ConexionServer().crear_conexion()
             listamunicipios = []
@@ -60,7 +60,7 @@ class ConexionServer():
         except Exception as error:
             print("error lista muni", error)
 
-    def listadoClientes(self):
+    def listar_clientes(self):
         try:
             conexion = ConexionServer().crear_conexion()
             listadoclientes = []
