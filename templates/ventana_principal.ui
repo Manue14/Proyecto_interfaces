@@ -39,8 +39,11 @@
         <height>1500</height>
        </size>
       </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="pestana_clientes">
        <attribute name="title">
@@ -1003,7 +1006,7 @@
           <widget class="QSpinBox" name="spin_pro_habitaciones">
            <property name="minimumSize">
             <size>
-             <width>40</width>
+             <width>50</width>
              <height>0</height>
             </size>
            </property>
@@ -1593,9 +1596,15 @@
          </item>
          <item row="4" column="8">
           <widget class="QSpinBox" name="spin_pro_banos">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="minimumSize">
             <size>
-             <width>40</width>
+             <width>50</width>
              <height>0</height>
             </size>
            </property>
@@ -1677,7 +1686,12 @@
            </column>
            <column>
             <property name="text">
-             <string>Percio</string>
+             <string>Precio Alquiler</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Precio Venta</string>
             </property>
            </column>
            <column>
@@ -1700,7 +1714,7 @@
      <x>0</x>
      <y>0</y>
      <width>2153</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_archivo">

@@ -245,13 +245,33 @@ class Conexion:
 
     def alta_propiedad(propiedad):
         print(propiedad)
-        #try:
-            #query = QtSql.QSqlQuery()
-            #query.prepare("INSERT into propiedades (altaprop, dirprop, provprop, muniprop, tipoprop, habprop, "
-                          #"banprop, superprop, prealquiprop, prevenprop, cpprop, obserprop, tipooper, estadoprop, "
-                          #"nomeprop, movilprop) VALUES (:altaprop, :dirprop, :provprop, :muniprop, :tipoprop, :habprop, "
-                          #":banprop, :superprop, :prealquiprop, :prevenprop, :cpprop, :obserprop, :tipooper, :estadoprop, "
-                          #":nomeprop, :movilprop)")
-            #query.bindValue()
-        #except Exception as error:
-            #print("error al dar de alta la propiedad en la base de datos")
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("INSERT into propiedades (altaprop, dirprop, provprop, muniprop, tipoprop, habprop, "
+                          "banprop, superprop, prealquiprop, prevenprop, cpprop, obserprop, tipooper, estadoprop, "
+                          "nomeprop, movilprop) VALUES (:altaprop, :dirprop, :provprop, :muniprop, :tipoprop, :habprop, "
+                          ":banprop, :superprop, :prealquiprop, :prevenprop, :cpprop, :obserprop, :tipooper, :estadoprop, "
+                          ":nomeprop, :movilprop)")
+            query.bindValue(":altaprop", str(propiedad["fecha_alta"]))
+            query.bindValue(":dirprop", str(propiedad["direccion"]))
+            query.bindValue(":provprop", str(propiedad["provincia"]))
+            query.bindValue(":muniprop", str(propiedad["municipio"]))
+            query.bindValue(":tipoprop", str(propiedad["tipo"]))
+            query.bindValue(":habprop", int(propiedad["habitaciones"]))
+            query.bindValue(":banprop", int(propiedad["banos"]))
+            query.bindValue(":superprop", str(propiedad["superficie"]))
+            query.bindValue(":prealquiprop", str(propiedad["precio_alquiler"]))
+            query.bindValue(":prevenprop", str(propiedad["precio_venta"]))
+            query.bindValue(":cpprop", str(propiedad["postal"]))
+            query.bindValue(":obserprop", str(propiedad["descripcion"]))
+            query.bindValue(":tipooper", str(propiedad["operaciones"]))
+            query.bindValue(":estadoprop", str(propiedad["estado"]))
+            query.bindValue(":nomeprop", str(propiedad["propietario"]))
+            query.bindValue(":movilprop", str(propiedad["movil"]))
+
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as error:
+            print("error al dar de alta la propiedad en la base de datos", error)

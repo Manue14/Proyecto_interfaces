@@ -89,6 +89,9 @@ class Propiedades():
 
     def alta_propiedad(self):
         Propiedades.inicializar_campos()
+        if not Propiedades.validar_campos_pro():
+            eventos.Eventos.mensaje_error("Aviso", "Faltan datos por introducir")
+
         try:
             propiedad = Propiedades.construir_propiedad()
             conexion.Conexion.alta_propiedad(propiedad)
