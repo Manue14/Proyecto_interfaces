@@ -93,7 +93,7 @@ class Conexion:
             print("error alta cliente", error)
             return False
 
-    def listar_clientes(self):
+    def listar_clientes():
         try:
             clientes = []
             cliente = {"dni": "",
@@ -260,10 +260,24 @@ class Conexion:
             query.bindValue(":habprop", int(propiedad["habitaciones"]))
             query.bindValue(":banprop", int(propiedad["banos"]))
             query.bindValue(":superprop", str(propiedad["superficie"]))
-            query.bindValue(":prealquiprop", str(propiedad["precio_alquiler"]))
-            query.bindValue(":prevenprop", str(propiedad["precio_venta"]))
+
+            if (propiedad["precio_alquiler"] == ""):
+                query.bindValue(":prealquiprop", None)
+            else:
+                query.bindValue(":prealquiprop", str(propiedad["precio_alquiler"]))
+
+            if (propiedad["precio_venta"] == ""):
+                query.bindValue(":prevenprop", None)
+            else:
+                query.bindValue(":prevenprop", str(propiedad["precio_venta"]))
+
             query.bindValue(":cpprop", str(propiedad["postal"]))
-            query.bindValue(":obserprop", str(propiedad["descripcion"]))
+
+            if (propiedad["descripcion"] == ""):
+                query.bindValue(":obserprop", None)
+            else:
+                query.bindValue(":obserprop", str(propiedad["descripcion"]))
+
             query.bindValue(":tipooper", str(propiedad["operaciones"]))
             query.bindValue(":estadoprop", str(propiedad["estado"]))
             query.bindValue(":nomeprop", str(propiedad["propietario"]))
@@ -275,3 +289,75 @@ class Conexion:
                 return False
         except Exception as error:
             print("error al dar de alta la propiedad en la base de datos", error)
+
+    def listar_propiedades():
+        try:
+            propiedades = []
+            propiedad = {"codigo": "",
+                "fecha_alta": "",
+                "fecha_baja": "",
+                "direccion": "",
+                "provincia": "",
+                "municipio": "",
+                "tipo": "",
+                "habitaciones": "",
+                "banos": "",
+                "superficie": "",
+                "precio_alquiler": "",
+                "precio_venta": "",
+                "postal": "",
+                "descripcion": "",
+                "operaciones": "",
+                "estado": "",
+                "propietario": "",
+                "movil": ""}
+            keys = list(propiedad.keys())
+
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM propiedades ORDER BY muniprop ASC;")
+
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        propiedad[keys[i]] = str(query.value(i))
+                    propiedades.append(propiedad.copy())
+            return propiedades
+        except sqlite3.IntegrityError:
+            return []
+        except Exception as error:
+            print("error listado propiedades", error)
+            return []
+
+    def get_propiedad(codigo):
+        try:
+            propiedad = {"codigo": "",
+                "fecha_alta": "",
+                "fecha_baja": "",
+                "direccion": "",
+                "provincia": "",
+                "municipio": "",
+                "tipo": "",
+                "habitaciones": "",
+                "banos": "",
+                "superficie": "",
+                "precio_alquiler": "",
+                "precio_venta": "",
+                "postal": "",
+                "descripcion": "",
+                "operaciones": "",
+                "estado": "",
+                "propietario": "",
+                "movil": ""}
+
+            keys = list(propiedad.keys())
+
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM propiedades WHERE codigo = :codigo;")
+            query.bindValue(":codigo", codigo)
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        propiedad[keys[i]] = str(query.value(i))
+                return propiedad
+        except Exception as error:
+            print("error al obtener la propiedad de la base de datos", error)

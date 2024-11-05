@@ -154,7 +154,7 @@ class Clientes:
                 eventos.Eventos.mensaje_exito("Aviso", "Alta cliente en la base de datos")
             else:
                 eventos.Eventos.mensaje_error("Aviso", "El cliente ya existe")
-            clientes.Clientes.cargar_cli_tab(self)
+            clientes.Clientes.cargar_cli_tab()
         except Exception as error:
             print("error alta cliente", error)
 
@@ -171,10 +171,10 @@ class Clientes:
                 return
             if conexion.Conexion.modificar_cliente(cliente):
                 eventos.Eventos.mensaje_exito("Aviso", "Datos cliente modificados correctamente")
-                clientes.Clientes.cargar_cli_tab(self)
+                clientes.Clientes.cargar_cli_tab()
             else:
                 eventos.Eventos.mensaje_error("Aviso", "Error al modificar los datos del cliente")
-            clientes.Clientes.cargar_cli_tab(self)
+            clientes.Clientes.cargar_cli_tab()
         except Exception as error:
             print("error modificar_cliente", error)
 
@@ -190,10 +190,10 @@ class Clientes:
             
             if conexion.Conexion.baja_cliente(cliente):
                 eventos.Eventos.mensaje_exito("Aviso", "Cliente dado de baja")
-                clientes.Clientes.cargar_cli_tab(self)
+                clientes.Clientes.cargar_cli_tab()
             else:
                 eventos.Eventos.mensaje_error("Aviso", "Error baja cliente: cliente no existe o dado de baja")
-            clientes.Clientes.cargar_cli_tab(self)
+            clientes.Clientes.cargar_cli_tab()
         except Exception as error:
             print("error baja_cliente", error)
 
@@ -212,9 +212,9 @@ class Clientes:
             print("error cargar_cliente", error)
 
     @staticmethod
-    def cargar_cli_tab(self):
+    def cargar_cli_tab():
         try:
-            clientes = conexion.Conexion.listar_clientes(self)
+            clientes = conexion.Conexion.listar_clientes()
             #listado = conexionserver.ConexionServer.listar_clientes(self)
             index = 0
             var.ui.tab_cli.verticalHeader().setVisible(False)
@@ -257,7 +257,7 @@ class Clientes:
                 var.historico = 0
             else:
                 var.historico = 1
-            Clientes.cargar_cli_tab(self)
+            Clientes.cargar_cli_tab()
         except Exception as Error:
             print("checkbox histórico", Error)
 

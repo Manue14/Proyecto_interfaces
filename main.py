@@ -21,7 +21,8 @@ class Main(QtWidgets.QMainWindow):
         conexion.Conexion.db_conexion(self)
         var.historico = 1
         #conexionserver.ConexionServer.crear_conexion(self)
-        clientes.Clientes.cargar_cli_tab(self)
+        clientes.Clientes.cargar_cli_tab()
+        propiedades.Propiedades.cargar_pro_tab()
 
         '''
         Zona de eventos de tablas
@@ -29,6 +30,7 @@ class Main(QtWidgets.QMainWindow):
         eventos.Eventos.resize_cli_tab(self)
         var.ui.tab_cli.clicked.connect(clientes.Clientes.cargar_cliente)
         eventos.Eventos.resize_pro_tab(self)
+        var.ui.tab_pro.clicked.connect(propiedades.Propiedades.cargar_propiedad)
 
         '''
         Zona de eventos del menubar

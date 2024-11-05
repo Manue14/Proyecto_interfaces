@@ -1,4 +1,5 @@
 from PyQt6.uic.properties import QtWidgets, QtGui
+from PyQt6 import QtWidgets
 
 import conexion
 import eventos
@@ -43,14 +44,16 @@ class Propiedades():
                      "superficie": Propiedades.campos["superficie"].text(), "precio_alquiler": Propiedades.campos["precio_alquiler"].text(),
                      "precio_venta": Propiedades.campos["precio_venta"].text(), "descripcion": Propiedades.campos["descripcion"].toPlainText(),
                      "propietario": Propiedades.campos["propietario"].text(), "movil": Propiedades.campos["movil"].text(),
-                     "operaciones": [], "estado": ""}
+                     "operaciones": "", "estado": ""}
         
         if Propiedades.campos["check_alquiler"].isChecked():
-            propiedad["operaciones"].append(Propiedades.campos["check_alquiler"].text())
+            propiedad["operaciones"] = propiedad["operaciones"] + "-" + Propiedades.campos["check_alquiler"].text()
         if Propiedades.campos["check_venta"].isChecked():
-            propiedad["operaciones"].append(Propiedades.campos["check_venta"].text())
+            propiedad["operaciones"] = propiedad["operaciones"] + "-" + Propiedades.campos["check_venta"].text()
         if Propiedades.campos["check_intercambio"].isChecked():
-            propiedad["operaciones"].append(Propiedades.campos["check_intercambio"].text())
+            propiedad["operaciones"] = propiedad["operaciones"] + "-" + Propiedades.campos["check_intercambio"].text()
+
+        propiedad["operaciones"] = propiedad["operaciones"][1:]
 
         if Propiedades.campos["radio_disponible"].isChecked():
                 propiedad["estado"] = Propiedades.campos["radio_disponible"].text()
@@ -91,15 +94,62 @@ class Propiedades():
         Propiedades.inicializar_campos()
         if not Propiedades.validar_campos_pro():
             eventos.Eventos.mensaje_error("Aviso", "Faltan datos por introducir")
+            return
 
         try:
             propiedad = Propiedades.construir_propiedad()
             conexion.Conexion.alta_propiedad(propiedad)
+            eventos.Eventos.mensaje_exito("Aviso", "Propiedad dada de alta con éxito")
+            Propiedades.cargar_pro_tab()
         except Exception as e:
             print("error en en alta de una propiedad")
 
     def baja_propiedad(self):
         print("a")
+
+    @staticmethod
+    def cargar_pro_tab():
+        try:
+            propiedades = conexion.Conexion.listar_propiedades()
+            index = 0
+            var.ui.tab_pro.verticalHeader().setVisible(False)
+
+            for propiedad in propiedades:
+                var.ui.tab_pro.setRowCount(index + 1)
+                var.ui.tab_pro.setItem(index, 0, QtWidgets.QTableWidgetItem(propiedad["codigo"]))
+                var.ui.tab_pro.setItem(index, 1, QtWidgets.QTableWidgetItem(propiedad["municipio"]))
+                var.ui.tab_pro.setItem(index, 2, QtWidgets.QTableWidgetItem(propiedad["tipo"]))
+                var.ui.tab_pro.setItem(index, 3, QtWidgets.QTableWidgetItem(propiedad["habitaciones"]))
+                var.ui.tab_pro.setItem(index, 4, QtWidgets.QTableWidgetItem(propiedad["banos"]))
+                var.ui.tab_pro.setItem(index, 5, QtWidgets.QTableWidgetItem(
+                    propiedad["precio_alquiler"] + " €" if propiedad["precio_alquiler"] else "-"))
+                var.ui.tab_pro.setItem(index, 6, QtWidgets.QTableWidgetItem(
+                    propiedad["precio_venta"] + " €" if propiedad["precio_venta"] else "-"))
+                var.ui.tab_pro.setItem(index, 7, QtWidgets.QTableWidgetItem(propiedad["operaciones"]))
+                var.ui.tab_pro.setItem(index, 8, QtWidgets.QTableWidgetItem(propiedad["fecha_baja"]))
+
+                var.ui.tab_pro.item(index, 0)
+                var.ui.tab_pro.item(index, 1)
+                var.ui.tab_pro.item(index, 2)
+                var.ui.tab_pro.item(index, 3)
+                var.ui.tab_pro.item(index, 4)
+                var.ui.tab_pro.item(index, 5)
+                var.ui.tab_pro.item(index, 6)
+                var.ui.tab_pro.item(index, 7)
+                var.ui.tab_pro.item(index, 8)
+
+                index += 1
+        except Exception as error:
+            print("error al cargar la tabal de propiedades", error)
+
+    def cargar_propiedad(self):
+        Propiedades.inicializar_campos()
+        try:
+            codigo = var.ui.tab_pro.selectedItems()[0].text()
+            propiedad = conexion.Conexion.get_cliente(codigo)
+            print(propiedad)
+        except Exception as error:
+            print("error al cargar el cliente", error)
 
     def validar_campos_pro():
         Propiedades.inicializar_campos()
