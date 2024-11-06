@@ -104,6 +104,22 @@ class Propiedades():
         except Exception as e:
             print("error en en alta de una propiedad")
 
+    def modificar_propiedad(self):
+        Propiedades.inicializar_campos()
+        codigo = Propiedades.campos["codigo"].text()
+        if (codigo):
+
+            try:
+                propiedad = Propiedades.construir_propiedad()
+                conexion.Conexion.modificar_propiedad(propiedad)
+                eventos.Eventos.mensaje_exito("Aviso", "Propiedad modificada con éxito")
+                Propiedades.cargar_pro_tab()
+            except Exception as e:
+                print("Error al modificar la propiedad")
+
+        else:
+            eventos.Eventos.mensaje_error("Aviso", "Seleccione una propiedad a modificar")
+
     def baja_propiedad(self):
         print("a")
 
@@ -146,8 +162,41 @@ class Propiedades():
         Propiedades.inicializar_campos()
         try:
             codigo = var.ui.tab_pro.selectedItems()[0].text()
-            propiedad = conexion.Conexion.get_cliente(codigo)
-            print(propiedad)
+            propiedad = conexion.Conexion.get_propiedad(codigo)
+            for key in propiedad:
+                if key == "provincia" or key == "municipio" or key == "tipo":
+                    Propiedades.campos[key].setCurrentText(propiedad[key])
+                elif key == "habitaciones" or key == "banos":
+                    Propiedades.campos[key].setValue(int(propiedad[key]))
+                elif key == "operaciones":
+                    Propiedades.campos["check_alquiler"].setChecked(False)
+                    Propiedades.campos["check_venta"].setChecked(False)
+                    Propiedades.campos["check_intercambio"].setChecked(False)
+                    if "Alquiler" in propiedad[key]:
+                        Propiedades.campos["check_alquiler"].setChecked(True)
+
+                    if "Venta" in propiedad[key]:
+                        Propiedades.campos["check_venta"].setChecked(True)
+
+                    if "Intercambio" in propiedad[key]:
+                        Propiedades.campos["check_intercambio"].setChecked(True)
+
+                elif key == "estado":
+                    Propiedades.campos["radio_disponible"].setChecked(False)
+                    Propiedades.campos["radio_alquilado"].setChecked(False)
+                    Propiedades.campos["radio_vendido"].setChecked(False)
+
+                    if propiedad[key] == "Disponible":
+                        Propiedades.campos["radio_disponible"].setChecked(True)
+
+                    if propiedad[key] == "Alquilado":
+                        Propiedades.campos["radio_alquilado"].setChecked(True)
+
+                    if propiedad[key] == "Vendido":
+                        Propiedades.campos["radio_vendido"].setChecked(True)
+
+                else:
+                    Propiedades.campos[key].setText(propiedad[key])
         except Exception as error:
             print("error al cargar el cliente", error)
 

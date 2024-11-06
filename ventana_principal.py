@@ -527,6 +527,7 @@ class Ui_VentanaPrincipal(object):
         self.tab_pro.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
         self.tab_pro.setAlternatingRowColors(True)
         self.tab_pro.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.SingleSelection)
+        self.tab_pro.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
         self.tab_pro.setObjectName("tab_pro")
         self.tab_pro.setColumnCount(9)
         self.tab_pro.setRowCount(0)

@@ -290,6 +290,17 @@ class Conexion:
         except Exception as error:
             print("error al dar de alta la propiedad en la base de datos", error)
 
+    def modficar_propiedad(propiedad):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("UPDATE propiedades SET altaprop = :altaprop, dirprop = :dirprop, provprop = :provprop, "
+                          "muniprop = :muniprop, tipoprop = :tipoprop, habprop = :habprop, banprop = :banprop, "
+                          "superprop = :superprop, prealquiprop = :prealquiprop, prevenprop = :prevenprop, "
+                          "cpprop = :cpprop, obserprop = :obserprop, tipooper = :tipooper, estadoprop = :estadoprop, "
+                          "nomeprop = :nomeprop, movilprop = :movilprop WHERE dnicli = :dni")
+        except Exception as error:
+            print("Error al modificar la propiedad en la base de datos", error)
+
     def listar_propiedades():
         try:
             propiedades = []
