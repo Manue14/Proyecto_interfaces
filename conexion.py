@@ -290,16 +290,67 @@ class Conexion:
         except Exception as error:
             print("error al dar de alta la propiedad en la base de datos", error)
 
-    def modficar_propiedad(propiedad):
+    def modificar_propiedad(propiedad):
         try:
             query = QtSql.QSqlQuery()
             query.prepare("UPDATE propiedades SET altaprop = :altaprop, dirprop = :dirprop, provprop = :provprop, "
                           "muniprop = :muniprop, tipoprop = :tipoprop, habprop = :habprop, banprop = :banprop, "
                           "superprop = :superprop, prealquiprop = :prealquiprop, prevenprop = :prevenprop, "
                           "cpprop = :cpprop, obserprop = :obserprop, tipooper = :tipooper, estadoprop = :estadoprop, "
-                          "nomeprop = :nomeprop, movilprop = :movilprop WHERE dnicli = :dni")
+                          "nomeprop = :nomeprop, movilprop = :movilprop WHERE codigo = :codigo")
+            query.bindValue(":codigo", propiedad["codigo"])
+            query.bindValue(":altaprop", str(propiedad["fecha_alta"]))
+            query.bindValue(":dirprop", str(propiedad["direccion"]))
+            query.bindValue(":provprop", str(propiedad["provincia"]))
+            query.bindValue(":muniprop", str(propiedad["municipio"]))
+            query.bindValue(":tipoprop", str(propiedad["tipo"]))
+            query.bindValue(":habprop", int(propiedad["habitaciones"]))
+            query.bindValue(":banprop", int(propiedad["banos"]))
+            query.bindValue(":superprop", str(propiedad["superficie"]))
+
+            if (propiedad["precio_alquiler"] == ""):
+                query.bindValue(":prealquiprop", None)
+            else:
+                query.bindValue(":prealquiprop", str(propiedad["precio_alquiler"]))
+
+            if (propiedad["precio_venta"] == ""):
+                query.bindValue(":prevenprop", None)
+            else:
+                query.bindValue(":prevenprop", str(propiedad["precio_venta"]))
+
+            query.bindValue(":cpprop", str(propiedad["postal"]))
+
+            if (propiedad["descripcion"] == ""):
+                query.bindValue(":obserprop", None)
+            else:
+                query.bindValue(":obserprop", str(propiedad["descripcion"]))
+
+            query.bindValue(":tipooper", str(propiedad["operaciones"]))
+            query.bindValue(":estadoprop", str(propiedad["estado"]))
+            query.bindValue(":nomeprop", str(propiedad["propietario"]))
+            query.bindValue(":movilprop", str(propiedad["movil"]))
+
+            if query.exec():
+                return True
+            else:
+                return False
         except Exception as error:
             print("Error al modificar la propiedad en la base de datos", error)
+
+    def eliminar_propiedad(propiedad):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("UPDATE propiedades SET bajaprop = :bajaprop WHERE codigo = :codigo")
+
+            query.bindValue(":bajaprop", str(propiedad["fecha_baja"]))
+            query.bindValue(":codigo", propiedad["codigo"])
+
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as error:
+            print("Error al dar de baja la propiedad en la base de datos", error)
 
     def listar_propiedades():
         try:

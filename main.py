@@ -68,6 +68,8 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btn_cli_modificar.clicked.connect(clientes.Clientes.modificar_cliente)
         var.ui.btn_cli_eliminar.clicked.connect(clientes.Clientes.baja_cliente)
         var.ui.btn_pro_grabar.clicked.connect(propiedades.Propiedades.alta_propiedad)
+        var.ui.btn_pro_modificar.clicked.connect(propiedades.Propiedades.modificar_propiedad)
+        var.ui.btn_pro_eliminar.clicked.connect(propiedades.Propiedades.baja_propiedad)
 
         '''
         Zona eventos combox

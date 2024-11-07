@@ -1,3 +1,5 @@
+from tabnanny import check
+
 from PyQt6.uic.properties import QtWidgets, QtGui
 from PyQt6 import QtWidgets
 
@@ -5,6 +7,8 @@ import conexion
 import eventos
 import var
 import dlg_gestion_propiedad_tipo
+from eventos import Eventos
+
 
 class Propiedades():
     campos = {}
@@ -69,11 +73,11 @@ class Propiedades():
             tipo = var.dlg_gestion_propiedad_tipo.ui.txt_pro_gestion_tipo.text()
             registro = conexion.Conexion.alta_propiedad_tipo(tipo)
             if registro:
-                eventos.Eventos.cargar_propiedad_tipos(self)
                 eventos.Eventos.mensaje_exito("Aviso", "Tipo de propiedad registrado con éxito")
             else:
                 eventos.Eventos.mensaje_error("Aviso", "Ese tipo de propieda ya existe")
             var.dlg_gestion_propiedad_tipo.ui.txt_pro_gestion_tipo.setText("")
+            eventos.Eventos.cargar_propiedad_tipos(self)
         except Exception as e:
             print(f"Error: {e}")
 
@@ -81,11 +85,11 @@ class Propiedades():
         try:
             tipo = var.dlg_gestion_propiedad_tipo.ui.txt_pro_gestion_tipo.text()
             if conexion.Conexion.baja_propiedad_tipo(tipo):
-                eventos.Eventos.cargar_propiedad_tipos(self)
                 eventos.Eventos.mensaje_exito("Aviso", "Tipo de propiedad dado de baja")
             else:
                 eventos.Eventos.mensaje_error("Aviso", "Ese tipo de propieda no existe")
             var.dlg_gestion_propiedad_tipo.ui.txt_pro_gestion_tipo.setText("")
+            eventos.Eventos.cargar_propiedad_tipos(self)
         except Exception as e:
             print(f"Error: {e}")
 
@@ -95,33 +99,69 @@ class Propiedades():
         if not Propiedades.validar_campos_pro():
             eventos.Eventos.mensaje_error("Aviso", "Faltan datos por introducir")
             return
+        if Propiedades.check_fecha_baja_prop():
+            eventos.Eventos.mensaje_error("Aviso", "No introduzcas una fecha de baja al dar de alta una propiedad")
+            return
 
         try:
             propiedad = Propiedades.construir_propiedad()
-            conexion.Conexion.alta_propiedad(propiedad)
-            eventos.Eventos.mensaje_exito("Aviso", "Propiedad dada de alta con éxito")
+            if conexion.Conexion.alta_propiedad(propiedad):
+                eventos.Eventos.mensaje_exito("Aviso", "Propiedad dada de alta con éxito")
+            else:
+                eventos.Eventos.mensaje_error("Aviso", "No se pudo dar de alta la propiedad")
             Propiedades.cargar_pro_tab()
         except Exception as e:
             print("error en en alta de una propiedad")
 
     def modificar_propiedad(self):
         Propiedades.inicializar_campos()
+        if not Propiedades.validar_campos_pro():
+            eventos.Eventos.mensaje_error("Aviso", "Faltan datos por introducir")
+            return
+        if not Propiedades.check_dar_baja_prop():
+            eventos.Eventos.mensaje_error("Aviso", "Si quieres dar de baja una propiedad tienes que introducir"
+                                                   " una fecha de baja y ponder su estado a alquilado o vendido")
+            return
+
         codigo = Propiedades.campos["codigo"].text()
         if (codigo):
 
             try:
                 propiedad = Propiedades.construir_propiedad()
-                conexion.Conexion.modificar_propiedad(propiedad)
-                eventos.Eventos.mensaje_exito("Aviso", "Propiedad modificada con éxito")
+                if conexion.Conexion.modificar_propiedad(propiedad):
+                    eventos.Eventos.mensaje_exito("Aviso", "Propiedad modificada con éxito")
+                else:
+                    eventos.Eventos.mensaje_error("Aviso", "No se pudo modificar la propiedad")
                 Propiedades.cargar_pro_tab()
             except Exception as e:
-                print("Error al modificar la propiedad")
+                print("Error al modificar la propiedad", e)
 
         else:
             eventos.Eventos.mensaje_error("Aviso", "Seleccione una propiedad a modificar")
 
     def baja_propiedad(self):
-        print("a")
+        if (not Propiedades.campos["fecha_baja"].text() or not Propiedades.check_dar_baja_prop()
+            or not eventos.Eventos.validar_fecha(Propiedades.campos["fecha_baja"].text())):
+            eventos.Eventos.mensaje_error("Aviso", "Si quieres dar de baja una propiedad tienes que introducir"
+                                                   " una fecha de baja y ponder su estado a alquilado o vendido")
+            return
+
+        codigo = Propiedades.campos["codigo"].text()
+        if (codigo):
+
+            try:
+                propiedad = Propiedades.construir_propiedad()
+                if conexion.Conexion.eliminar_propiedad(propiedad):
+                    eventos.Eventos.mensaje_exito("Aviso", "Propiedad dada de baja con éxito")
+                else:
+                    eventos.Eventos.mensaje_error("Aviso", "No se pudo dar de baja la propiedad")
+                Propiedades.cargar_pro_tab()
+            except Exception as e:
+                print("Error al dar de baja la propiedad", e)
+
+        else:
+            eventos.Eventos.mensaje_error("Aviso", "Seleccione una propiedad a dar de baja")
+        return
 
     @staticmethod
     def cargar_pro_tab():
@@ -250,6 +290,24 @@ class Propiedades():
             return False
         
         if (not check_alquiler and not check_venta and not check_intercambio):
+            return False
+
+        return True
+
+    def check_fecha_baja_prop():
+        Propiedades.inicializar_campos()
+        if (Propiedades.campos["fecha_baja"].text().strip()):
+            return True
+        return False
+
+    def check_dar_baja_prop():
+        Propiedades.inicializar_campos()
+        if (Propiedades.check_fecha_baja_prop()
+                and Propiedades.campos["radio_disponible"].isChecked()):
+            return False
+
+        if (not Propiedades.check_fecha_baja_prop()
+                and not Propiedades.campos["radio_disponible"].isChecked()):
             return False
 
         return True
