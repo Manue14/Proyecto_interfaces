@@ -7,5 +7,6 @@ global op
 global panel
 global dlg_abrir
 global btn
-global historico
+global historico_cli
+global historico_pro
 global dlg_gestion_propiedad_tipo

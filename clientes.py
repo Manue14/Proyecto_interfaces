@@ -7,6 +7,7 @@ import conexion_server
 import var
 import eventos
 import conexion
+from datetime import datetime
 
 class Clientes:
     campos = {}
@@ -147,6 +148,9 @@ class Clientes:
         if not Clientes.validar_campos_cli():
             eventos.Eventos.mensaje_error("Aviso", "Faltan datos por introducir")
             return
+        if Clientes.campos["fecha_baja"].text().strip() != "":
+            eventos.Eventos.mensaje_error("Aviso", "Al dar de alta un cliente no puedes introducir una fecha de baja")
+            return
         
         try:
             cliente = Clientes.construir_cliente()
@@ -185,8 +189,8 @@ class Clientes:
                 eventos.Eventos.mensaje_error("Aviso", "El cliente que intentas dar de baja no existe")
                 return
             if cliente["fecha_baja"].strip() == "":
-                eventos.Eventos.mensaje_error("Aviso", "Para dar de baja al cliente es necesario introducir una fecha de baja")
-                return 
+                formato = '%d/%m/%Y'
+                cliente["fecha_baja"] = datetime.strftime(datetime.now(), formato)
             
             if conexion.Conexion.baja_cliente(cliente):
                 eventos.Eventos.mensaje_exito("Aviso", "Cliente dado de baja")
@@ -254,9 +258,9 @@ class Clientes:
     def set_historico_cliente(self):
         try:
             if var.ui.chk_cli_historico.isChecked():
-                var.historico = 0
+                var.historico_cli = 0
             else:
-                var.historico = 1
+                var.historico_cli = 1
             Clientes.cargar_cli_tab()
         except Exception as Error:
             print("checkbox histórico", Error)

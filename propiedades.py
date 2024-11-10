@@ -7,8 +7,6 @@ import conexion
 import eventos
 import var
 import dlg_gestion_propiedad_tipo
-from eventos import Eventos
-
 
 class Propiedades():
     campos = {}
@@ -102,6 +100,9 @@ class Propiedades():
         if Propiedades.check_fecha_baja_prop():
             eventos.Eventos.mensaje_error("Aviso", "No introduzcas una fecha de baja al dar de alta una propiedad")
             return
+        if not Propiedades.campos["radio_disponible"].isChecked():
+            eventos.Eventos.mensaje_error("Aviso", "Al dar de alta una propiedad su estado tiene que estar en disponible")
+            return
 
         try:
             propiedad = Propiedades.construir_propiedad()
@@ -162,6 +163,16 @@ class Propiedades():
         else:
             eventos.Eventos.mensaje_error("Aviso", "Seleccione una propiedad a dar de baja")
         return
+    
+    def set_historico_propiedad(self):
+        try:
+            if var.ui.chk_pro_historico.isChecked():
+                var.historico_pro = 0
+            else:
+                var.historico_pro = 1
+            Propiedades.cargar_pro_tab()
+        except Exception as Error:
+            print("checkbox histórico", Error)
 
     @staticmethod
     def cargar_pro_tab():

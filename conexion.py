@@ -109,10 +109,10 @@ class Conexion:
             keys = list(cliente.keys())
 
             query = QtSql.QSqlQuery()
-            if var.historico == 1:
+            if var.historico_cli == 1:
                 query.prepare("SELECT * FROM clientes WHERE bajacli is NULL ORDER BY nomecli, apelcli ASC;")
                 
-            elif var.historico == 0:
+            elif var.historico_cli == 0:
                 query.prepare("SELECT * FROM clientes ORDER BY nomecli, apelcli ASC;")
 
             if query.exec():
@@ -297,7 +297,7 @@ class Conexion:
                           "muniprop = :muniprop, tipoprop = :tipoprop, habprop = :habprop, banprop = :banprop, "
                           "superprop = :superprop, prealquiprop = :prealquiprop, prevenprop = :prevenprop, "
                           "cpprop = :cpprop, obserprop = :obserprop, tipooper = :tipooper, estadoprop = :estadoprop, "
-                          "nomeprop = :nomeprop, movilprop = :movilprop WHERE codigo = :codigo")
+                          "nomeprop = :nomeprop, movilprop = :movilprop, bajaprop = :bajaprop WHERE codigo = :codigo")
             query.bindValue(":codigo", propiedad["codigo"])
             query.bindValue(":altaprop", str(propiedad["fecha_alta"]))
             query.bindValue(":dirprop", str(propiedad["direccion"]))
@@ -329,6 +329,7 @@ class Conexion:
             query.bindValue(":estadoprop", str(propiedad["estado"]))
             query.bindValue(":nomeprop", str(propiedad["propietario"]))
             query.bindValue(":movilprop", str(propiedad["movil"]))
+            query.bindValue(":bajaprop", str(propiedad["fecha_baja"]))
 
             if query.exec():
                 return True
@@ -376,7 +377,11 @@ class Conexion:
             keys = list(propiedad.keys())
 
             query = QtSql.QSqlQuery()
-            query.prepare("SELECT * FROM propiedades ORDER BY muniprop ASC;")
+
+            if var.historico_pro == 1:
+                query.prepare("SELECT * FROM propiedades WHERE bajaprop is NULL ORDER BY muniprop ASC;")
+            elif var.historico_pro == 0:
+                query.prepare("SELECT * FROM propiedades ORDER BY muniprop ASC;")
 
             if query.exec():
                 while query.next():

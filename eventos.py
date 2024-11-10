@@ -5,7 +5,7 @@ from datetime import datetime
 import os
 
 import clientes
-import eventos
+import propiedades
 import var
 from PyQt6 import QtWidgets, QtGui
 import conexion
@@ -208,22 +208,43 @@ class Eventos:
                 Eventos.mensaje_exito("Copia de Seguridad", "Copia de seguridad restaurada")
 
                 conexion.Conexion.db_conexion(self)
-                eventos.Eventos.cargar_provincias(self)
+                Eventos.cargar_provincias(self)
                 clientes.Clientes.cargar_cli_tab(self)
         except Exception as error:
             print("error en restaurar backup: ", error)
 
     def limpiar_panel(self):
-        objetosPanelCli = [var.ui.txt_cli_dni, var.ui.txt_cli_alta, var.ui.txt_cli_apellido,
-                    var.ui.txt_cli_nombre, var.ui.txt_cli_email, var.ui.txt_cli_movil, var.ui.txt_cli_direccion,
-                    var.ui.cmb_cli_provincia, var.ui.cmb_cli_municipio, var.ui.txt_cli_baja]
-        for i, dato in enumerate(objetosPanelCli):
-            if i == 7 and i == 8:
-                pass
-            else:
-                dato.setText("")
-        eventos.Eventos.cargar_provincias(self)
-        eventos.Eventos.cargar_municipios(self)
+        if var.ui.panel_principal.currentIndex() == 0:
+            clientes.Clientes.inicializar_campos()
+            objetosPanelCli = clientes.Clientes.campos
+
+            for key, value in objetosPanelCli.items():
+                if key == "provincia" or key == "municipio":
+                    pass
+                else:
+                    value.setText("")
+
+        if var.ui.panel_principal.currentIndex() == 1:
+            propiedades.Propiedades.inicializar_campos()
+            objetosPanelPro = propiedades.Propiedades.campos
+
+            for key, value in objetosPanelPro.items():
+                if (key == "provincia" or key == "municipio" or key == "tipo"
+                or key == "check_alquiler" or key == "check_venta" or key == "check_intercambio"
+                or key == "radio_disponible" or key == "radio_alquilado" or key == "radio_vendido"):
+                    if key == "check_alquiler" or key == "check_venta" or key == "check_intercambio":
+                        value.setChecked(False)
+                    if key == "radio_disponible":
+                        value.setChecked(True)
+                    if key == "radio_alquilado" or key == "radio_vendido":
+                        value.setChecked(False)
+                elif (key == "banos" or key == "habitaciones"):
+                    value.setValue(0)
+                else:
+                    value.setText("")
+            Eventos.cargar_propiedad_tipos(self)
+
+        Eventos.cargar_provincias(self)
 
     def abrir_dlg_propiedades_tipo():
         try:
