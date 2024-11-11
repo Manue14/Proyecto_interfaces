@@ -1722,7 +1722,7 @@
      <x>0</x>
      <y>0</y>
      <width>2153</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_archivo">
@@ -1732,7 +1732,6 @@
     <addaction name="action_archivo_salir"/>
     <addaction name="action_archivo_backup_crear"/>
     <addaction name="action_archivo_backup_restaurar"/>
-    <addaction name="action_gestion_propiedades_tipo"/>
    </widget>
    <widget class="QMenu" name="menu_herramientas">
     <property name="title">
@@ -1748,6 +1747,7 @@
     <property name="title">
      <string>Gestión</string>
     </property>
+    <addaction name="action_gestion_propiedades_tipo"/>
    </widget>
    <addaction name="menu_archivo"/>
    <addaction name="menu_gestion"/>

@@ -67,6 +67,7 @@ class Propiedades():
         return propiedad
 
     def alta_tipo_propiedad(self):
+        Propiedades.inicializar_campos()
         try:
             tipo = var.dlg_gestion_propiedad_tipo.ui.txt_pro_gestion_tipo.text()
             registro = conexion.Conexion.alta_propiedad_tipo(tipo)
@@ -75,11 +76,13 @@ class Propiedades():
             else:
                 eventos.Eventos.mensaje_error("Aviso", "Ese tipo de propieda ya existe")
             var.dlg_gestion_propiedad_tipo.ui.txt_pro_gestion_tipo.setText("")
-            eventos.Eventos.cargar_propiedad_tipos(self)
+            eventos.Eventos.cargar_propiedad_tipos(Propiedades.campos["tipo"])
+            eventos.Eventos.cargar_propiedad_tipos(var.dlg_filtrar_propiedades.ui.cmb_pro_tipo_filtrar)
         except Exception as e:
             print(f"Error: {e}")
 
     def baja_tipo_propiedad(self):
+        Propiedades.inicializar_campos()
         try:
             tipo = var.dlg_gestion_propiedad_tipo.ui.txt_pro_gestion_tipo.text()
             if conexion.Conexion.baja_propiedad_tipo(tipo):
@@ -87,7 +90,8 @@ class Propiedades():
             else:
                 eventos.Eventos.mensaje_error("Aviso", "Ese tipo de propieda no existe")
             var.dlg_gestion_propiedad_tipo.ui.txt_pro_gestion_tipo.setText("")
-            eventos.Eventos.cargar_propiedad_tipos(self)
+            eventos.Eventos.cargar_propiedad_tipos(Propiedades.campos["tipo"])
+            eventos.Eventos.cargar_propiedad_tipos(var.dlg_filtrar_propiedades.ui.cmb_pro_tipo_filtrar)
         except Exception as e:
             print(f"Error: {e}")
 
@@ -173,6 +177,14 @@ class Propiedades():
             Propiedades.cargar_pro_tab()
         except Exception as Error:
             print("checkbox histórico", Error)
+
+    def filtrar_propiedades():
+        try:
+            tipo = var.dlg_filtrar_propiedades.ui.cmb_pro_tipo_filtrar.currentText()
+            municipio = var.dlg_filtrar_propiedades.ui.cmb_pro_municipio_filtrar.currentText()
+            propiedades = conexion.Conexion.filtrar_propiedades(tipo, municipio)
+        except Exception as error:
+            print("Error al filtrar las propiedades", error)
 
     @staticmethod
     def cargar_pro_tab():

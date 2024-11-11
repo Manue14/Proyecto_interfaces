@@ -219,7 +219,7 @@ class Conexion:
         except Exception as error:
             print("error alta tipo propiedad", error)
 
-    def cargar_propiedad_tipos(self):
+    def cargar_propiedad_tipos():
         query = QtSql.QSqlQuery()
         query.prepare("SELECT tipo FROM tipopropiedad ORDER BY tipo ASC")
         if query.exec():

@@ -17,6 +17,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui_calendar = Calendar()
         var.dlg_abrir = FileDialogAbrir()
         var.dlg_gestion_propiedad_tipo = DlgGestionPropiedadTipo()
+        var.dlg_filtrar_propiedades = DlgFiltrarPropiedades()
         self.setStyleSheet(styles.load_stylesheet())
         conexion.Conexion.db_conexion(self)
         var.historico_cli = 1
@@ -78,9 +79,13 @@ class Main(QtWidgets.QMainWindow):
         eventos.Eventos.cargar_provincias(self)
         eventos.Eventos.cargar_municipios_cli(self)
         eventos.Eventos.cargar_municipios_pro(self)
+        eventos.Eventos.cargar_municipios_pro_filtrar(self)
         var.ui.cmb_cli_provincia.currentIndexChanged.connect(lambda: eventos.Eventos.cargar_municipios_cli(self, var.ui.cmb_cli_provincia.itemData(var.ui.cmb_cli_provincia.currentIndex())))
         var.ui.cmb_pro_provincia.currentIndexChanged.connect(lambda: eventos.Eventos.cargar_municipios_pro(self, var.ui.cmb_pro_provincia.itemData(var.ui.cmb_pro_provincia.currentIndex())))
-        eventos.Eventos.cargar_propiedad_tipos(self)
+        var.dlg_filtrar_propiedades.ui.cmb_pro_provincia_filtrar.currentIndexChanged.connect(lambda: eventos.Eventos.cargar_municipios_pro_filtrar(self, var.dlg_filtrar_propiedades.ui.cmb_pro_provincia_filtrar.itemData(var.dlg_filtrar_propiedades.ui.cmb_pro_provincia_filtrar.currentIndex())))
+        eventos.Eventos.cargar_propiedad_tipos(var.ui.cmb_pro_tipo)
+        eventos.Eventos.cargar_propiedad_tipos(var.dlg_filtrar_propiedades.ui.cmb_pro_tipo_filtrar)
+
 
         '''
         Zona eventos toolbar

@@ -71,14 +71,23 @@ class Eventos:
         for mun in listado:
             var.ui.cmb_pro_municipio.addItem(mun[0], mun[1])
 
+    def cargar_municipios_pro_filtrar(self, provId = 1):
+        var.dlg_filtrar_propiedades.ui.cmb_pro_municipio_filtrar.clear()
+        listado = conexion.Conexion.listar_municipios(provId)
+        #listado = conexionserver.ConexionServer.listar_municipios(provId)
+        for mun in listado:
+            var.dlg_filtrar_propiedades.ui.cmb_pro_municipio_filtrar.addItem(mun[0], mun[1])
+
     def cargar_provincias(self):
         var.ui.cmb_cli_provincia.clear()
         var.ui.cmb_pro_provincia.clear()
+        var.dlg_filtrar_propiedades.ui.cmb_pro_provincia_filtrar.clear()
         listado = conexion.Conexion.listar_provincias(self)
         #listado = conexionserver.ConexionServer.listar_provincias(self)
         for prov in listado:
             var.ui.cmb_cli_provincia.addItem(prov[1], prov[0])
             var.ui.cmb_pro_provincia.addItem(prov[1], prov[0])
+            var.dlg_filtrar_propiedades.ui.cmb_pro_provincia_filtrar.addItem(prov[1], prov[0])
 
     def validar_dni(dni: str):
         valid_letters = "TRWAGMYFPDXBNJZSQVHLCKE"
@@ -242,7 +251,8 @@ class Eventos:
                     value.setValue(0)
                 else:
                     value.setText("")
-            Eventos.cargar_propiedad_tipos(self)
+            Eventos.cargar_propiedad_tipos(propiedades.Propiedades.campos["tipo"])
+            Eventos.cargar_propiedad_tipos(var.dlg_filtrar_propiedades.ui.cmb_pro_tipo_filtrar)
 
         Eventos.limpiar_provincias_municipios(self)
 
@@ -257,8 +267,10 @@ class Eventos:
 
         if var.ui.panel_principal.currentIndex() == 1:
             var.ui.cmb_pro_provincia.clear()
+            var.dlg_filtrar_propiedades.ui.cmb_pro_provincia_filtrar.clear()
             for prov in listado:
                 var.ui.cmb_pro_provincia.addItem(prov[1], prov[0])
+                var.dlg_filtrar_propiedades.ui.cmb_pro_provincia_filtrar.addItem(prov[1], prov[0])
 
     def abrir_dlg_propiedades_tipo():
         try:
@@ -266,7 +278,7 @@ class Eventos:
         except Exception as error:
             print("error en abrir gestión propiedades ", error)
 
-    def abrir_dlg_filtrado_propiedades():
+    def abrir_dlg_filtrar_propiedades():
         try:
             var.dlg_filtrar_propiedades.show()
         except Exception as error:
@@ -287,7 +299,7 @@ class Eventos:
         except Exception as error:
             print("error en resize tabla propiedades: " + error)
 
-    def cargar_propiedad_tipos(self):
-        registro = conexion.Conexion.cargar_propiedad_tipos(self)
-        var.ui.cmb_pro_tipo.clear()
-        var.ui.cmb_pro_tipo.addItems(registro)
+    def cargar_propiedad_tipos(cmb):
+        registro = conexion.Conexion.cargar_propiedad_tipos()
+        cmb.clear()
+        cmb.addItems(registro)
