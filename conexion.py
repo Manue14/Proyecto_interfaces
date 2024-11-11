@@ -221,7 +221,7 @@ class Conexion:
 
     def cargar_propiedad_tipos(self):
         query = QtSql.QSqlQuery()
-        query.prepare("SELECT tipo FROM tipopropiedad ASC")
+        query.prepare("SELECT tipo FROM tipopropiedad ORDER BY tipo ASC")
         if query.exec():
             registro = []
             while query.next():

@@ -87,6 +87,8 @@ class Main(QtWidgets.QMainWindow):
         '''
         var.ui.action_tool_salir.triggered.connect(eventos.Eventos.mensaje_salir)
         var.ui.action_tool_limpiar.triggered.connect(eventos.Eventos.limpiar_panel)
+        var.ui.action_tool_gestionar_tipos_propiedad.triggered.connect(eventos.Eventos.abrir_dlg_propiedades_tipo)
+        var.ui.action_tool_filtrar_propiedades.triggered.connect(eventos.Eventos.abrir_dlg_filtrar_propiedades)
 
         '''
         Zona eventos checkbox

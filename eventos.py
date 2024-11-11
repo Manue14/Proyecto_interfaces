@@ -216,9 +216,9 @@ class Eventos:
     def limpiar_panel(self):
         if var.ui.panel_principal.currentIndex() == 0:
             clientes.Clientes.inicializar_campos()
-            objetosPanelCli = clientes.Clientes.campos
+            objetos_panel_cli = clientes.Clientes.campos
 
-            for key, value in objetosPanelCli.items():
+            for key, value in objetos_panel_cli.items():
                 if key == "provincia" or key == "municipio":
                     pass
                 else:
@@ -226,9 +226,9 @@ class Eventos:
 
         if var.ui.panel_principal.currentIndex() == 1:
             propiedades.Propiedades.inicializar_campos()
-            objetosPanelPro = propiedades.Propiedades.campos
+            objetos_panel_pro = propiedades.Propiedades.campos
 
-            for key, value in objetosPanelPro.items():
+            for key, value in objetos_panel_pro.items():
                 if (key == "provincia" or key == "municipio" or key == "tipo"
                 or key == "check_alquiler" or key == "check_venta" or key == "check_intercambio"
                 or key == "radio_disponible" or key == "radio_alquilado" or key == "radio_vendido"):
@@ -244,13 +244,33 @@ class Eventos:
                     value.setText("")
             Eventos.cargar_propiedad_tipos(self)
 
-        Eventos.cargar_provincias(self)
+        Eventos.limpiar_provincias_municipios(self)
+
+    def limpiar_provincias_municipios(self):
+        listado = conexion.Conexion.listar_provincias(self)
+        #listado = conexionserver.ConexionServer.listar_provincias(self)
+
+        if var.ui.panel_principal.currentIndex() == 0:
+            var.ui.cmb_cli_provincia.clear()
+            for prov in listado:
+                var.ui.cmb_cli_provincia.addItem(prov[1], prov[0])
+
+        if var.ui.panel_principal.currentIndex() == 1:
+            var.ui.cmb_pro_provincia.clear()
+            for prov in listado:
+                var.ui.cmb_pro_provincia.addItem(prov[1], prov[0])
 
     def abrir_dlg_propiedades_tipo():
         try:
             var.dlg_gestion_propiedad_tipo.show()
         except Exception as error:
             print("error en abrir gestión propiedades ", error)
+
+    def abrir_dlg_filtrado_propiedades():
+        try:
+            var.dlg_filtrar_propiedades.show()
+        except Exception as error:
+            print("error en abrir filtrado propiedades ", error)
 
     def resize_pro_tab(self):
         try:

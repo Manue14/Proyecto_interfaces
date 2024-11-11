@@ -1732,6 +1732,7 @@
     <addaction name="action_archivo_salir"/>
     <addaction name="action_archivo_backup_crear"/>
     <addaction name="action_archivo_backup_restaurar"/>
+    <addaction name="action_gestion_propiedades_tipo"/>
    </widget>
    <widget class="QMenu" name="menu_herramientas">
     <property name="title">
@@ -1747,7 +1748,6 @@
     <property name="title">
      <string>Gestión</string>
     </property>
-    <addaction name="action_gestion_propiedades_tipo"/>
    </widget>
    <addaction name="menu_archivo"/>
    <addaction name="menu_gestion"/>
@@ -1766,6 +1766,10 @@
     <bool>false</bool>
    </attribute>
    <addaction name="action_tool_limpiar"/>
+   <addaction name="separator"/>
+   <addaction name="action_tool_gestionar_tipos_propiedad"/>
+   <addaction name="separator"/>
+   <addaction name="action_tool_filtrar_propiedades"/>
    <addaction name="separator"/>
    <addaction name="action_tool_salir"/>
   </widget>
@@ -1787,7 +1791,7 @@
   <action name="action_tool_salir">
    <property name="icon">
     <iconset>
-     <normaloff>../img/right-arrow.png</normaloff>../img/right-arrow.png</iconset>
+     <normaloff>../img/exit-icon.png</normaloff>../img/exit-icon.png</iconset>
    </property>
    <property name="text">
     <string>barSalir</string>
@@ -1802,7 +1806,7 @@
   <action name="action_tool_limpiar">
    <property name="icon">
     <iconset>
-     <normaloff>../img/refresh.png</normaloff>../img/refresh.png</iconset>
+     <normaloff>../img/clear-icon.png</normaloff>../img/clear-icon.png</iconset>
    </property>
    <property name="text">
     <string>barLimpiar</string>
@@ -1814,9 +1818,30 @@
     <string>Alt+R</string>
    </property>
   </action>
+  <action name="action_tool_gestionar_tipos_propiedad">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/gear-building-icon.png</normaloff>../img/gear-building-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>barTipoPro</string>
+   </property>
+   <property name="toolTip">
+    <string>Gestión tipos propiedad</string>
+   </property>
+  </action>
   <action name="action_gestion_propiedades_tipo">
    <property name="text">
-    <string>Tipo Propiedades</string>
+    <string>Gestionar tipos propiedades</string>
+   </property>
+  </action>
+  <action name="action_tool_filtrar_propiedades">
+   <property name="icon">
+    <iconset>
+     <normaloff>../img/search-icon.png</normaloff>../img/search-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>barFiltrarPro</string>
    </property>
   </action>
  </widget>
