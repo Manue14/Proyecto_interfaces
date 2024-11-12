@@ -255,6 +255,7 @@ class Eventos:
             Eventos.cargar_propiedad_tipos(var.dlg_filtrar_propiedades.ui.cmb_pro_tipo_filtrar)
 
         Eventos.limpiar_provincias_municipios(self)
+        propiedades.Propiedades.cargar_pro_tab()
 
     def limpiar_provincias_municipios(self):
         listado = conexion.Conexion.listar_provincias(self)

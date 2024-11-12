@@ -183,6 +183,36 @@ class Propiedades():
             tipo = var.dlg_filtrar_propiedades.ui.cmb_pro_tipo_filtrar.currentText()
             municipio = var.dlg_filtrar_propiedades.ui.cmb_pro_municipio_filtrar.currentText()
             propiedades = conexion.Conexion.filtrar_propiedades(tipo, municipio)
+            
+
+            index = 0
+            var.ui.tab_pro.verticalHeader().setVisible(False)
+
+            for propiedad in propiedades:
+                var.ui.tab_pro.setRowCount(index + 1)
+                var.ui.tab_pro.setItem(index, 0, QtWidgets.QTableWidgetItem(propiedad["codigo"]))
+                var.ui.tab_pro.setItem(index, 1, QtWidgets.QTableWidgetItem(propiedad["municipio"]))
+                var.ui.tab_pro.setItem(index, 2, QtWidgets.QTableWidgetItem(propiedad["tipo"]))
+                var.ui.tab_pro.setItem(index, 3, QtWidgets.QTableWidgetItem(propiedad["habitaciones"]))
+                var.ui.tab_pro.setItem(index, 4, QtWidgets.QTableWidgetItem(propiedad["banos"]))
+                var.ui.tab_pro.setItem(index, 5, QtWidgets.QTableWidgetItem(
+                    propiedad["precio_alquiler"] + " €" if propiedad["precio_alquiler"] else "-"))
+                var.ui.tab_pro.setItem(index, 6, QtWidgets.QTableWidgetItem(
+                    propiedad["precio_venta"] + " €" if propiedad["precio_venta"] else "-"))
+                var.ui.tab_pro.setItem(index, 7, QtWidgets.QTableWidgetItem(propiedad["operaciones"]))
+                var.ui.tab_pro.setItem(index, 8, QtWidgets.QTableWidgetItem(propiedad["fecha_baja"]))
+
+                var.ui.tab_pro.item(index, 0)
+                var.ui.tab_pro.item(index, 1)
+                var.ui.tab_pro.item(index, 2)
+                var.ui.tab_pro.item(index, 3)
+                var.ui.tab_pro.item(index, 4)
+                var.ui.tab_pro.item(index, 5)
+                var.ui.tab_pro.item(index, 6)
+                var.ui.tab_pro.item(index, 7)
+                var.ui.tab_pro.item(index, 8)
+
+                index += 1
         except Exception as error:
             print("Error al filtrar las propiedades", error)
 
@@ -307,6 +337,12 @@ class Propiedades():
             return False
         
         if (precio_venta.strip() and not eventos.Eventos.validar_numero(precio_venta)):
+            return False
+
+        if ((not precio_venta.strip() and check_venta) or (precio_venta.strip() and not check_venta)):
+            return False
+
+        if ((not precio_alquiler.strip() and check_alquiler) or (precio_alquiler.strip() and not check_alquiler)):
             return False
         
         if (fecha_baja.strip() and not eventos.Eventos.validar_fecha(fecha_baja)):

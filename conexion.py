@@ -428,3 +428,43 @@ class Conexion:
                 return propiedad
         except Exception as error:
             print("error al obtener la propiedad de la base de datos", error)
+
+    def filtrar_propiedades(tipo, municipio):
+        try:
+            propiedades = []
+            propiedad = {"codigo": "",
+                            "fecha_alta": "",
+                            "fecha_baja": "",
+                            "direccion": "",
+                            "provincia": "",
+                            "municipio": "",
+                            "tipo": "",
+                            "habitaciones": "",
+                            "banos": "",
+                            "superficie": "",
+                            "precio_alquiler": "",
+                            "precio_venta": "",
+                            "postal": "",
+                            "descripcion": "",
+                            "operaciones": "",
+                            "estado": "",
+                            "propietario": "",
+                            "movil": ""}
+            keys = list(propiedad.keys())
+
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM propiedades WHERE tipoprop = :tipoprop AND muniprop = :muniprop")
+            query.bindValue(":tipoprop", tipo)
+            query.bindValue(":muniprop", municipio)
+
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        propiedad[keys[i]] = str(query.value(i))
+                    propiedades.append(propiedad.copy())
+            return propiedades
+        except sqlite3.IntegrityError:
+            return []
+        except Exception as error:
+            print("Error al filtrar propiedades en la base de datos", error)
+            return []
