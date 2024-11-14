@@ -1739,8 +1739,8 @@
      <property name="title">
       <string>Exportar Datos</string>
      </property>
-     <addaction name="actionExportar_Clientes_CSV"/>
-     <addaction name="actionExportar_Clientes_JSON"/>
+     <addaction name="action_exportar_propiedades_CSV"/>
+     <addaction name="action_exportar_propiedades_JSON"/>
     </widget>
     <addaction name="action_archivo_backup_crear"/>
     <addaction name="action_archivo_backup_restaurar"/>
@@ -1855,14 +1855,17 @@
     <string>barFiltrarPro</string>
    </property>
   </action>
-  <action name="actionExportar_Clientes_CSV">
+  <action name="action_exportar_propiedades_CSV">
    <property name="text">
-    <string>Exportar Clientes CSV</string>
+    <string>Exportar Propiedades CSV</string>
+   </property>
+   <property name="toolTip">
+    <string>Exportar Propiedaes CSV</string>
    </property>
   </action>
-  <action name="actionExportar_Clientes_JSON">
+  <action name="action_exportar_propiedades_JSON">
    <property name="text">
-    <string>Exportar Clientes JSON</string>
+    <string>Exportar Propiedades JSON</string>
    </property>
   </action>
  </widget>

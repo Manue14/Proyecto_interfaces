@@ -1,3 +1,5 @@
+import csv
+import json
 import sys
 import time
 import re
@@ -304,3 +306,44 @@ class Eventos:
         registro = conexion.Conexion.cargar_propiedad_tipos()
         cmb.clear()
         cmb.addItems(registro)
+
+    def exportar_propiedades_csv(self):
+        try:
+            fecha = datetime.today().strftime("%Y_%m_%d_%H_%M_%S")
+            file = (str(fecha) + '_DatosPropiedades.csv')
+            directorio, fichero = var.dlg_abrir.getSaveFileName(None, "Exportar Datos en CSV", file, ".csv")
+
+            if fichero:
+                registros = conexion.Conexion.listar_propiedades()
+                with open(fichero, 'w', newline='', encoding="utf-8") as csvfile:
+                    writer = csv.writer(csvfile)
+                    writer.writerow(registros[0].keys())
+                    for registro in registros:
+                        writer.writerow(registro.values())
+
+                shutil.move(fichero, directorio)
+
+                Eventos.mensaje_exito("Aviso", "Fichero guardado")
+            else:
+                Eventos.mensaje_error("Aviso","Error al exportar las propiedades")
+        except Exception as error:
+            print("Error al exportar las propiedades ", error)
+
+    def exportar_propiedades_json(self):
+        try:
+            fecha = datetime.today().strftime("%Y_%m_%d_%H_%M_%S")
+            file = (str(fecha) + '_DatosPropiedades.json')
+            directorio, fichero = var.dlg_abrir.getSaveFileName(None, "Exportar Datos en JSON", file, ".json")
+
+            if fichero:
+                registros = conexion.Conexion.listar_propiedades()
+                with open(fichero, 'w', newline='', encoding="utf-8") as jsonfile:
+                    json.dump(registros, jsonfile, ensure_ascii=False, indent=4)
+
+                shutil.move(fichero, directorio)
+
+                Eventos.mensaje_exito("Aviso", "Fichero guardado")
+            else:
+                Eventos.mensaje_error("Aviso", "Error al exportar las propiedades")
+        except Exception as error:
+            print("Error al exportar las propiedades ", error)
