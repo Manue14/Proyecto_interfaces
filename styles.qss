@@ -51,22 +51,35 @@ QToolbar {
 
 /* ---- Estilos campos ---- */
 QLineEdit#txt_cli_email, QLineEdit#txt_cli_baja,
-QLineEdit#txt_pro_baja, QLineEdit#txt_pro_precio_alquiler, QLineEdit#txt_pro_precio_venta {
+QLineEdit#txt_pro_baja, QLineEdit#txt_pro_precio_alquiler, QLineEdit#txt_pro_precio_venta,
+*[cssClass="no_obligatorio_valido"] {
 	border-bottom: 1px solid #93c5fd; /*Blue 300*/
 	background-color: #dbeafe; /*Blue 100*/
 	border-radius: 2px 2px 0px 2px;
 }
 
 QLineEdit#txt_cli_email:focus, QLineEdit#txt_cli_baja:focus,
-QLineEdit#txt_pro_baja:focus, QLineEdit#txt_pro_precio_alquiler:focus, QLineEdit#txt_pro_precio_venta:focus {
+QLineEdit#txt_pro_baja:focus, QLineEdit#txt_pro_precio_alquiler:focus, QLineEdit#txt_pro_precio_venta:focus,
+*[cssClass="no_obligatorio_valido"]:focus {
 	border-bottom: 1.5px solid #2563eb; /*Blue 600*/
 	background-color: #bfdbfe; /*Blue 200*/
+}
+
+*[cssClass="no_obligatorio_error"] {
+    border-bottom: 1px solid #f87171;
+    background-color: #fecaca;
+}
+
+*[cssClass="no_obligatorio_error"]:focus {
+    border-bottom: 1.5px solid #dc2626;
+    background-color: #fca5a5;
 }
 /* ---- Estilos campos obligatorios ---- */
 QLineEdit#txt_cli_dni, QLineEdit#txt_cli_apellido, QLineEdit#txt_cli_direccion, QLineEdit#txt_cli_alta,
 QLineEdit#txt_cli_nombre, QLineEdit#txt_cli_movil,
 QLineEdit#txt_pro_alta, QLineEdit#txt_pro_direccion, QLineEdit#txt_pro_superficie, QLineEdit#txt_pro_postal,
-QLineEdit#txt_pro_propietario, QLineEdit#txt_pro_movil {
+QLineEdit#txt_pro_propietario, QLineEdit#txt_pro_movil,
+*[cssClass="obligatorio_valido"] {
 	border-bottom: 1px solid #fdba74; /*Orange 300*/
 	background-color: #ffedd5; /*Orange 100*/
 	border-radius: 2px 2px 0px 2px;
@@ -75,9 +88,20 @@ QLineEdit#txt_pro_propietario, QLineEdit#txt_pro_movil {
 QLineEdit#txt_cli_dni:focus, QLineEdit#txt_cli_apellido:focus, QLineEdit#txt_cli_direccion:focus, QLineEdit#txt_cli_alta:focus,
 QLineEdit#txt_cli_nombre:focus, QLineEdit#txt_cli_movil:focus,
 QLineEdit#txt_pro_alta:focus, QLineEdit#txt_pro_direccion:focus, QLineEdit#txt_pro_superficie:focus, QLineEdit#txt_pro_postal:focus,
-QLineEdit#txt_pro_propietario:focus, QLineEdit#txt_pro_movil:focus {
+QLineEdit#txt_pro_propietario:focus, QLineEdit#txt_pro_movil:focus,
+*[cssClass="obligatorio_valido"]:focus {
 	border-bottom: 1.5px solid #ea580c; /*Orange 600*/
 	background-color: #fed7aa; /*Orange 200*/
+}
+
+*[cssClass="obligatorio_error"] {
+    border-bottom: 1px solid #f87171;
+    background-color: #fecaca;
+}
+
+*[cssClass="obligatorio_error"]:focus {
+    border-bottom: 1.5px solid #dc2626;
+    background-color: #fca5a5;
 }
 
 /* ---- Colores campos error ---- */

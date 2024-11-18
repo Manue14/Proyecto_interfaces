@@ -39,16 +39,10 @@ class Clientes:
         try:
             dni = str(Clientes.campos["dni"].text())
             if eventos.Eventos.validar_dni(dni):
-                Clientes.campos["dni"].setStyleSheet('''QLineEdit#txt_cli_dni {border-bottom: 1px solid #fdba74;
-                                                                                background-color: #ffedd5;}
-                                                        QLineEdit#txt_cli_dni:focus {border-bottom: 1.5px solid #ea580c;
-                                                                                        background-color: #fed7aa;}''')
+                Clientes.campos["dni"].setProperty("cssClass", "obligatorio_valido")
                 Clientes.campos["dni"].setText(dni.upper())
             else:
-                Clientes.campos["dni"].setStyleSheet('''QLineEdit#txt_cli_dni {border-bottom: 1px solid #f87171;
-                                                                                background-color: #fecaca;}
-                                                        QLineEdit#txt_cli_dni:focus {border-bottom: 1.5px solid #dc2626;
-                                                                                        background-color: #fca5a5;}''')
+                Clientes.campos["dni"].setProperty("cssClass", "obligatorio_error")
                 Clientes.campos["dni"].setText(None)
         except Exception as error:
             print("error check dni cliente", error)
@@ -59,17 +53,11 @@ class Clientes:
         try:
             mail = str(Clientes.campos["email"].text())
             if eventos.Eventos.validar_email(mail) or mail == "":
-                Clientes.campos["email"].setStyleSheet('''QLineEdit#txt_cli_email {border-bottom: 1px solid #93c5fd;
-                                                                                background-color: #dbeafe;}
-                                                        QLineEdit#txt_cli_email:focus {border-bottom: 1.5px solid #2563eb;
-                                                                                        background-color: #bfdbfe;}''')
+                Clientes.campos["email"].setProperty("cssClass", "no_obligatorio_valido")
                 Clientes.campos["email"].setText(mail.lower())
 
             else:
-                Clientes.campos["email"].setStyleSheet('''QLineEdit#txt_cli_email {border-bottom: 1px solid #f87171;
-                                                                                background-color: #fecaca;}
-                                                        QLineEdit#txt_cli_email:focus {border-bottom: 1.5px solid #dc2626;
-                                                                                        background-color: #fca5a5;}''')
+                Clientes.campos["email"].setProperty("cssClass", "no_obligatorio_error")
                 Clientes.campos["email"].setText(None)
                 Clientes.campos["email"].setText("correo no válido")
                 Clientes.campos["email"].setFocus()
@@ -84,15 +72,9 @@ class Clientes:
             phone = str(Clientes.campos["movil"].text())
 
             if eventos.Eventos.validar_movil(phone):
-                Clientes.campos["movil"].setStyleSheet('''QLineEdit#txt_cli_movil {border-bottom: 1px solid #fdba74;
-                                                                                background-color: #ffedd5;}
-                                                        QLineEdit#txt_cli_movil:focus {border-bottom: 1.5px solid #ea580c;
-                                                                                        background-color: #fed7aa;}''')
+                Clientes.campos["movil"].setProperty("cssClass", "obligatorio_valido")
             else:
-                Clientes.campos["movil"].setStyleSheet('''QLineEdit#txt_cli_movil {border-bottom: 1px solid #f87171;
-                                                                                background-color: #fecaca;}
-                                                        QLineEdit#txt_cli_movil:focus {border-bottom: 1.5px solid #dc2626;
-                                                                                        background-color: #fca5a5;}''')
+                Clientes.campos["movil"].setProperty("cssClass", "obligatorio_error")
                 Clientes.campos["movil"].setText(None)
                 Clientes.campos["movil"].setText("móvil no válido")
                 Clientes.campos["movil"].setFocus()
