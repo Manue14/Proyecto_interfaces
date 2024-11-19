@@ -15,6 +15,7 @@ import locale
 import zipfile
 import shutil
 import conexion_server
+import styles
 #Establecer configuración regional
 
 locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
@@ -59,37 +60,127 @@ class Eventos:
         mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText("Aceptar")
         mbox.exec()
 
-    def cargar_municipios_cli(self, provId = 1):
-        var.ui.cmb_cli_municipio.clear()
-        listado = conexion.Conexion.listar_municipios(provId)
-        #listado = conexionserver.ConexionServer.listar_municipios(provId)
-        for mun in listado:
-            var.ui.cmb_cli_municipio.addItem(mun[0], mun[1])
-
-    def cargar_municipios_pro(self, provId = 1):
-        var.ui.cmb_pro_municipio.clear()
-        listado = conexion.Conexion.listar_municipios(provId)
-        #listado = conexionserver.ConexionServer.listar_municipios(provId)
-        for mun in listado:
-            var.ui.cmb_pro_municipio.addItem(mun[0], mun[1])
-
-    def cargar_municipios_pro_filtrar(self, provId = 1):
-        var.dlg_filtrar_propiedades.ui.cmb_pro_municipio_filtrar.clear()
-        listado = conexion.Conexion.listar_municipios(provId)
-        #listado = conexionserver.ConexionServer.listar_municipios(provId)
-        for mun in listado:
-            var.dlg_filtrar_propiedades.ui.cmb_pro_municipio_filtrar.addItem(mun[0], mun[1])
-
-    def cargar_provincias(self):
-        var.ui.cmb_cli_provincia.clear()
-        var.ui.cmb_pro_provincia.clear()
-        listado = conexion.Conexion.listar_provincias(self)
+    def cargar_provincias(widget):
+        widget.clear()
+        listado = conexion.Conexion.listar_provincias()
         #listado = conexionserver.ConexionServer.listar_provincias(self)
         for prov in listado:
-            var.ui.cmb_cli_provincia.addItem(prov[1], prov[0])
-            var.ui.cmb_pro_provincia.addItem(prov[1], prov[0])
+            widget.addItem(prov[1], prov[0])
 
-    def validar_dni(dni: str):
+    def cargar_municipios(widget, provId = 1):
+        widget.clear()
+        listado = conexion.Conexion.listar_municipios(provId)
+        #listado = conexionserver.ConexionServer.listar_municipios(provId)
+        for mun in listado:
+            widget.addItem(mun[0], mun[1])
+
+    def observar_dni(widget):
+        try:
+            dni = widget.text()
+            if Eventos.validar_dni(dni):
+                styles.set_style(widget,"obligatorio_valido")
+                widget.setText(dni.upper())
+            else:
+                styles.set_style(widget,"obligatorio_error")
+                widget.setText(None)
+        except Exception as error:
+            print("Error al validar el dni", error)
+
+    def observar_email(widget):
+        try:
+            mail = widget.text()
+            if Eventos.validar_email(mail) or mail == "":
+                styles.set_style(widget, "no_obligatorio_valido")
+                widget.setText(mail.lower())
+            else:
+                styles.set_style(widget, "no_obligatorio_error")
+                widget.setText(None)
+                widget.setText("Email no válido")
+                widget.setFocus()
+        except Exception as error:
+            print("Error al validar el email", error)
+
+    def observar_movil(widget):
+        try:
+            movil = widget.text()
+            if Eventos.validar_movil(movil):
+                styles.set_style(widget, "obligatorio_valido")
+            else:
+                styles.set_style(widget, "obligatorio_error")
+                widget.setText(None)
+                widget.setText("Móvil no válido")
+                widget.setFocus()
+        except Exception as error:
+            print("Error al validar el móvil", error)
+
+    def observar_fecha_alta(widget):
+        try:
+            fecha = widget.text()
+            if Eventos.validar_fecha(fecha):
+                styles.set_style(widget, "obligatorio_valido")
+            else:
+                styles.set_style(widget, "obligatorio_error")
+                widget.setText(None)
+                widget.setText("Fecha no válida")
+                widget.setFocus()
+        except Exception as error:
+            print("Error al validar la fecha de alta", error)
+
+    def observar_fecha_baja(widget):
+        try:
+            fecha = widget.text()
+            if Eventos.validar_fecha(fecha) or fecha == "":
+                styles.set_style(widget, "no_obligatorio_valido")
+            else:
+                styles.set_style(widget, "no_obligatorio_error")
+                widget.setText(None)
+                widget.setText("fecha no válida")
+                widget.setFocus()
+        except Exception as error:
+            print("Error al validar la fecha de baja", error)
+
+    def observar_codigo_postal(widget):
+        try:
+            postal = widget.text()
+            if Eventos.validar_numero(postal):
+                styles.set_style(widget, "obligatorio_valido")
+            else:
+                styles.set_style(widget, "obligatorio_error")
+                widget.setText(None)
+                widget.setText("CP no válido")
+                widget.setFocus()
+        except Exception as error:
+            print("Error al validar el código postal", error)
+
+    def observar_superficie(widget):
+        try:
+            superficie = widget.text()
+            if Eventos.validar_numero(superficie):
+                styles.set_style(widget, "obligatorio_valido")
+            else:
+                styles.set_style(widget, "obligatorio_error")
+                widget.setText(None)
+                widget.setText("Valor no válido")
+                widget.setFocus()
+        except Exception as error:
+            print("Error al validar la superficie", error)
+
+    def observar_precio(widget):
+        try:
+            precio = widget.text()
+
+            if Eventos.validar_numero(precio) or precio == "":
+                styles.set_style(widget, "no_obligatorio_valido")
+            else:
+                styles.set_style(widget, "no_obligatorio_error")
+                widget.setText(None)
+                widget.setText("Valor no válido")
+                widget.setFocus()
+        except Exception as error:
+            print("Error al validar el precio", error)
+    
+        
+    def validar_dni(dni):
         valid_letters = "TRWAGMYFPDXBNJZSQVHLCKE"
         if len(dni) != 9 :
             return False
@@ -97,7 +188,7 @@ class Eventos:
         if not number_part.isdigit() :
             return False
         correct_letter = valid_letters[int(number_part) % 23]
-        if dni[8] != correct_letter:
+        if dni[8].upper() != correct_letter:
             return False
         return True
 
@@ -143,19 +234,19 @@ class Eventos:
             data = ('{:02d}/{:02d}/{:4d}'.format(qDate.day(), qDate.month(), qDate.year()))
             if var.ui.panel_principal.currentIndex() == 0 and var.btn == 0:
                 var.ui.txt_cli_alta.setText(str(data))
-                clientes.Clientes.validar_fecha_alta()
+                Eventos.observar_fecha_alta(var.ui.txt_cli_alta)
 
             elif var.ui.panel_principal.currentIndex() == 0 and var.btn == 1:
                 var.ui.txt_cli_baja.setText(str(data))
-                clientes.Clientes.validar_fecha_baja()
+                Eventos.observar_fecha_baja(var.ui.txt_cli_baja)
 
             elif var.ui.panel_principal.currentIndex() == 1 and var.btn == 0:
                 var.ui.txt_pro_alta.setText(str(data))
-                propiedades.Propiedades.validar_fecha_alta()
+                Eventos.observar_fecha_alta(var.ui.txt_pro_alta)
 
             elif var.ui.panel_principal.currentIndex() == 1 and var.btn == 1:
                 var.ui.txt_pro_baja.setText(str(data))
-                propiedades.Propiedades.validar_fecha_baja()
+                Eventos.observar_fecha_baja(var.ui.txt_pro_baja)
 
             time.sleep(0.5)
             var.ui_calendar.hide()
@@ -220,7 +311,9 @@ class Eventos:
             objetos_panel_cli = clientes.Clientes.campos
 
             for key, value in objetos_panel_cli.items():
-                if key == "provincia" or key == "municipio":
+                if key == "provincia":
+                    Eventos.cargar_provincias(value)
+                elif key == "municipio":
                     pass
                 else:
                     value.setText("")
@@ -230,8 +323,11 @@ class Eventos:
             objetos_panel_pro = propiedades.Propiedades.campos
 
             for key, value in objetos_panel_pro.items():
-                if (key == "provincia" or key == "municipio" or key == "tipo"
-                or key == "check_alquiler" or key == "check_venta" or key == "check_intercambio"
+                if key == "provincia":
+                    Eventos.cargar_provincias(value)
+                elif key == "municipio":
+                    pass
+                elif (key == "tipo" or key == "check_alquiler" or key == "check_venta" or key == "check_intercambio"
                 or key == "radio_disponible" or key == "radio_alquilado" or key == "radio_vendido"):
                     if key == "check_alquiler" or key == "check_venta" or key == "check_intercambio":
                         value.setChecked(False)
@@ -245,22 +341,7 @@ class Eventos:
                     value.setText("")
             Eventos.cargar_propiedad_tipos(propiedades.Propiedades.campos["tipo"])
 
-        Eventos.limpiar_provincias_municipios(self)
         propiedades.Propiedades.cargar_pro_tab()
-
-    def limpiar_provincias_municipios(self):
-        listado = conexion.Conexion.listar_provincias(self)
-        #listado = conexionserver.ConexionServer.listar_provincias(self)
-
-        if var.ui.panel_principal.currentIndex() == 0:
-            var.ui.cmb_cli_provincia.clear()
-            for prov in listado:
-                var.ui.cmb_cli_provincia.addItem(prov[1], prov[0])
-
-        if var.ui.panel_principal.currentIndex() == 1:
-            var.ui.cmb_pro_provincia.clear()
-            for prov in listado:
-                var.ui.cmb_pro_provincia.addItem(prov[1], prov[0])
 
     def abrir_dlg_propiedades_tipo():
         try:

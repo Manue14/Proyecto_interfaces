@@ -185,35 +185,8 @@ class Propiedades():
             municipio = Propiedades.campos["municipio"].currentText()
             propiedades = conexion.Conexion.filtrar_propiedades(tipo, municipio)
             
+            Propiedades.construir_pro_tab(propiedades)
 
-            index = 0
-            var.ui.tab_pro.verticalHeader().setVisible(False)
-
-            for propiedad in propiedades:
-                var.ui.tab_pro.setRowCount(index + 1)
-                var.ui.tab_pro.setItem(index, 0, QtWidgets.QTableWidgetItem(propiedad["codigo"]))
-                var.ui.tab_pro.setItem(index, 1, QtWidgets.QTableWidgetItem(propiedad["municipio"]))
-                var.ui.tab_pro.setItem(index, 2, QtWidgets.QTableWidgetItem(propiedad["tipo"]))
-                var.ui.tab_pro.setItem(index, 3, QtWidgets.QTableWidgetItem(propiedad["habitaciones"]))
-                var.ui.tab_pro.setItem(index, 4, QtWidgets.QTableWidgetItem(propiedad["banos"]))
-                var.ui.tab_pro.setItem(index, 5, QtWidgets.QTableWidgetItem(
-                    propiedad["precio_alquiler"] + " €" if propiedad["precio_alquiler"] else "-"))
-                var.ui.tab_pro.setItem(index, 6, QtWidgets.QTableWidgetItem(
-                    propiedad["precio_venta"] + " €" if propiedad["precio_venta"] else "-"))
-                var.ui.tab_pro.setItem(index, 7, QtWidgets.QTableWidgetItem(propiedad["operaciones"]))
-                var.ui.tab_pro.setItem(index, 8, QtWidgets.QTableWidgetItem(propiedad["fecha_baja"]))
-
-                var.ui.tab_pro.item(index, 0)
-                var.ui.tab_pro.item(index, 1)
-                var.ui.tab_pro.item(index, 2)
-                var.ui.tab_pro.item(index, 3)
-                var.ui.tab_pro.item(index, 4)
-                var.ui.tab_pro.item(index, 5)
-                var.ui.tab_pro.item(index, 6)
-                var.ui.tab_pro.item(index, 7)
-                var.ui.tab_pro.item(index, 8)
-
-                index += 1
         except Exception as error:
             print("Error al filtrar las propiedades", error)
 
@@ -221,9 +194,15 @@ class Propiedades():
     def cargar_pro_tab():
         try:
             propiedades = conexion.Conexion.listar_propiedades()
-            index = 0
-            var.ui.tab_pro.verticalHeader().setVisible(False)
+            Propiedades.construir_pro_tab(propiedades)
+        except Exception as error:
+            print("Error al cargar la tabal de propiedades", error)
 
+    def construir_pro_tab(propiedades):
+        index = 0
+        var.ui.tab_pro.verticalHeader().setVisible(False)
+
+        if propiedades:
             for propiedad in propiedades:
                 var.ui.tab_pro.setRowCount(index + 1)
                 var.ui.tab_pro.setItem(index, 0, QtWidgets.QTableWidgetItem(propiedad["codigo"]))
@@ -249,8 +228,29 @@ class Propiedades():
                 var.ui.tab_pro.item(index, 8)
 
                 index += 1
-        except Exception as error:
-            print("error al cargar la tabal de propiedades", error)
+        else:
+
+            var.ui.tab_pro.setRowCount(index + 1)
+            var.ui.tab_pro.setItem(index, 0, QtWidgets.QTableWidgetItem(""))
+            var.ui.tab_pro.setItem(index, 1, QtWidgets.QTableWidgetItem(""))
+            var.ui.tab_pro.setItem(index, 2, QtWidgets.QTableWidgetItem("No se encontraron propiedades"))
+            var.ui.tab_pro.setItem(index, 3, QtWidgets.QTableWidgetItem(""))
+            var.ui.tab_pro.setItem(index, 4, QtWidgets.QTableWidgetItem(""))
+            var.ui.tab_pro.setItem(index, 5, QtWidgets.QTableWidgetItem(""))
+            var.ui.tab_pro.setItem(index, 6, QtWidgets.QTableWidgetItem(""))
+            var.ui.tab_pro.setItem(index, 7, QtWidgets.QTableWidgetItem(""))
+            var.ui.tab_pro.setItem(index, 8, QtWidgets.QTableWidgetItem(""))
+
+
+            var.ui.tab_pro.item(index, 0)
+            var.ui.tab_pro.item(index, 1)
+            var.ui.tab_pro.item(index, 2)
+            var.ui.tab_pro.item(index, 3)
+            var.ui.tab_pro.item(index, 4)
+            var.ui.tab_pro.item(index, 5)
+            var.ui.tab_pro.item(index, 6)
+            var.ui.tab_pro.item(index, 7)
+            var.ui.tab_pro.item(index, 8)
 
     def cargar_propiedad(self):
         Propiedades.inicializar_campos()
@@ -371,115 +371,3 @@ class Propiedades():
             return False
 
         return True
-    
-    @staticmethod
-    def validar_movil():
-        Propiedades.inicializar_campos()
-        try:
-            phone = str(Propiedades.campos["movil"].text())
-
-            if eventos.Eventos.validar_movil(phone):
-                styles.set_style(Propiedades.campos["movil"], "obligatorio_valido")
-            else:
-                styles.set_style(Propiedades.campos["movil"], "obligatorio_error")
-                Propiedades.campos["movil"].setText(None)
-                Propiedades.campos["movil"].setText("móvil no válido")
-                Propiedades.campos["movil"].setFocus()
-        except Exception as error:
-            print("error check propiedad", error)
-
-    @staticmethod
-    def validar_fecha_alta():
-        Propiedades.inicializar_campos()
-        try:
-            fecha = Propiedades.campos["fecha_alta"].text()
-
-            if eventos.Eventos.validar_fecha(fecha):
-                styles.set_style(Propiedades.campos["fecha_alta"], "obligatorio_valido")
-            else:
-                styles.set_style(Propiedades.campos["fecha_alta"], "obligatorio_error")
-                Propiedades.campos["fecha_alta"].setText(None)
-                Propiedades.campos["fecha_alta"].setText("fecha no válida")
-                Propiedades.campos["fecha_alta"].setFocus()
-        except Exception as error:
-            print("Error al validar la fecha de alta", error)
-
-    @staticmethod
-    def validar_postal():
-        Propiedades.inicializar_campos()
-        try:
-            postal = Propiedades.campos["postal"].text()
-
-            if eventos.Eventos.validar_numero(postal):
-                styles.set_style(Propiedades.campos["postal"], "obligatorio_valido")
-            else:
-                styles.set_style(Propiedades.campos["postal"], "obligatorio_error")
-                Propiedades.campos["postal"].setText(None)
-                Propiedades.campos["postal"].setText("CP no válido")
-                Propiedades.campos["postal"].setFocus()
-        except Exception as error:
-            print("Error al validar el código postal", error)
-
-    @staticmethod
-    def validar_superficie():
-        Propiedades.inicializar_campos()
-        try:
-            superficie = Propiedades.campos["superficie"].text()
-
-            if eventos.Eventos.validar_numero(superficie):
-                styles.set_style(Propiedades.campos["superficie"], "obligatorio_valido")
-            else:
-                styles.set_style(Propiedades.campos["superficie"], "obligatorio_error")
-                Propiedades.campos["superficie"].setText(None)
-                Propiedades.campos["superficie"].setText("Valor no válido")
-                Propiedades.campos["superficie"].setFocus()
-        except Exception as error:
-            print("Error al validar la superficie", error)
-
-    @staticmethod
-    def validar_fecha_baja():
-        Propiedades.inicializar_campos()
-        try:
-            fecha = Propiedades.campos["fecha_baja"].text()
-
-            if eventos.Eventos.validar_fecha(fecha) or fecha == "":
-                styles.set_style(Propiedades.campos["fecha_baja"], "no_obligatorio_valido")
-            else:
-                styles.set_style(Propiedades.campos["fecha_baja"], "no_obligatorio_error")
-                Propiedades.campos["fecha_baja"].setText(None)
-                Propiedades.campos["fecha_baja"].setText("fecha no válida")
-                Propiedades.campos["fecha_baja"].setFocus()
-        except Exception as error:
-            print("Error al validar la fecha de baja", error)
-
-    @staticmethod
-    def validar_precio_alquiler():
-        Propiedades.inicializar_campos()
-        try:
-            precio_alquiler = Propiedades.campos["precio_alquiler"].text()
-
-            if eventos.Eventos.validar_numero(precio_alquiler) or precio_alquiler == "":
-                styles.set_style(Propiedades.campos["precio_alquiler"], "no_obligatorio_valido")
-            else:
-                styles.set_style(Propiedades.campos["precio_alquiler"], "no_obligatorio_error")
-                Propiedades.campos["precio_alquiler"].setText(None)
-                Propiedades.campos["precio_alquiler"].setText("Valor no válido")
-                Propiedades.campos["precio_alquiler"].setFocus()
-        except Exception as error:
-            print("Error al validar el precio de alquiler", error)
-
-    @staticmethod
-    def validar_precio_venta():
-        Propiedades.inicializar_campos()
-        try:
-            precio_venta = Propiedades.campos["precio_venta"].text()
-
-            if eventos.Eventos.validar_numero(precio_venta) or precio_venta == "":
-                styles.set_style(Propiedades.campos["precio_venta"], "no_obligatorio_valido")
-            else:
-                styles.set_style(Propiedades.campos["precio_venta"], "no_obligatorio_error")
-                Propiedades.campos["precio_venta"].setText(None)
-                Propiedades.campos["precio_venta"].setText("Valor no válido")
-                Propiedades.campos["precio_venta"].setFocus()
-        except Exception as error:
-            print("Error al validar el precio de venta", error)

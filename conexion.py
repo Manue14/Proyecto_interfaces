@@ -44,7 +44,7 @@ class Conexion:
             return False
 
     @staticmethod
-    def listar_provincias(self):
+    def listar_provincias():
         listaprov = []
         query = QtSql.QSqlQuery()
         query.prepare("SELECT * FROM provincias;")
@@ -453,7 +453,13 @@ class Conexion:
             keys = list(propiedad.keys())
 
             query = QtSql.QSqlQuery()
-            query.prepare("SELECT * FROM propiedades WHERE tipoprop = :tipoprop AND muniprop = :muniprop")
+
+            if var.historico_pro == 1:
+                query.prepare("SELECT * FROM propiedades WHERE tipoprop = :tipoprop AND muniprop = :muniprop AND bajaprop is NULL ORDER BY muniprop ASC;")
+            elif var.historico_pro == 0:
+                query.prepare("SELECT * FROM propiedades WHERE tipoprop = :tipoprop AND muniprop = :muniprop ORDER BY muniprop ASC:")
+
+            
             query.bindValue(":tipoprop", tipo)
             query.bindValue(":muniprop", municipio)
 
