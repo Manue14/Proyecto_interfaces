@@ -83,13 +83,11 @@ class Eventos:
     def cargar_provincias(self):
         var.ui.cmb_cli_provincia.clear()
         var.ui.cmb_pro_provincia.clear()
-        var.dlg_filtrar_propiedades.ui.cmb_pro_provincia_filtrar.clear()
         listado = conexion.Conexion.listar_provincias(self)
         #listado = conexionserver.ConexionServer.listar_provincias(self)
         for prov in listado:
             var.ui.cmb_cli_provincia.addItem(prov[1], prov[0])
             var.ui.cmb_pro_provincia.addItem(prov[1], prov[0])
-            var.dlg_filtrar_propiedades.ui.cmb_pro_provincia_filtrar.addItem(prov[1], prov[0])
 
     def validar_dni(dni: str):
         valid_letters = "TRWAGMYFPDXBNJZSQVHLCKE"
@@ -145,28 +143,20 @@ class Eventos:
             data = ('{:02d}/{:02d}/{:4d}'.format(qDate.day(), qDate.month(), qDate.year()))
             if var.ui.panel_principal.currentIndex() == 0 and var.btn == 0:
                 var.ui.txt_cli_alta.setText(str(data))
-                var.ui.txt_cli_alta.setStyleSheet('''QLineEdit#txt_cli_alta {border-bottom: 1px solid #fdba74;
-                                                                                background-color: #ffedd5;}
-                                                        QLineEdit#txt_cli_alta:focus {border-bottom: 1.5px solid #ea580c;
-                                                                                        background-color: #fed7aa;}''')
+                clientes.Clientes.validar_fecha_alta()
+
             elif var.ui.panel_principal.currentIndex() == 0 and var.btn == 1:
                 var.ui.txt_cli_baja.setText(str(data))
-                var.ui.txt_cli_baja.setStyleSheet('''QLineEdit#txt_cli_baja {border-bottom: 1px solid #93c5fd;
-                                                                                background-color: #dbeafe;}
-                                                        QLineEdit#txt_cli_baja:focus {border-bottom: 1.5px solid #2563eb;
-                                                                                        background-color: #bfdbfe;}''')
+                clientes.Clientes.validar_fecha_baja()
+
             elif var.ui.panel_principal.currentIndex() == 1 and var.btn == 0:
                 var.ui.txt_pro_alta.setText(str(data))
-                var.ui.txt_pro_alta.setStyleSheet('''QLineEdit#txt_pro_alta {border-bottom: 1px solid #fdba74;
-                                                                                background-color: #ffedd5;}
-                                                        QLineEdit#txt_pro_alta:focus {border-bottom: 1.5px solid #ea580c;
-                                                                                        background-color: #fed7aa;}''')
+                propiedades.Propiedades.validar_fecha_alta()
+
             elif var.ui.panel_principal.currentIndex() == 1 and var.btn == 1:
                 var.ui.txt_pro_baja.setText(str(data))
-                var.ui.txt_pro_baja.setStyleSheet('''QLineEdit#txt_pro_baja {border-bottom: 1px solid #93c5fd;
-                                                                                background-color: #dbeafe;}
-                                                        QLineEdit#txt_pro_baja:focus {border-bottom: 1.5px solid #2563eb;
-                                                                                        background-color: #bfdbfe;}''')
+                propiedades.Propiedades.validar_fecha_baja()
+
             time.sleep(0.5)
             var.ui_calendar.hide()
             return data
@@ -254,7 +244,6 @@ class Eventos:
                 else:
                     value.setText("")
             Eventos.cargar_propiedad_tipos(propiedades.Propiedades.campos["tipo"])
-            Eventos.cargar_propiedad_tipos(var.dlg_filtrar_propiedades.ui.cmb_pro_tipo_filtrar)
 
         Eventos.limpiar_provincias_municipios(self)
         propiedades.Propiedades.cargar_pro_tab()
@@ -270,22 +259,14 @@ class Eventos:
 
         if var.ui.panel_principal.currentIndex() == 1:
             var.ui.cmb_pro_provincia.clear()
-            var.dlg_filtrar_propiedades.ui.cmb_pro_provincia_filtrar.clear()
             for prov in listado:
                 var.ui.cmb_pro_provincia.addItem(prov[1], prov[0])
-                var.dlg_filtrar_propiedades.ui.cmb_pro_provincia_filtrar.addItem(prov[1], prov[0])
 
     def abrir_dlg_propiedades_tipo():
         try:
             var.dlg_gestion_propiedad_tipo.show()
         except Exception as error:
             print("error en abrir gestión propiedades ", error)
-
-    def abrir_dlg_filtrar_propiedades():
-        try:
-            var.dlg_filtrar_propiedades.show()
-        except Exception as error:
-            print("error en abrir filtrado propiedades ", error)
 
     def resize_pro_tab(self):
         try:

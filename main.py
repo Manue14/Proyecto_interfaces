@@ -17,8 +17,8 @@ class Main(QtWidgets.QMainWindow):
         var.ui_calendar = Calendar()
         var.dlg_abrir = FileDialogAbrir()
         var.dlg_gestion_propiedad_tipo = DlgGestionPropiedadTipo()
-        var.dlg_filtrar_propiedades = DlgFiltrarPropiedades()
         self.setStyleSheet(styles.load_stylesheet())
+        styles.initialize_styles()
         conexion.Conexion.db_conexion(self)
         var.historico_cli = 1
         var.historico_pro = 1
@@ -79,13 +79,9 @@ class Main(QtWidgets.QMainWindow):
         eventos.Eventos.cargar_provincias(self)
         eventos.Eventos.cargar_municipios_cli(self)
         eventos.Eventos.cargar_municipios_pro(self)
-        eventos.Eventos.cargar_municipios_pro_filtrar(self)
         var.ui.cmb_cli_provincia.currentIndexChanged.connect(lambda: eventos.Eventos.cargar_municipios_cli(self, var.ui.cmb_cli_provincia.itemData(var.ui.cmb_cli_provincia.currentIndex())))
         var.ui.cmb_pro_provincia.currentIndexChanged.connect(lambda: eventos.Eventos.cargar_municipios_pro(self, var.ui.cmb_pro_provincia.itemData(var.ui.cmb_pro_provincia.currentIndex())))
-        var.dlg_filtrar_propiedades.ui.cmb_pro_provincia_filtrar.currentIndexChanged.connect(lambda: eventos.Eventos.cargar_municipios_pro_filtrar(self, var.dlg_filtrar_propiedades.ui.cmb_pro_provincia_filtrar.itemData(var.dlg_filtrar_propiedades.ui.cmb_pro_provincia_filtrar.currentIndex())))
         eventos.Eventos.cargar_propiedad_tipos(var.ui.cmb_pro_tipo)
-        eventos.Eventos.cargar_propiedad_tipos(var.dlg_filtrar_propiedades.ui.cmb_pro_tipo_filtrar)
-
 
         '''
         Zona eventos toolbar
@@ -93,7 +89,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.action_tool_salir.triggered.connect(eventos.Eventos.mensaje_salir)
         var.ui.action_tool_limpiar.triggered.connect(eventos.Eventos.limpiar_panel)
         var.ui.action_tool_gestionar_tipos_propiedad.triggered.connect(eventos.Eventos.abrir_dlg_propiedades_tipo)
-        var.ui.action_tool_filtrar_propiedades.triggered.connect(eventos.Eventos.abrir_dlg_filtrar_propiedades)
+        var.ui.action_tool_filtrar_propiedades.triggered.connect(propiedades.Propiedades.filtrar_propiedades)
         var.ui.action_exportar_propiedades_CSV.triggered.connect(eventos.Eventos.exportar_propiedades_csv)
         var.ui.action_exportar_propiedades_JSON.triggered.connect(eventos.Eventos.exportar_propiedades_json)
 

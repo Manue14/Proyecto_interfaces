@@ -7,6 +7,7 @@ import conexion_server
 import var
 import eventos
 import conexion
+import styles
 from datetime import datetime
 
 class Clientes:
@@ -39,10 +40,10 @@ class Clientes:
         try:
             dni = str(Clientes.campos["dni"].text())
             if eventos.Eventos.validar_dni(dni):
-                Clientes.campos["dni"].setProperty("cssClass", "obligatorio_valido")
+                styles.set_style(Clientes.campos["dni"], "obligatorio_valido")
                 Clientes.campos["dni"].setText(dni.upper())
             else:
-                Clientes.campos["dni"].setProperty("cssClass", "obligatorio_error")
+                styles.set_style(Clientes.campos["dni"], "obligatorio_error")
                 Clientes.campos["dni"].setText(None)
         except Exception as error:
             print("error check dni cliente", error)
@@ -53,11 +54,11 @@ class Clientes:
         try:
             mail = str(Clientes.campos["email"].text())
             if eventos.Eventos.validar_email(mail) or mail == "":
-                Clientes.campos["email"].setProperty("cssClass", "no_obligatorio_valido")
+                styles.set_style(Clientes.campos["email"], "no_obligatorio_valido")
                 Clientes.campos["email"].setText(mail.lower())
 
             else:
-                Clientes.campos["email"].setProperty("cssClass", "no_obligatorio_error")
+                styles.set_style(Clientes.campos["email"], "no_obligatorio_error")
                 Clientes.campos["email"].setText(None)
                 Clientes.campos["email"].setText("correo no válido")
                 Clientes.campos["email"].setFocus()
@@ -72,9 +73,9 @@ class Clientes:
             phone = str(Clientes.campos["movil"].text())
 
             if eventos.Eventos.validar_movil(phone):
-                Clientes.campos["movil"].setProperty("cssClass", "obligatorio_valido")
+                styles.set_style(Clientes.campos["movil"], "obligatorio_valido")
             else:
-                Clientes.campos["movil"].setProperty("cssClass", "obligatorio_error")
+                styles.set_style(Clientes.campos["movil"], "obligatorio_error")
                 Clientes.campos["movil"].setText(None)
                 Clientes.campos["movil"].setText("móvil no válido")
                 Clientes.campos["movil"].setFocus()
@@ -88,15 +89,9 @@ class Clientes:
             fecha = Clientes.campos["fecha_alta"].text()
 
             if eventos.Eventos.validar_fecha(fecha):
-                Clientes.campos["fecha_alta"].setStyleSheet('''QLineEdit#txt_cli_alta {border-bottom: 1px solid #fdba74;
-                                                                                background-color: #ffedd5;}
-                                                        QLineEdit#txt_cli_alta:focus {border-bottom: 1.5px solid #ea580c;
-                                                                                        background-color: #fed7aa;}''')
+                styles.set_style(Clientes.campos["fecha_alta"], "obligatorio_valido")
             else:
-                Clientes.campos["fecha_alta"].setStyleSheet('''QLineEdit#txt_cli_alta {border-bottom: 1px solid #f87171;
-                                                                                background-color: #fecaca;}
-                                                        QLineEdit#txt_cli_alta:focus {border-bottom: 1.5px solid #dc2626;
-                                                                                        background-color: #fca5a5;}''')
+                styles.set_style(Clientes.campos["movil"], "obligatorio_error")
                 Clientes.campos["fecha_alta"].setText(None)
                 Clientes.campos["fecha_alta"].setText("fecha no válida")
                 Clientes.campos["fecha_alta"].setFocus()
@@ -110,15 +105,9 @@ class Clientes:
             fecha = Clientes.campos["fecha_baja"].text()
 
             if eventos.Eventos.validar_fecha(fecha) or fecha == "":
-                Clientes.campos["fecha_baja"].setStyleSheet('''QLineEdit#txt_cli_baja {border-bottom: 1px solid #93c5fd;
-                                                                                background-color: #dbeafe;}
-                                                        QLineEdit#txt_cli_baja:focus {border-bottom: 1.5px solid #2563eb;
-                                                                                        background-color: #bfdbfe;}''')
+                styles.set_style(Clientes.campos["fecha_baja"], "no_obligatorio_valido")
             else:
-                Clientes.campos["fecha_baja"].setStyleSheet('''QLineEdit#txt_cli_baja {border-bottom: 1px solid #f87171;
-                                                                                background-color: #fecaca;}
-                                                        QLineEdit#txt_cli_baja:focus {border-bottom: 1.5px solid #dc2626;
-                                                                                        background-color: #fca5a5;}''')
+                styles.set_style(Clientes.campos["fecha_baja"], "no_obligatorio_error")
                 Clientes.campos["fecha_baja"].setText(None)
                 Clientes.campos["fecha_baja"].setText("fecha no válida")
                 Clientes.campos["fecha_baja"].setFocus()

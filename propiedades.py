@@ -7,6 +7,7 @@ import conexion
 import eventos
 import var
 import dlg_gestion_propiedad_tipo
+import styles
 
 class Propiedades():
     campos = {}
@@ -180,8 +181,8 @@ class Propiedades():
 
     def filtrar_propiedades():
         try:
-            tipo = var.dlg_filtrar_propiedades.ui.cmb_pro_tipo_filtrar.currentText()
-            municipio = var.dlg_filtrar_propiedades.ui.cmb_pro_municipio_filtrar.currentText()
+            tipo = Propiedades.campos["tipo"].currentText()
+            municipio = Propiedades.campos["municipio"].currentText()
             propiedades = conexion.Conexion.filtrar_propiedades(tipo, municipio)
             
 
@@ -378,15 +379,9 @@ class Propiedades():
             phone = str(Propiedades.campos["movil"].text())
 
             if eventos.Eventos.validar_movil(phone):
-                Propiedades.campos["movil"].setStyleSheet('''QLineEdit#txt_pro_movil {border-bottom: 1px solid #fdba74;
-                                                                                background-color: #ffedd5;}
-                                                        QLineEdit#txt_pro_movil:focus {border-bottom: 1.5px solid #ea580c;
-                                                                                        background-color: #fed7aa;}''')
+                styles.set_style(Propiedades.campos["movil"], "obligatorio_valido")
             else:
-                Propiedades.campos["movil"].setStyleSheet('''QLineEdit#txt_pro_movil {border-bottom: 1px solid #f87171;
-                                                                                background-color: #fecaca;}
-                                                        QLineEdit#txt_pro_movil:focus {border-bottom: 1.5px solid #dc2626;
-                                                                                        background-color: #fca5a5;}''')
+                styles.set_style(Propiedades.campos["movil"], "obligatorio_error")
                 Propiedades.campos["movil"].setText(None)
                 Propiedades.campos["movil"].setText("móvil no válido")
                 Propiedades.campos["movil"].setFocus()
@@ -400,15 +395,9 @@ class Propiedades():
             fecha = Propiedades.campos["fecha_alta"].text()
 
             if eventos.Eventos.validar_fecha(fecha):
-                Propiedades.campos["fecha_alta"].setStyleSheet('''QLineEdit#txt_pro_alta {border-bottom: 1px solid #fdba74;
-                                                                                background-color: #ffedd5;}
-                                                        QLineEdit#txt_pro_alta:focus {border-bottom: 1.5px solid #ea580c;
-                                                                                        background-color: #fed7aa;}''')
+                styles.set_style(Propiedades.campos["fecha_alta"], "obligatorio_valido")
             else:
-                Propiedades.campos["fecha_alta"].setStyleSheet('''QLineEdit#txt_pro_alta {border-bottom: 1px solid #f87171;
-                                                                                background-color: #fecaca;}
-                                                        QLineEdit#txt_pro_alta:focus {border-bottom: 1.5px solid #dc2626;
-                                                                                        background-color: #fca5a5;}''')
+                styles.set_style(Propiedades.campos["fecha_alta"], "obligatorio_error")
                 Propiedades.campos["fecha_alta"].setText(None)
                 Propiedades.campos["fecha_alta"].setText("fecha no válida")
                 Propiedades.campos["fecha_alta"].setFocus()
@@ -422,15 +411,9 @@ class Propiedades():
             postal = Propiedades.campos["postal"].text()
 
             if eventos.Eventos.validar_numero(postal):
-                Propiedades.campos["postal"].setStyleSheet('''QLineEdit#txt_pro_postal {border-bottom: 1px solid #fdba74;
-                                                                                background-color: #ffedd5;}
-                                                        QLineEdit#txt_pro_postal:focus {border-bottom: 1.5px solid #ea580c;
-                                                                                        background-color: #fed7aa;}''')
+                styles.set_style(Propiedades.campos["postal"], "obligatorio_valido")
             else:
-                Propiedades.campos["postal"].setStyleSheet('''QLineEdit#txt_pro_postal {border-bottom: 1px solid #f87171;
-                                                                                background-color: #fecaca;}
-                                                        QLineEdit#txt_pro_postal:focus {border-bottom: 1.5px solid #dc2626;
-                                                                                        background-color: #fca5a5;}''')
+                styles.set_style(Propiedades.campos["postal"], "obligatorio_error")
                 Propiedades.campos["postal"].setText(None)
                 Propiedades.campos["postal"].setText("CP no válido")
                 Propiedades.campos["postal"].setFocus()
@@ -444,15 +427,9 @@ class Propiedades():
             superficie = Propiedades.campos["superficie"].text()
 
             if eventos.Eventos.validar_numero(superficie):
-                Propiedades.campos["superficie"].setStyleSheet('''QLineEdit#txt_pro_superficie {border-bottom: 1px solid #fdba74;
-                                                                                background-color: #ffedd5;}
-                                                        QLineEdit#txt_pro_superficie:focus {border-bottom: 1.5px solid #ea580c;
-                                                                                        background-color: #fed7aa;}''')
+                styles.set_style(Propiedades.campos["superficie"], "obligatorio_valido")
             else:
-                Propiedades.campos["superficie"].setStyleSheet('''QLineEdit#txt_pro_superficie {border-bottom: 1px solid #f87171;
-                                                                                background-color: #fecaca;}
-                                                        QLineEdit#txt_pro_superficie:focus {border-bottom: 1.5px solid #dc2626;
-                                                                                        background-color: #fca5a5;}''')
+                styles.set_style(Propiedades.campos["superficie"], "obligatorio_error")
                 Propiedades.campos["superficie"].setText(None)
                 Propiedades.campos["superficie"].setText("Valor no válido")
                 Propiedades.campos["superficie"].setFocus()
@@ -466,15 +443,9 @@ class Propiedades():
             fecha = Propiedades.campos["fecha_baja"].text()
 
             if eventos.Eventos.validar_fecha(fecha) or fecha == "":
-                Propiedades.campos["fecha_baja"].setStyleSheet('''QLineEdit#txt_pro_baja {border-bottom: 1px solid #93c5fd;
-                                                                                background-color: #dbeafe;}
-                                                        QLineEdit#txt_pro_baja:focus {border-bottom: 1.5px solid #2563eb;
-                                                                                        background-color: #bfdbfe;}''')
+                styles.set_style(Propiedades.campos["fecha_baja"], "no_obligatorio_valido")
             else:
-                Propiedades.campos["fecha_baja"].setStyleSheet('''QLineEdit#txt_pro_baja {border-bottom: 1px solid #f87171;
-                                                                                background-color: #fecaca;}
-                                                        QLineEdit#txt_pro_baja:focus {border-bottom: 1.5px solid #dc2626;
-                                                                                        background-color: #fca5a5;}''')
+                styles.set_style(Propiedades.campos["fecha_baja"], "no_obligatorio_error")
                 Propiedades.campos["fecha_baja"].setText(None)
                 Propiedades.campos["fecha_baja"].setText("fecha no válida")
                 Propiedades.campos["fecha_baja"].setFocus()
@@ -488,15 +459,9 @@ class Propiedades():
             precio_alquiler = Propiedades.campos["precio_alquiler"].text()
 
             if eventos.Eventos.validar_numero(precio_alquiler) or precio_alquiler == "":
-                Propiedades.campos["precio_alquiler"].setStyleSheet('''QLineEdit#txt_pro_precio_alquiler {border-bottom: 1px solid #93c5fd;
-                                                                                background-color: #dbeafe;}
-                                                        QLineEdit#txt_pro_precio_alquiler:focus {border-bottom: 1.5px solid #2563eb;
-                                                                                        background-color: #bfdbfe;}''')
+                styles.set_style(Propiedades.campos["precio_alquiler"], "no_obligatorio_valido")
             else:
-                Propiedades.campos["precio_alquiler"].setStyleSheet('''QLineEdit#txt_pro_precio_alquiler {border-bottom: 1px solid #f87171;
-                                                                                background-color: #fecaca;}
-                                                        QLineEdit#txt_pro_precio_alquiler:focus {border-bottom: 1.5px solid #dc2626;
-                                                                                        background-color: #fca5a5;}''')
+                styles.set_style(Propiedades.campos["precio_alquiler"], "no_obligatorio_error")
                 Propiedades.campos["precio_alquiler"].setText(None)
                 Propiedades.campos["precio_alquiler"].setText("Valor no válido")
                 Propiedades.campos["precio_alquiler"].setFocus()
@@ -510,15 +475,9 @@ class Propiedades():
             precio_venta = Propiedades.campos["precio_venta"].text()
 
             if eventos.Eventos.validar_numero(precio_venta) or precio_venta == "":
-                Propiedades.campos["precio_venta"].setStyleSheet('''QLineEdit#txt_pro_precio_venta {border-bottom: 1px solid #93c5fd;
-                                                                                background-color: #dbeafe;}
-                                                        QLineEdit#txt_pro_precio_venta:focus {border-bottom: 1.5px solid #2563eb;
-                                                                                        background-color: #bfdbfe;}''')
+                styles.set_style(Propiedades.campos["precio_venta"], "no_obligatorio_valido")
             else:
-                Propiedades.campos["precio_venta"].setStyleSheet('''QLineEdit#txt_pro_precio_venta {border-bottom: 1px solid #f87171;
-                                                                                background-color: #fecaca;}
-                                                        QLineEdit#txt_pro_precio_venta:focus {border-bottom: 1.5px solid #dc2626;
-                                                                                        background-color: #fca5a5;}''')
+                styles.set_style(Propiedades.campos["precio_venta"], "no_obligatorio_error")
                 Propiedades.campos["precio_venta"].setText(None)
                 Propiedades.campos["precio_venta"].setText("Valor no válido")
                 Propiedades.campos["precio_venta"].setFocus()

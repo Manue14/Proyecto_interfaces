@@ -4,7 +4,6 @@ import var
 import eventos
 from dlg_gestion_propiedad_tipo import *
 import propiedades
-from dlg_filtrar_propiedades import *
 
 class Calendar(QtWidgets.QDialog):
     def __init__(self):
@@ -29,10 +28,3 @@ class DlgGestionPropiedadTipo(QtWidgets.QDialog):
         self.ui.setupUi(self)
         self.ui.btn_pro_tipo_alta.clicked.connect(propiedades.Propiedades.alta_tipo_propiedad)
         self.ui.btn_pro_tipo_eliminar.clicked.connect(propiedades.Propiedades.baja_tipo_propiedad)
-
-class DlgFiltrarPropiedades(QtWidgets.QDialog):
-    def __init__(self):
-        super(DlgFiltrarPropiedades, self).__init__()
-        self.ui = Ui_DlgFiltrarPropiedades()
-        self.ui.setupUi(self)
-        self.ui.btn_pro_filtrar.clicked.connect(propiedades.Propiedades.filtrar_propiedades)
