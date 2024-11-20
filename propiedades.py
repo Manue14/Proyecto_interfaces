@@ -168,16 +168,6 @@ class Propiedades():
         else:
             eventos.Eventos.mensaje_error("Aviso", "Seleccione una propiedad a dar de baja")
         return
-    
-    def set_historico_propiedad(self):
-        try:
-            if var.ui.chk_pro_historico.isChecked():
-                var.historico_pro = 0
-            else:
-                var.historico_pro = 1
-            Propiedades.cargar_pro_tab()
-        except Exception as Error:
-            print("checkbox histórico", Error)
 
     def filtrar_propiedades():
         try:

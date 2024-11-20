@@ -146,16 +146,6 @@ class Clientes:
         except Exception as e:
             print("error cargar_cli_tab", e)
 
-    def set_historico_cliente(self):
-        try:
-            if var.ui.chk_cli_historico.isChecked():
-                var.historico_cli = 0
-            else:
-                var.historico_cli = 1
-            Clientes.cargar_cli_tab()
-        except Exception as Error:
-            print("checkbox histórico", Error)
-
     def check_existe_cli(dni):
         cliente = conexion.Conexion.get_cliente(dni)
         if (cliente["dni"] == ""):

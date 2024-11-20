@@ -8,10 +8,12 @@ import clientes
 from ventana_auxiliar import *
 import conexion_server
 import propiedades
+import state_manager
 
 class Main(QtWidgets.QMainWindow):
     def __init__(self):
         super(Main, self).__init__()
+        var.state_manager = state_manager.StateManager()
         var.ui = Ui_VentanaPrincipal()
         var.ui.setupUi(self)
         var.ui_calendar = Calendar()
@@ -20,8 +22,6 @@ class Main(QtWidgets.QMainWindow):
         self.setStyleSheet(styles.load_stylesheet())
         styles.initialize_styles()
         conexion.Conexion.db_conexion(self)
-        var.historico_cli = 1
-        var.historico_pro = 1
         #conexionserver.ConexionServer.crear_conexion(self)
         clientes.Clientes.cargar_cli_tab()
         propiedades.Propiedades.cargar_pro_tab()
@@ -103,8 +103,8 @@ class Main(QtWidgets.QMainWindow):
         '''
         Zona eventos checkbox
         '''
-        var.ui.chk_cli_historico.stateChanged.connect(clientes.Clientes.set_historico_cliente)
-        var.ui.chk_pro_historico.stateChanged.connect(propiedades.Propiedades.set_historico_propiedad)
+        var.ui.chk_cli_historico.stateChanged.connect(lambda: var.state_manager.change_state("historico_cli", var.ui.chk_cli_historico.isChecked()))
+        var.ui.chk_pro_historico.stateChanged.connect(lambda: var.state_manager.change_state("historico_pro", var.ui.chk_pro_historico.isChecked))
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
