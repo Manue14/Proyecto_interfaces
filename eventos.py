@@ -253,7 +253,94 @@ class Eventos:
             return data
         except Exception as error:
             print("error en cargar fecha: ", error)
-        
+
+    def cargar_tabla_clientes():
+        index = 0
+        var.ui.tab_cli.verticalHeader().setVisible(False)
+        clientes = var.state_manager.state["cliente_query_object"]
+
+        for cliente in clientes:
+            var.ui.tab_cli.setRowCount(index + 1)
+            var.ui.tab_cli.setItem(index, 0, QtWidgets.QTableWidgetItem(cliente["dni"]))
+            var.ui.tab_cli.setItem(index, 1, QtWidgets.QTableWidgetItem(cliente["apellido"]))
+            var.ui.tab_cli.setItem(index, 2, QtWidgets.QTableWidgetItem(cliente["nombre"]))
+            var.ui.tab_cli.setItem(index, 3, QtWidgets.QTableWidgetItem("  " + cliente["movil"] + "  "))
+            var.ui.tab_cli.setItem(index, 4, QtWidgets.QTableWidgetItem(cliente["provincia"]))
+            var.ui.tab_cli.setItem(index, 5, QtWidgets.QTableWidgetItem(cliente["municipio"]))
+            var.ui.tab_cli.setItem(index, 6, QtWidgets.QTableWidgetItem("  " + cliente["fecha_baja"] + "  "))
+
+            '''
+            var.ui.tab_cli.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+            var.ui.tab_cli.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+            var.ui.tab_cli.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+            var.ui.tab_cli.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+            var.ui.tab_cli.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+            var.ui.tab_cli.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+            var.ui.tab_cli.item(index, 6).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+            '''
+
+            var.ui.tab_cli.item(index, 0)
+            var.ui.tab_cli.item(index, 1)
+            var.ui.tab_cli.item(index, 2)
+            var.ui.tab_cli.item(index, 3)
+            var.ui.tab_cli.item(index, 4)
+            var.ui.tab_cli.item(index, 5)
+            var.ui.tab_cli.item(index, 6)
+
+            index += 1
+
+    def cargar_tabla_propiedades():
+        index = 0
+        propiedades = var.state_manager.state["propiedad_query_object"]
+        if propiedades:
+            for propiedad in propiedades:
+                var.ui.tab_pro.setRowCount(index + 1)
+                var.ui.tab_pro.setItem(index, 0, QtWidgets.QTableWidgetItem(propiedad["codigo"]))
+                var.ui.tab_pro.setItem(index, 1, QtWidgets.QTableWidgetItem(propiedad["municipio"]))
+                var.ui.tab_pro.setItem(index, 2, QtWidgets.QTableWidgetItem(propiedad["tipo"]))
+                var.ui.tab_pro.setItem(index, 3, QtWidgets.QTableWidgetItem(propiedad["habitaciones"]))
+                var.ui.tab_pro.setItem(index, 4, QtWidgets.QTableWidgetItem(propiedad["banos"]))
+                var.ui.tab_pro.setItem(index, 5, QtWidgets.QTableWidgetItem(
+                    propiedad["precio_alquiler"] + " €" if propiedad["precio_alquiler"] else "-"))
+                var.ui.tab_pro.setItem(index, 6, QtWidgets.QTableWidgetItem(
+                    propiedad["precio_venta"] + " €" if propiedad["precio_venta"] else "-"))
+                var.ui.tab_pro.setItem(index, 7, QtWidgets.QTableWidgetItem(propiedad["operaciones"]))
+                var.ui.tab_pro.setItem(index, 8, QtWidgets.QTableWidgetItem(propiedad["fecha_baja"]))
+
+                var.ui.tab_pro.item(index, 0)
+                var.ui.tab_pro.item(index, 1)
+                var.ui.tab_pro.item(index, 2)
+                var.ui.tab_pro.item(index, 3)
+                var.ui.tab_pro.item(index, 4)
+                var.ui.tab_pro.item(index, 5)
+                var.ui.tab_pro.item(index, 6)
+                var.ui.tab_pro.item(index, 7)
+                var.ui.tab_pro.item(index, 8)
+
+                index += 1
+        else:
+
+            var.ui.tab_pro.setRowCount(index + 1)
+            var.ui.tab_pro.setItem(index, 0, QtWidgets.QTableWidgetItem(""))
+            var.ui.tab_pro.setItem(index, 1, QtWidgets.QTableWidgetItem(""))
+            var.ui.tab_pro.setItem(index, 2, QtWidgets.QTableWidgetItem("No se encontraron propiedades"))
+            var.ui.tab_pro.setItem(index, 3, QtWidgets.QTableWidgetItem(""))
+            var.ui.tab_pro.setItem(index, 4, QtWidgets.QTableWidgetItem(""))
+            var.ui.tab_pro.setItem(index, 5, QtWidgets.QTableWidgetItem(""))
+            var.ui.tab_pro.setItem(index, 6, QtWidgets.QTableWidgetItem(""))
+            var.ui.tab_pro.setItem(index, 7, QtWidgets.QTableWidgetItem(""))
+            var.ui.tab_pro.setItem(index, 8, QtWidgets.QTableWidgetItem(""))
+
+            var.ui.tab_pro.item(index, 0)
+            var.ui.tab_pro.item(index, 1)
+            var.ui.tab_pro.item(index, 2)
+            var.ui.tab_pro.item(index, 3)
+            var.ui.tab_pro.item(index, 4)
+            var.ui.tab_pro.item(index, 5)
+            var.ui.tab_pro.item(index, 6)
+            var.ui.tab_pro.item(index, 7)
+            var.ui.tab_pro.item(index, 8)
+
     def resize_cli_tab(self):
         try:
             header = var.ui.tab_cli.horizontalHeader()
@@ -269,6 +356,20 @@ class Eventos:
         except Exception as error:
             print("error en resize tabla clientes: " + error)
 
+    def resize_pro_tab(self):
+        try:
+            header = var.ui.tab_pro.horizontalHeader()
+            for i in range(header.count()):
+                if (i == 1 or i == 2):
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
+                else:
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                header_items = var.ui.tab_pro.horizontalHeaderItem(i)
+                font = header_items.font()
+                font.setBold(True)
+                header_items.setFont(font)
+        except Exception as error:
+            print("error en resize tabla propiedades: " + error)
 
     def crear_backup(self):
         try:
@@ -348,21 +449,6 @@ class Eventos:
             var.dlg_gestion_propiedad_tipo.show()
         except Exception as error:
             print("error en abrir gestión propiedades ", error)
-
-    def resize_pro_tab(self):
-        try:
-            header = var.ui.tab_pro.horizontalHeader()
-            for i in range(header.count()):
-                if (i == 1 or i == 2):
-                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
-                else:
-                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
-                header_items = var.ui.tab_pro.horizontalHeaderItem(i)
-                font = header_items.font()
-                font.setBold(True)
-                header_items.setFont(font)
-        except Exception as error:
-            print("error en resize tabla propiedades: " + error)
 
     def cargar_propiedad_tipos(cmb):
         registro = conexion.Conexion.cargar_propiedad_tipos()
