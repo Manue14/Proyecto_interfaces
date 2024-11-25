@@ -134,13 +134,9 @@ QPushButton#btn_cli_eliminar:hover, QPushButton#btn_pro_eliminar:hover {
 	background-color: #fca5a5; /*Red 300*/
 }
 
-
-
-
-
-
-
-
+QPushButton:disabled {
+    background-color: #ffffff;
+}
 
 
 

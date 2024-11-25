@@ -12,7 +12,7 @@ from datetime import datetime
 
 class Clientes:
     campos = {}
-
+    botones = {}
     def inicializar_campos():
         Clientes.campos = {
             "dni": var.ui.txt_cli_dni,
@@ -25,6 +25,15 @@ class Clientes:
             "provincia": var.ui.cmb_cli_provincia,
             "municipio": var.ui.cmb_cli_municipio,
             "fecha_baja": var.ui.txt_cli_baja
+        }
+
+    def inicializar_botones():
+        Clientes.botones = {
+            "btn_grabar": var.ui.btn_cli_grabar,
+            "btn_modificar": var.ui.btn_cli_modificar,
+            "btn_eliminar": var.ui.btn_cli_eliminar,
+            "btn_alta": var.ui.btn_cli_alta,
+            "btn_baja": var.ui.btn_cli_baja
         }
 
     def construir_cliente():
@@ -47,9 +56,9 @@ class Clientes:
             cliente = Clientes.construir_cliente()
             if conexion.Conexion.alta_cliente(cliente):
                 eventos.Eventos.mensaje_exito("Aviso", "Alta cliente en la base de datos")
+                var.state_manager.change_state("cliente_query_object", conexion.Conexion.listar_clientes())
             else:
                 eventos.Eventos.mensaje_error("Aviso", "El cliente ya existe")
-            clientes.Clientes.cargar_cli_tab()
         except Exception as error:
             print("error alta cliente", error)
 
@@ -66,10 +75,9 @@ class Clientes:
                 return
             if conexion.Conexion.modificar_cliente(cliente):
                 eventos.Eventos.mensaje_exito("Aviso", "Datos cliente modificados correctamente")
-                clientes.Clientes.cargar_cli_tab()
+                var.state_manager.change_state("cliente_query_object", conexion.Conexion.listar_clientes())
             else:
                 eventos.Eventos.mensaje_error("Aviso", "Error al modificar los datos del cliente")
-            clientes.Clientes.cargar_cli_tab()
         except Exception as error:
             print("error modificar_cliente", error)
 
@@ -85,10 +93,9 @@ class Clientes:
             
             if conexion.Conexion.baja_cliente(cliente):
                 eventos.Eventos.mensaje_exito("Aviso", "Cliente dado de baja")
-                clientes.Clientes.cargar_cli_tab()
+                var.state_manager.change_state("cliente_query_object", conexion.Conexion.listar_clientes())
             else:
                 eventos.Eventos.mensaje_error("Aviso", "Error baja cliente: cliente no existe o dado de baja")
-            clientes.Clientes.cargar_cli_tab()
         except Exception as error:
             print("error baja_cliente", error)
 
@@ -105,46 +112,6 @@ class Clientes:
                     Clientes.campos[key].setText(cliente[key])
         except Exception as error:
             print("error cargar_cliente", error)
-
-    @staticmethod
-    def cargar_cli_tab():
-        try:
-            clientes = conexion.Conexion.listar_clientes()
-            #listado = conexionserver.ConexionServer.listar_clientes(self)
-            index = 0
-            var.ui.tab_cli.verticalHeader().setVisible(False)
-            for cliente in clientes:
-                var.ui.tab_cli.setRowCount(index + 1)
-                var.ui.tab_cli.setItem(index, 0, QtWidgets.QTableWidgetItem(cliente["dni"]))
-                var.ui.tab_cli.setItem(index, 1, QtWidgets.QTableWidgetItem(cliente["apellido"]))
-                var.ui.tab_cli.setItem(index, 2, QtWidgets.QTableWidgetItem(cliente["nombre"]))
-                var.ui.tab_cli.setItem(index, 3, QtWidgets.QTableWidgetItem("  " + cliente["movil"] + "  "))
-                var.ui.tab_cli.setItem(index, 4, QtWidgets.QTableWidgetItem(cliente["provincia"]))
-                var.ui.tab_cli.setItem(index, 5, QtWidgets.QTableWidgetItem(cliente["municipio"]))
-                var.ui.tab_cli.setItem(index, 6, QtWidgets.QTableWidgetItem("  " + cliente["fecha_baja"] + "  "))
-
-                '''
-                var.ui.tab_cli.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-                var.ui.tab_cli.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tab_cli.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tab_cli.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-                var.ui.tab_cli.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tab_cli.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-                var.ui.tab_cli.item(index, 6).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-                '''
-
-                var.ui.tab_cli.item(index, 0)
-                var.ui.tab_cli.item(index, 1)
-                var.ui.tab_cli.item(index, 2)
-                var.ui.tab_cli.item(index, 3)
-                var.ui.tab_cli.item(index, 4)
-                var.ui.tab_cli.item(index, 5)
-                var.ui.tab_cli.item(index, 6)
-
-                index += 1
-
-        except Exception as e:
-            print("error cargar_cli_tab", e)
 
     def check_existe_cli(dni):
         cliente = conexion.Conexion.get_cliente(dni)

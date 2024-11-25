@@ -445,13 +445,8 @@ class Conexion:
             keys = list(propiedad.keys())
 
             query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM propiedades WHERE tipoprop = :tipoprop AND muniprop = :muniprop ORDER BY muniprop ASC;")
 
-            if var.state_manager.state["historico_pro"] == False:
-                query.prepare("SELECT * FROM propiedades WHERE tipoprop = :tipoprop AND muniprop = :muniprop AND bajaprop is NULL ORDER BY muniprop ASC;")
-            else:
-                query.prepare("SELECT * FROM propiedades WHERE tipoprop = :tipoprop AND muniprop = :muniprop ORDER BY muniprop ASC:")
-
-            
             query.bindValue(":tipoprop", tipo)
             query.bindValue(":muniprop", municipio)
 

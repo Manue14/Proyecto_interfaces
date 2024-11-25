@@ -24,8 +24,6 @@ class Main(QtWidgets.QMainWindow):
         self.setStyleSheet(styles.load_stylesheet())
         styles.initialize_styles()
         #conexionserver.ConexionServer.crear_conexion(self)
-        #clientes.Clientes.cargar_cli_tab()
-        #propiedades.Propiedades.cargar_pro_tab()
         eventos.Eventos.cargar_tabla_clientes()
         eventos.Eventos.cargar_tabla_propiedades()
 

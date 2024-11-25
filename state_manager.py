@@ -4,6 +4,7 @@ import eventos
 import conexion
 import var
 
+
 class StateManager:
     state = {
         "panel": 0,
@@ -11,6 +12,8 @@ class StateManager:
         "historico_pro": False,
         "cliente_query_object": [],
         "propiedad_query_object": [],
+        "baja_cliente": False,
+        "baja_propiedad": False
     }
 
     def __init__(self):
@@ -34,6 +37,16 @@ class StateManager:
         except Exception as e:
             print(e)
 
+    def manage_cliente_state():
+        clientes.Clientes.inicializar_botones()
+        if StateManager.state["baja_cliente"] == True:
+            clientes.Clientes.botones["btn_grabar"].setEnabled(False)
+            clientes.Clientes.botones["btn_eliminar"].setEnabled(True)
+        else:
+            clientes.Clientes.botones["btn_grabar"].setEnabled(True)
+            clientes.Clientes.botones["btn_eliminar"].setEnabled(False)
+
     def update_state():
         eventos.Eventos.cargar_tabla_clientes()
         eventos.Eventos.cargar_tabla_propiedades()
+        StateManager.manage_cliente_state()

@@ -131,11 +131,22 @@ class Eventos:
             fecha = widget.text()
             if Eventos.validar_fecha(fecha) or fecha == "":
                 styles.set_style(widget, "no_obligatorio_valido")
+                if var.ui.panel_principal.currentIndex() == 0:
+                    if fecha != "":
+                        var.state_manager.change_state("baja_cliente", True)
+                    else:
+                        var.state_manager.change_state("baja_cliente", False)
+                elif var.ui.panel_principal.currentIndex() == 1:
+                    pass
             else:
                 styles.set_style(widget, "no_obligatorio_error")
                 widget.setText(None)
                 widget.setText("fecha no válida")
                 widget.setFocus()
+                if var.ui.panel_principal.currentIndex() == 0:
+                    var.state_manager.change_state("baja_cliente", False)
+                elif var.ui.panel_principal.currentIndex() == 1:
+                    pass
         except Exception as error:
             print("Error al validar la fecha de baja", error)
 
@@ -435,6 +446,7 @@ class Eventos:
                     pass
                 else:
                     value.setText("")
+            var.state_manager.change_state("cliente_query_object", conexion.Conexion.listar_clientes())
 
         if var.ui.panel_principal.currentIndex() == 1:
             propiedades.Propiedades.inicializar_campos()
@@ -458,8 +470,7 @@ class Eventos:
                 else:
                     value.setText("")
             Eventos.cargar_propiedad_tipos(propiedades.Propiedades.campos["tipo"])
-
-        propiedades.Propiedades.cargar_pro_tab()
+            var.state_manager.change_state("propiedad_query_object", conexion.Conexion.listar_propiedades())
 
     def abrir_dlg_propiedades_tipo():
         try:

@@ -115,7 +115,7 @@ class Propiedades():
                 eventos.Eventos.mensaje_exito("Aviso", "Propiedad dada de alta con éxito")
             else:
                 eventos.Eventos.mensaje_error("Aviso", "No se pudo dar de alta la propiedad")
-            Propiedades.cargar_pro_tab()
+            var.state_manager.change_state("propiedad_query_object", conexion.Conexion.listar_propiedades())
         except Exception as e:
             print("error en en alta de una propiedad")
 
@@ -138,7 +138,7 @@ class Propiedades():
                     eventos.Eventos.mensaje_exito("Aviso", "Propiedad modificada con éxito")
                 else:
                     eventos.Eventos.mensaje_error("Aviso", "No se pudo modificar la propiedad")
-                Propiedades.cargar_pro_tab()
+                var.state_manager.change_state("propiedad_query_object", conexion.Conexion.listar_propiedades())
             except Exception as e:
                 print("Error al modificar la propiedad", e)
 
@@ -161,7 +161,7 @@ class Propiedades():
                     eventos.Eventos.mensaje_exito("Aviso", "Propiedad dada de baja con éxito")
                 else:
                     eventos.Eventos.mensaje_error("Aviso", "No se pudo dar de baja la propiedad")
-                Propiedades.cargar_pro_tab()
+                var.state_manager.change_state("propiedad_query_object", conexion.Conexion.listar_propiedades())
             except Exception as e:
                 print("Error al dar de baja la propiedad", e)
 
@@ -174,73 +174,10 @@ class Propiedades():
             tipo = Propiedades.campos["tipo"].currentText()
             municipio = Propiedades.campos["municipio"].currentText()
             propiedades = conexion.Conexion.filtrar_propiedades(tipo, municipio)
-            
-            Propiedades.construir_pro_tab(propiedades)
 
+            var.state_manager.change_state("propiedad_query_object", propiedades)
         except Exception as error:
             print("Error al filtrar las propiedades", error)
-
-    @staticmethod
-    def cargar_pro_tab():
-        try:
-            propiedades = conexion.Conexion.listar_propiedades()
-            Propiedades.construir_pro_tab(propiedades)
-        except Exception as error:
-            print("Error al cargar la tabal de propiedades", error)
-
-    def construir_pro_tab(propiedades):
-        index = 0
-        var.ui.tab_pro.verticalHeader().setVisible(False)
-
-        if propiedades:
-            for propiedad in propiedades:
-                var.ui.tab_pro.setRowCount(index + 1)
-                var.ui.tab_pro.setItem(index, 0, QtWidgets.QTableWidgetItem(propiedad["codigo"]))
-                var.ui.tab_pro.setItem(index, 1, QtWidgets.QTableWidgetItem(propiedad["municipio"]))
-                var.ui.tab_pro.setItem(index, 2, QtWidgets.QTableWidgetItem(propiedad["tipo"]))
-                var.ui.tab_pro.setItem(index, 3, QtWidgets.QTableWidgetItem(propiedad["habitaciones"]))
-                var.ui.tab_pro.setItem(index, 4, QtWidgets.QTableWidgetItem(propiedad["banos"]))
-                var.ui.tab_pro.setItem(index, 5, QtWidgets.QTableWidgetItem(
-                    propiedad["precio_alquiler"] + " €" if propiedad["precio_alquiler"] else "-"))
-                var.ui.tab_pro.setItem(index, 6, QtWidgets.QTableWidgetItem(
-                    propiedad["precio_venta"] + " €" if propiedad["precio_venta"] else "-"))
-                var.ui.tab_pro.setItem(index, 7, QtWidgets.QTableWidgetItem(propiedad["operaciones"]))
-                var.ui.tab_pro.setItem(index, 8, QtWidgets.QTableWidgetItem(propiedad["fecha_baja"]))
-
-                var.ui.tab_pro.item(index, 0)
-                var.ui.tab_pro.item(index, 1)
-                var.ui.tab_pro.item(index, 2)
-                var.ui.tab_pro.item(index, 3)
-                var.ui.tab_pro.item(index, 4)
-                var.ui.tab_pro.item(index, 5)
-                var.ui.tab_pro.item(index, 6)
-                var.ui.tab_pro.item(index, 7)
-                var.ui.tab_pro.item(index, 8)
-
-                index += 1
-        else:
-
-            var.ui.tab_pro.setRowCount(index + 1)
-            var.ui.tab_pro.setItem(index, 0, QtWidgets.QTableWidgetItem(""))
-            var.ui.tab_pro.setItem(index, 1, QtWidgets.QTableWidgetItem(""))
-            var.ui.tab_pro.setItem(index, 2, QtWidgets.QTableWidgetItem("No se encontraron propiedades"))
-            var.ui.tab_pro.setItem(index, 3, QtWidgets.QTableWidgetItem(""))
-            var.ui.tab_pro.setItem(index, 4, QtWidgets.QTableWidgetItem(""))
-            var.ui.tab_pro.setItem(index, 5, QtWidgets.QTableWidgetItem(""))
-            var.ui.tab_pro.setItem(index, 6, QtWidgets.QTableWidgetItem(""))
-            var.ui.tab_pro.setItem(index, 7, QtWidgets.QTableWidgetItem(""))
-            var.ui.tab_pro.setItem(index, 8, QtWidgets.QTableWidgetItem(""))
-
-
-            var.ui.tab_pro.item(index, 0)
-            var.ui.tab_pro.item(index, 1)
-            var.ui.tab_pro.item(index, 2)
-            var.ui.tab_pro.item(index, 3)
-            var.ui.tab_pro.item(index, 4)
-            var.ui.tab_pro.item(index, 5)
-            var.ui.tab_pro.item(index, 6)
-            var.ui.tab_pro.item(index, 7)
-            var.ui.tab_pro.item(index, 8)
 
     def cargar_propiedad(self):
         Propiedades.inicializar_campos()
