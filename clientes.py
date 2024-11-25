@@ -33,7 +33,8 @@ class Clientes:
             "btn_modificar": var.ui.btn_cli_modificar,
             "btn_eliminar": var.ui.btn_cli_eliminar,
             "btn_alta": var.ui.btn_cli_alta,
-            "btn_baja": var.ui.btn_cli_baja
+            "btn_baja": var.ui.btn_cli_baja,
+            "btn_buscar": var.ui.btn_cli_buscar
         }
 
     def construir_cliente():
@@ -110,8 +111,23 @@ class Clientes:
                     Clientes.campos[key].setCurrentText(cliente[key])
                 else:
                     Clientes.campos[key].setText(cliente[key])
+            eventos.Eventos.observar_fecha_baja(Clientes.campos["fecha_baja"])
         except Exception as error:
             print("error cargar_cliente", error)
+
+    def buscar_cliente():
+        Clientes.inicializar_campos()
+        try:
+            dni = Clientes.campos["dni"].text()
+            cliente = conexion.Conexion.get_cliente(dni)
+            for key in cliente:
+                if key == "provincia" or key == "municipio":
+                    Clientes.campos[key].setCurrentText(cliente[key])
+                else:
+                    Clientes.campos[key].setText(cliente[key])
+            eventos.Eventos.observar_fecha_baja(Clientes.campos["fecha_baja"])
+        except Exception as error:
+            print("Error al buscar cliente", error)
 
     def check_existe_cli(dni):
         cliente = conexion.Conexion.get_cliente(dni)

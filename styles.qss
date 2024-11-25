@@ -65,14 +65,14 @@ QToolbar {
 }
 
 *[qssClass="no_obligatorio_error"] {
-    border-bottom: 1px solid #f87171;
-    background-color: #fecaca;
+    border-bottom: 1px solid #f87171; /*Red 400*/
+    background-color: #fecaca; /*Red 200*/
     border-radius: 2px 2px 0px 2px;
 }
 
 *[qssClass="no_obligatorio_error"]:focus {
-    border-bottom: 1.5px solid #dc2626;
-    background-color: #fca5a5;
+    border-bottom: 1.5px solid #dc2626; /*Red 600*/
+    background-color: #fca5a5; /*Red 300*/
     border-radius: 2px 2px 0px 2px;
 }
 /* ---- Estilos campos obligatorios ---- */
@@ -91,14 +91,14 @@ QToolbar {
 }
 
 *[qssClass="obligatorio_error"] {
-    border-bottom: 1px solid #f87171;
-    background-color: #fecaca;
+    border-bottom: 1px solid #f87171; /*Red 400*/
+    background-color: #fecaca; /*Red 200*/
     border-radius: 2px 2px 0px 2px;
 }
 
 *[qssClass="obligatorio_error"]:focus {
-    border-bottom: 1.5px solid #dc2626;
-    background-color: #fca5a5;
+    border-bottom: 1.5px solid #dc2626; /*Red 600*/
+    background-color: #fca5a5; /*Red 300*/
     border-radius: 2px 2px 0px 2px;
 }
 
@@ -134,66 +134,11 @@ QPushButton#btn_cli_eliminar:hover, QPushButton#btn_pro_eliminar:hover {
 	background-color: #fca5a5; /*Red 300*/
 }
 
-QPushButton:disabled {
-    background-color: #ffffff;
+QPushButton#btn_cli_grabar:disabled, QPushButton#btn_cli_modificar:disabled,
+QPushButton#btn_pro_grabar:disabled, QPushButton#btn_pro_modificar:disabled {
+    background-color: #bfdbfe; /*Blue 200*/
 }
 
-
-
-
-
-
-
-
-'xuntaNaranja': {
-          50: '#fee7cd',
-          100: '#fdcf9b',
-          200: '#fdb768',
-          300: '#fca036',
-          400: '#fc972c',
-          500: '#fb8004',
-          600: '#c96603',
-          700: '#b05903',
-          800: '#974d02',
-          900: '#643302',
-          950: '#321a01'
-        },
-        'xuntaAzul': {
-          50: '#d3e7f8',
-          100: '#bddcf5',
-          200: '#a7d0f1',
-          300: '#91c4ee',
-          400: '#65ace7',
-          500: '#3895e0',
-          600: '#1f7bc7',
-          700: '#18609a',
-          800: '#11446e',
-          900: '#0e3758',
-          950: '#0a2942'
-        },
-        'xuntaGris': {
-          50: '#edeff5',
-          100: '#cfd4e3',
-          200: '#c0c6d8',
-          300: '#b3b9cc',
-          400: '#989fb3',
-          500: '#808699',
-          600: '#666c7f',
-          700: '#4f5463',
-          800: '#444855',
-          900: '#393c47',
-          950: '#2d3039'
-        },
-        'xuntaRojo': {
-          50: '#fdd3ce',
-          100: '#fcbcb5',
-          200: '#fba69d',
-          300: '#fb9489',
-          400: '#fa8072',
-          500: '#f84a3a',
-          600: '#f73322',
-          700: '#dd1a08',
-          800: '#c51707',
-          900: '#ac1406',
-          950: '#7b0e04'
-        }
+QPushButton#btn_cli_eliminar:disabled, QPushButton#btn_pro_eliminar:disabled {
+    background-color: #fecaca; /*Red 200*/
+}

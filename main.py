@@ -18,6 +18,7 @@ class Main(QtWidgets.QMainWindow):
         conexion.Conexion.db_conexion(self)
         var.state_manager = state_manager.StateManager()
         var.state_manager.default_queries()
+        state_manager.StateManager.update_state()
         var.ui_calendar = Calendar()
         var.dlg_abrir = FileDialogAbrir()
         var.dlg_gestion_propiedad_tipo = DlgGestionPropiedadTipo()
@@ -69,6 +70,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btn_cli_eliminar.clicked.connect(clientes.Clientes.baja_cliente)
         var.ui.btn_cli_alta.clicked.connect(lambda: eventos.Eventos.abrir_calendar(0))
         var.ui.btn_cli_baja.clicked.connect(lambda: eventos.Eventos.abrir_calendar(1))
+        var.ui.btn_cli_buscar.clicked.connect(clientes.Clientes.buscar_cliente)
         
         var.ui.btn_pro_grabar.clicked.connect(propiedades.Propiedades.alta_propiedad)
         var.ui.btn_pro_modificar.clicked.connect(propiedades.Propiedades.modificar_propiedad)

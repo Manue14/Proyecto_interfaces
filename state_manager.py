@@ -3,7 +3,7 @@ import propiedades
 import eventos
 import conexion
 import var
-
+import styles
 
 class StateManager:
     state = {
@@ -19,6 +19,7 @@ class StateManager:
     def __init__(self):
         self.state["historico_cli"] = False
         self.state["historico_pro"] = False
+        
 
     @staticmethod
     def default_queries():
@@ -33,7 +34,12 @@ class StateManager:
     def change_state(key, value):
         try:
             StateManager.state[key] = value
-            StateManager.update_state()
+
+            if (key == "historico_cli" or key == "historico_pro"
+                or key == "cliente_query_object" or key == "propiedad_query_object"):
+                StateManager.update_tables_state()
+            elif (key == "baja_cliente" or key == "baja_propiedad"):
+                StateManager.update_fields_state()
         except Exception as e:
             print(e)
 
@@ -45,8 +51,19 @@ class StateManager:
         else:
             clientes.Clientes.botones["btn_grabar"].setEnabled(True)
             clientes.Clientes.botones["btn_eliminar"].setEnabled(False)
+        styles.reload_style(clientes.Clientes.botones["btn_grabar"])
+        styles.reload_style(clientes.Clientes.botones["btn_eliminar"])
 
+    @staticmethod
     def update_state():
+        StateManager.update_tables_state()
+        StateManager.update_fields_state()
+
+    def update_tables_state():
         eventos.Eventos.cargar_tabla_clientes()
         eventos.Eventos.cargar_tabla_propiedades()
+        
+    def update_fields_state():
         StateManager.manage_cliente_state()
+
+    

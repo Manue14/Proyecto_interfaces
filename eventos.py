@@ -446,6 +446,7 @@ class Eventos:
                     pass
                 else:
                     value.setText("")
+            var.state_manager.change_state("baja_cliente", False)
             var.state_manager.change_state("cliente_query_object", conexion.Conexion.listar_clientes())
 
         if var.ui.panel_principal.currentIndex() == 1:
@@ -469,7 +470,9 @@ class Eventos:
                     value.setValue(0)
                 else:
                     value.setText("")
+            
             Eventos.cargar_propiedad_tipos(propiedades.Propiedades.campos["tipo"])
+            var.state_manager.change_state("baja_propiedad", False)
             var.state_manager.change_state("propiedad_query_object", conexion.Conexion.listar_propiedades())
 
     def abrir_dlg_propiedades_tipo():
