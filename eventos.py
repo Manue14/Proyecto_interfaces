@@ -260,64 +260,28 @@ class Eventos:
         clientes = var.state_manager.state["cliente_query_object"]
 
         for cliente in clientes:
-            var.ui.tab_cli.setRowCount(index + 1)
-            var.ui.tab_cli.setItem(index, 0, QtWidgets.QTableWidgetItem(cliente["dni"]))
-            var.ui.tab_cli.setItem(index, 1, QtWidgets.QTableWidgetItem(cliente["apellido"]))
-            var.ui.tab_cli.setItem(index, 2, QtWidgets.QTableWidgetItem(cliente["nombre"]))
-            var.ui.tab_cli.setItem(index, 3, QtWidgets.QTableWidgetItem("  " + cliente["movil"] + "  "))
-            var.ui.tab_cli.setItem(index, 4, QtWidgets.QTableWidgetItem(cliente["provincia"]))
-            var.ui.tab_cli.setItem(index, 5, QtWidgets.QTableWidgetItem(cliente["municipio"]))
-            var.ui.tab_cli.setItem(index, 6, QtWidgets.QTableWidgetItem("  " + cliente["fecha_baja"] + "  "))
-
-            '''
-            var.ui.tab_cli.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-            var.ui.tab_cli.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-            var.ui.tab_cli.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-            var.ui.tab_cli.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-            var.ui.tab_cli.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-            var.ui.tab_cli.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-            var.ui.tab_cli.item(index, 6).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-            '''
-
-            var.ui.tab_cli.item(index, 0)
-            var.ui.tab_cli.item(index, 1)
-            var.ui.tab_cli.item(index, 2)
-            var.ui.tab_cli.item(index, 3)
-            var.ui.tab_cli.item(index, 4)
-            var.ui.tab_cli.item(index, 5)
-            var.ui.tab_cli.item(index, 6)
-
-            index += 1
+            if (var.state_manager.state["historico_cli"] == False):
+                if (not cliente["fecha_baja"]):
+                    Eventos.show_cli_on_table(cliente, index)
+                    index += 1
+            else:
+                Eventos.show_cli_on_table(cliente, index)
+                index += 1
 
     def cargar_tabla_propiedades():
         index = 0
+        var.ui.tab_pro.verticalHeader().setVisible(False)
         propiedades = var.state_manager.state["propiedad_query_object"]
+
         if propiedades:
             for propiedad in propiedades:
-                var.ui.tab_pro.setRowCount(index + 1)
-                var.ui.tab_pro.setItem(index, 0, QtWidgets.QTableWidgetItem(propiedad["codigo"]))
-                var.ui.tab_pro.setItem(index, 1, QtWidgets.QTableWidgetItem(propiedad["municipio"]))
-                var.ui.tab_pro.setItem(index, 2, QtWidgets.QTableWidgetItem(propiedad["tipo"]))
-                var.ui.tab_pro.setItem(index, 3, QtWidgets.QTableWidgetItem(propiedad["habitaciones"]))
-                var.ui.tab_pro.setItem(index, 4, QtWidgets.QTableWidgetItem(propiedad["banos"]))
-                var.ui.tab_pro.setItem(index, 5, QtWidgets.QTableWidgetItem(
-                    propiedad["precio_alquiler"] + " €" if propiedad["precio_alquiler"] else "-"))
-                var.ui.tab_pro.setItem(index, 6, QtWidgets.QTableWidgetItem(
-                    propiedad["precio_venta"] + " €" if propiedad["precio_venta"] else "-"))
-                var.ui.tab_pro.setItem(index, 7, QtWidgets.QTableWidgetItem(propiedad["operaciones"]))
-                var.ui.tab_pro.setItem(index, 8, QtWidgets.QTableWidgetItem(propiedad["fecha_baja"]))
-
-                var.ui.tab_pro.item(index, 0)
-                var.ui.tab_pro.item(index, 1)
-                var.ui.tab_pro.item(index, 2)
-                var.ui.tab_pro.item(index, 3)
-                var.ui.tab_pro.item(index, 4)
-                var.ui.tab_pro.item(index, 5)
-                var.ui.tab_pro.item(index, 6)
-                var.ui.tab_pro.item(index, 7)
-                var.ui.tab_pro.item(index, 8)
-
-                index += 1
+                if (var.state_manager.state["historico_pro"] == False):
+                    if (not propiedad["fecha_baja"]):
+                        Eventos.show_pro_on_table(propiedad, index)
+                        index += 1
+                else:
+                    Eventos.show_pro_on_table(propiedad, index)
+                    index += 1
         else:
 
             var.ui.tab_pro.setRowCount(index + 1)
@@ -340,6 +304,59 @@ class Eventos:
             var.ui.tab_pro.item(index, 6)
             var.ui.tab_pro.item(index, 7)
             var.ui.tab_pro.item(index, 8)
+
+    def show_cli_on_table(cliente, index):
+        var.ui.tab_cli.setRowCount(index + 1)
+        var.ui.tab_cli.setItem(index, 0, QtWidgets.QTableWidgetItem(cliente["dni"]))
+        var.ui.tab_cli.setItem(index, 1, QtWidgets.QTableWidgetItem(cliente["apellido"]))
+        var.ui.tab_cli.setItem(index, 2, QtWidgets.QTableWidgetItem(cliente["nombre"]))
+        var.ui.tab_cli.setItem(index, 3, QtWidgets.QTableWidgetItem("  " + cliente["movil"] + "  "))
+        var.ui.tab_cli.setItem(index, 4, QtWidgets.QTableWidgetItem(cliente["provincia"]))
+        var.ui.tab_cli.setItem(index, 5, QtWidgets.QTableWidgetItem(cliente["municipio"]))
+        var.ui.tab_cli.setItem(index, 6, QtWidgets.QTableWidgetItem("  " + cliente["fecha_baja"] + "  "))
+
+        '''
+        var.ui.tab_cli.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+        var.ui.tab_cli.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+        var.ui.tab_cli.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+        var.ui.tab_cli.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+        var.ui.tab_cli.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+        var.ui.tab_cli.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
+        var.ui.tab_cli.item(index, 6).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
+        '''
+
+        var.ui.tab_cli.item(index, 0)
+        var.ui.tab_cli.item(index, 1)
+        var.ui.tab_cli.item(index, 2)
+        var.ui.tab_cli.item(index, 3)
+        var.ui.tab_cli.item(index, 4)
+        var.ui.tab_cli.item(index, 5)
+        var.ui.tab_cli.item(index, 6)
+
+    def show_pro_on_table(propiedad, index):
+        var.ui.tab_pro.setRowCount(index + 1)
+        var.ui.tab_pro.setItem(index, 0, QtWidgets.QTableWidgetItem(propiedad["codigo"]))
+        var.ui.tab_pro.setItem(index, 1, QtWidgets.QTableWidgetItem(propiedad["municipio"]))
+        var.ui.tab_pro.setItem(index, 2, QtWidgets.QTableWidgetItem(propiedad["tipo"]))
+        var.ui.tab_pro.setItem(index, 3, QtWidgets.QTableWidgetItem(propiedad["habitaciones"]))
+        var.ui.tab_pro.setItem(index, 4, QtWidgets.QTableWidgetItem(propiedad["banos"]))
+        var.ui.tab_pro.setItem(index, 5, QtWidgets.QTableWidgetItem(
+            propiedad["precio_alquiler"] + " €" if propiedad["precio_alquiler"] else "-"))
+        var.ui.tab_pro.setItem(index, 6, QtWidgets.QTableWidgetItem(
+            propiedad["precio_venta"] + " €" if propiedad["precio_venta"] else "-"))
+        var.ui.tab_pro.setItem(index, 7, QtWidgets.QTableWidgetItem(propiedad["operaciones"]))
+        var.ui.tab_pro.setItem(index, 8, QtWidgets.QTableWidgetItem(propiedad["fecha_baja"]))
+
+        var.ui.tab_pro.item(index, 0)
+        var.ui.tab_pro.item(index, 1)
+        var.ui.tab_pro.item(index, 2)
+        var.ui.tab_pro.item(index, 3)
+        var.ui.tab_pro.item(index, 4)
+        var.ui.tab_pro.item(index, 5)
+        var.ui.tab_pro.item(index, 6)
+        var.ui.tab_pro.item(index, 7)
+        var.ui.tab_pro.item(index, 8)
+
 
     def resize_cli_tab(self):
         try:

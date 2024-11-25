@@ -109,11 +109,7 @@ class Conexion:
             keys = list(cliente.keys())
 
             query = QtSql.QSqlQuery()
-            if not var.state_manager.state["historico_cli"]:
-                query.prepare("SELECT * FROM clientes WHERE bajacli is NULL ORDER BY nomecli, apelcli ASC;")
-                
-            else:
-                query.prepare("SELECT * FROM clientes ORDER BY nomecli, apelcli ASC;")
+            query.prepare("SELECT * FROM clientes ORDER BY nomecli, apelcli ASC;")
 
             if query.exec():
                 while query.next():
@@ -377,11 +373,7 @@ class Conexion:
             keys = list(propiedad.keys())
 
             query = QtSql.QSqlQuery()
-
-            if not var.state_manager.state["historico_pro"]:
-                query.prepare("SELECT * FROM propiedades WHERE bajaprop is NULL ORDER BY muniprop ASC;")
-            else:
-                query.prepare("SELECT * FROM propiedades ORDER BY muniprop ASC;")
+            query.prepare("SELECT * FROM propiedades ORDER BY muniprop ASC;")
 
             if query.exec():
                 while query.next():
@@ -454,7 +446,7 @@ class Conexion:
 
             query = QtSql.QSqlQuery()
 
-            if not var.state_manager.state["historico_pro"]:
+            if var.state_manager.state["historico_pro"] == False:
                 query.prepare("SELECT * FROM propiedades WHERE tipoprop = :tipoprop AND muniprop = :muniprop AND bajaprop is NULL ORDER BY muniprop ASC;")
             else:
                 query.prepare("SELECT * FROM propiedades WHERE tipoprop = :tipoprop AND muniprop = :muniprop ORDER BY muniprop ASC:")

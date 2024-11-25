@@ -35,5 +35,5 @@ class StateManager:
             print(e)
 
     def update_state():
-        eventos.Eventos.cargar_tabla_clientes(StateManager.state["cliente_query_object"])
-        eventos.Eventos.cargar_tabla_clientes(StateManager.state["propiedad_query_object"])
+        eventos.Eventos.cargar_tabla_clientes()
+        eventos.Eventos.cargar_tabla_propiedades()
