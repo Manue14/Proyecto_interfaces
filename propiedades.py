@@ -1,13 +1,11 @@
 from tabnanny import check
-
 from PyQt6.uic.properties import QtWidgets, QtGui
 from PyQt6 import QtWidgets
 
-import conexion
-import eventos
 import var
-import dlg_gestion_propiedad_tipo
-import styles
+import eventos
+import conexion
+import mapper
 
 class Propiedades():
     campos = {}
@@ -37,35 +35,6 @@ class Propiedades():
             "propietario": var.ui.txt_pro_propietario,
             "movil": var.ui.txt_pro_movil
         }
-
-    def construir_propiedad():
-        propiedad = {"codigo": Propiedades.campos["codigo"].text(), "fecha_alta": Propiedades.campos["fecha_alta"].text(),
-                     "fecha_baja": Propiedades.campos["fecha_baja"].text(), "direccion": Propiedades.campos["direccion"].text(),
-                     "provincia": Propiedades.campos["provincia"].currentText(), "municipio": Propiedades.campos["municipio"].currentText(),
-                     "postal": Propiedades.campos["postal"].text(), "tipo": Propiedades.campos["tipo"].currentText(),
-                     "habitaciones": Propiedades.campos["habitaciones"].text(), "banos": Propiedades.campos["banos"].text(),
-                     "superficie": Propiedades.campos["superficie"].text(), "precio_alquiler": Propiedades.campos["precio_alquiler"].text(),
-                     "precio_venta": Propiedades.campos["precio_venta"].text(), "descripcion": Propiedades.campos["descripcion"].toPlainText(),
-                     "propietario": Propiedades.campos["propietario"].text(), "movil": Propiedades.campos["movil"].text(),
-                     "operaciones": "", "estado": ""}
-        
-        if Propiedades.campos["check_alquiler"].isChecked():
-            propiedad["operaciones"] = propiedad["operaciones"] + "-" + Propiedades.campos["check_alquiler"].text()
-        if Propiedades.campos["check_venta"].isChecked():
-            propiedad["operaciones"] = propiedad["operaciones"] + "-" + Propiedades.campos["check_venta"].text()
-        if Propiedades.campos["check_intercambio"].isChecked():
-            propiedad["operaciones"] = propiedad["operaciones"] + "-" + Propiedades.campos["check_intercambio"].text()
-
-        propiedad["operaciones"] = propiedad["operaciones"][1:]
-
-        if Propiedades.campos["radio_disponible"].isChecked():
-                propiedad["estado"] = Propiedades.campos["radio_disponible"].text()
-        elif Propiedades.campos["radio_alquilado"].isChecked():
-                propiedad["estado"] = Propiedades.campos["radio_alquilado"].text()
-        elif Propiedades.campos["radio_vendido"].isChecked():
-                propiedad["estado"] = Propiedades.campos["radio_vendido"].text()
-
-        return propiedad
 
     def alta_tipo_propiedad(self):
         Propiedades.inicializar_campos()
@@ -110,7 +79,7 @@ class Propiedades():
             return
 
         try:
-            propiedad = Propiedades.construir_propiedad()
+            propiedad = mapper.Mapper.map_propiedad(Propiedades.campos)
             if conexion.Conexion.alta_propiedad(propiedad):
                 eventos.Eventos.mensaje_exito("Aviso", "Propiedad dada de alta con éxito")
             else:
@@ -133,7 +102,7 @@ class Propiedades():
         if (codigo):
 
             try:
-                propiedad = Propiedades.construir_propiedad()
+                propiedad = mapper.Mapper.map_propiedad(Propiedades.campos)
                 if conexion.Conexion.modificar_propiedad(propiedad):
                     eventos.Eventos.mensaje_exito("Aviso", "Propiedad modificada con éxito")
                 else:
@@ -156,7 +125,7 @@ class Propiedades():
         if (codigo):
 
             try:
-                propiedad = Propiedades.construir_propiedad()
+                propiedad = mapper.Mapper.map_propiedad(Propiedades.campos)
                 if conexion.Conexion.eliminar_propiedad(propiedad):
                     eventos.Eventos.mensaje_exito("Aviso", "Propiedad dada de baja con éxito")
                 else:

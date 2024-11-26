@@ -1,17 +1,18 @@
+import var
+import eventos
 import clientes
 import propiedades
-import eventos
 import conexion
-import var
 import styles
 
 class StateManager:
     state = {
-        "panel": 0,
         "historico_cli": False,
         "historico_pro": False,
         "cliente_query_object": [],
         "propiedad_query_object": [],
+        "alta_cliente": False,
+        "modificar_cliente": False,
         "baja_cliente": False,
         "baja_propiedad": False
     }
@@ -26,7 +27,6 @@ class StateManager:
         try:
             StateManager.state["cliente_query_object"] = conexion.Conexion.listar_clientes()
             StateManager.state["propiedad_query_object"] = conexion.Conexion.listar_propiedades()
-            #StateManager.update_state()
         except Exception as error:
             print("Error al obtener información de la base de datos", error)
 
@@ -44,7 +44,9 @@ class StateManager:
             print(e)
 
     def manage_cliente_state():
+        clientes.Clientes.inicializar_campos()
         clientes.Clientes.inicializar_botones()
+
         if StateManager.state["baja_cliente"] == True:
             clientes.Clientes.botones["btn_grabar"].setEnabled(False)
             clientes.Clientes.botones["btn_eliminar"].setEnabled(True)
@@ -65,5 +67,3 @@ class StateManager:
         
     def update_fields_state():
         StateManager.manage_cliente_state()
-
-    

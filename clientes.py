@@ -1,14 +1,13 @@
 from PyQt6 import QtWidgets, QtGui
 from PyQt6.QtWidgets import QTableWidgetItem
 from PyQt6.uic.properties import QtCore
+from datetime import datetime
 
-import clientes
-import conexion_server
 import var
 import eventos
 import conexion
-import styles
-from datetime import datetime
+import conexion_server
+import mapper
 
 class Clientes:
     campos = {}
@@ -37,13 +36,6 @@ class Clientes:
             "btn_buscar": var.ui.btn_cli_buscar
         }
 
-    def construir_cliente():
-        cliente = {"dni": Clientes.campos["dni"].text(), "fecha_alta": Clientes.campos["fecha_alta"].text(), "apellido": Clientes.campos["apellido"].text(),
-                    "nombre": Clientes.campos["nombre"].text(), "email": Clientes.campos["email"].text(), "movil": Clientes.campos["movil"].text(),
-                    "direccion": Clientes.campos["direccion"].text(), "provincia": Clientes.campos["provincia"].currentText(),
-                    "municipio": Clientes.campos["municipio"].currentText(), "fecha_baja": Clientes.campos["fecha_baja"].text()}
-        return cliente
-
     def alta_cliente(self):
         Clientes.inicializar_campos()
         if not Clientes.validar_campos_cli():
@@ -54,7 +46,7 @@ class Clientes:
             return
         
         try:
-            cliente = Clientes.construir_cliente()
+            cliente = mapper.Mapper.map_cliente(Clientes.campos)
             if conexion.Conexion.alta_cliente(cliente):
                 eventos.Eventos.mensaje_exito("Aviso", "Alta cliente en la base de datos")
                 var.state_manager.change_state("cliente_query_object", conexion.Conexion.listar_clientes())
@@ -70,7 +62,7 @@ class Clientes:
             return
         
         try:
-            cliente = Clientes.construir_cliente()
+            cliente = mapper.Mapper.map_cliente(Clientes.campos)
             if not Clientes.check_existe_cli(cliente["dni"]):
                 eventos.Eventos.mensaje_error("Aviso", "El cliente que intentas modificar no existe")
                 return
@@ -84,7 +76,7 @@ class Clientes:
 
     def baja_cliente(self):
         try:
-            cliente = Clientes.construir_cliente()
+            cliente = mapper.Mapper.map_cliente(Clientes.campos)
             if not Clientes.check_existe_cli(cliente["dni"]):
                 eventos.Eventos.mensaje_error("Aviso", "El cliente que intentas dar de baja no existe")
                 return
@@ -136,7 +128,7 @@ class Clientes:
         else:
             return True
 
-    def validar_campos_cli():
+    def check_if_cliente_valid_for_create():
         Clientes.inicializar_campos()
         dni = Clientes.campos["dni"].text()
         apellido = Clientes.campos["apellido"].text()
@@ -159,8 +151,11 @@ class Clientes:
 
         if (email.strip() and not eventos.Eventos.validar_email(email)):
             return False
-        
-        if (fecha_baja.strip() and not eventos.Eventos.validar_fecha(fecha_baja)):
+
+        if (conexion.Conexion.get_cliente(dni)):
+            return False
+
+        if (fecha_baja.strip()):
             return False
 
         return True

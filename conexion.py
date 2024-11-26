@@ -2,7 +2,9 @@ import os
 from PyQt6 import QtSql, QtWidgets
 from PyQt6.uic.properties import QtGui
 import sqlite3
+
 import var
+import mapper
 
 class Conexion:
 
@@ -69,20 +71,7 @@ class Conexion:
             query.prepare("INSERT into clientes (dnicli, altacli, apelcli, nomecli, emailcli, movilcli, "
                           "dircli, procli, municli, bajacli) VALUES (:dnicli, :altacli, :apelcli, :nomecli, :emailcli, "
                           " :movilcli, :dircli, :procli, :municli, :bajacli)")
-            query.bindValue(":dnicli", cliente["dni"])
-            query.bindValue(":altacli", cliente["fecha_alta"])
-            query.bindValue(":apelcli", cliente["apellido"])
-            query.bindValue(":nomecli", cliente["nombre"])
-            query.bindValue(":emailcli", cliente["email"])
-            query.bindValue(":movilcli", cliente["movil"])
-            query.bindValue(":dircli", cliente["direccion"])
-            query.bindValue(":procli", cliente["provincia"])
-            query.bindValue(":municli", cliente["municipio"])
-
-            if cliente["fecha_baja"] == "":
-                query.bindValue(":bajacli", None)
-            else:
-                query.bindValue(":bajacli", cliente["fecha_baja"])
+            mapper.Mapper.bind_cliente_query(query, cliente)
             if query.exec():
                 return True
             else:
@@ -96,16 +85,7 @@ class Conexion:
     def listar_clientes():
         try:
             clientes = []
-            cliente = {"dni": "",
-                "fecha_alta": "",
-                "apellido": "",
-                "nombre": "",
-                "email": "",
-                "movil": "", 
-                "direccion": "",
-                "provincia": "",
-                "municipio": "",
-                "fecha_baja": ""}
+            cliente = mapper.Mapper.initialize_cliente()
             keys = list(cliente.keys())
 
             query = QtSql.QSqlQuery()
@@ -125,16 +105,7 @@ class Conexion:
 
     def get_cliente(dni):
         try:
-            cliente = {"dni": "",
-                "fecha_alta": "",
-                "apellido": "",
-                "nombre": "",
-                "email": "",
-                "movil": "", 
-                "direccion": "",
-                "provincia": "",
-                "municipio": "",
-                "fecha_baja": ""}
+            cliente = mapper.Mapper.initialize_cliente()
             keys = list(cliente.keys())
 
             query = QtSql.QSqlQuery()
@@ -157,23 +128,9 @@ class Conexion:
             if query.exec() and query.next() and query.value(0) > 0:
                 query.prepare("UPDATE clientes SET altacli = :altacli, apelcli = :apelcli, nomecli = :nomecli, "
                             "emailcli = :emailcli, movilcli = :movilcli, dircli = :dircli, procli = :procli, "
-                            "municli = :municli, bajacli = :bajacli WHERE dnicli = :dni")
+                            "municli = :municli, bajacli = :bajacli WHERE dnicli = :dnicli")
 
-                query.bindValue(":dni", cliente["dni"])
-                query.bindValue(":altacli", cliente["fecha_alta"])
-                query.bindValue(":apelcli", cliente["apellido"])
-                query.bindValue(":nomecli", cliente["nombre"])
-                query.bindValue(":emailcli", cliente["email"])
-                query.bindValue(":movilcli", cliente["movil"])
-                query.bindValue(":dircli", cliente["direccion"])
-                query.bindValue(":procli", cliente["provincia"])
-                query.bindValue(":municli", cliente["municipio"])
-
-                if cliente["fecha_baja"] == "":
-                    query.bindValue(":bajacli", None)
-                else:
-                    print(cliente["fecha_baja"])
-                    query.bindValue(":bajacli", cliente["fecha_baja"])
+                mapper.Mapper.bind_cliente_query(query, cliente)
 
                 if query.exec():
                     return True
@@ -248,36 +205,7 @@ class Conexion:
                           "nomeprop, movilprop) VALUES (:altaprop, :dirprop, :provprop, :muniprop, :tipoprop, :habprop, "
                           ":banprop, :superprop, :prealquiprop, :prevenprop, :cpprop, :obserprop, :tipooper, :estadoprop, "
                           ":nomeprop, :movilprop)")
-            query.bindValue(":altaprop", str(propiedad["fecha_alta"]))
-            query.bindValue(":dirprop", str(propiedad["direccion"]))
-            query.bindValue(":provprop", str(propiedad["provincia"]))
-            query.bindValue(":muniprop", str(propiedad["municipio"]))
-            query.bindValue(":tipoprop", str(propiedad["tipo"]))
-            query.bindValue(":habprop", int(propiedad["habitaciones"]))
-            query.bindValue(":banprop", int(propiedad["banos"]))
-            query.bindValue(":superprop", str(propiedad["superficie"]))
-
-            if (propiedad["precio_alquiler"] == ""):
-                query.bindValue(":prealquiprop", None)
-            else:
-                query.bindValue(":prealquiprop", str(propiedad["precio_alquiler"]))
-
-            if (propiedad["precio_venta"] == ""):
-                query.bindValue(":prevenprop", None)
-            else:
-                query.bindValue(":prevenprop", str(propiedad["precio_venta"]))
-
-            query.bindValue(":cpprop", str(propiedad["postal"]))
-
-            if (propiedad["descripcion"] == ""):
-                query.bindValue(":obserprop", None)
-            else:
-                query.bindValue(":obserprop", str(propiedad["descripcion"]))
-
-            query.bindValue(":tipooper", str(propiedad["operaciones"]))
-            query.bindValue(":estadoprop", str(propiedad["estado"]))
-            query.bindValue(":nomeprop", str(propiedad["propietario"]))
-            query.bindValue(":movilprop", str(propiedad["movil"]))
+            mapper.Mapper.bind_propiedad_create_query(query, propiedad)
 
             if query.exec():
                 return True
@@ -294,38 +222,8 @@ class Conexion:
                           "superprop = :superprop, prealquiprop = :prealquiprop, prevenprop = :prevenprop, "
                           "cpprop = :cpprop, obserprop = :obserprop, tipooper = :tipooper, estadoprop = :estadoprop, "
                           "nomeprop = :nomeprop, movilprop = :movilprop, bajaprop = :bajaprop WHERE codigo = :codigo")
-            query.bindValue(":codigo", propiedad["codigo"])
-            query.bindValue(":altaprop", str(propiedad["fecha_alta"]))
-            query.bindValue(":dirprop", str(propiedad["direccion"]))
-            query.bindValue(":provprop", str(propiedad["provincia"]))
-            query.bindValue(":muniprop", str(propiedad["municipio"]))
-            query.bindValue(":tipoprop", str(propiedad["tipo"]))
-            query.bindValue(":habprop", int(propiedad["habitaciones"]))
-            query.bindValue(":banprop", int(propiedad["banos"]))
-            query.bindValue(":superprop", str(propiedad["superficie"]))
 
-            if (propiedad["precio_alquiler"] == ""):
-                query.bindValue(":prealquiprop", None)
-            else:
-                query.bindValue(":prealquiprop", str(propiedad["precio_alquiler"]))
-
-            if (propiedad["precio_venta"] == ""):
-                query.bindValue(":prevenprop", None)
-            else:
-                query.bindValue(":prevenprop", str(propiedad["precio_venta"]))
-
-            query.bindValue(":cpprop", str(propiedad["postal"]))
-
-            if (propiedad["descripcion"] == ""):
-                query.bindValue(":obserprop", None)
-            else:
-                query.bindValue(":obserprop", str(propiedad["descripcion"]))
-
-            query.bindValue(":tipooper", str(propiedad["operaciones"]))
-            query.bindValue(":estadoprop", str(propiedad["estado"]))
-            query.bindValue(":nomeprop", str(propiedad["propietario"]))
-            query.bindValue(":movilprop", str(propiedad["movil"]))
-            query.bindValue(":bajaprop", str(propiedad["fecha_baja"]))
+            mapper.Mapper.bind_propiedad_update_query(query, propiedad)
 
             if query.exec():
                 return True
@@ -352,24 +250,7 @@ class Conexion:
     def listar_propiedades():
         try:
             propiedades = []
-            propiedad = {"codigo": "",
-                "fecha_alta": "",
-                "fecha_baja": "",
-                "direccion": "",
-                "provincia": "",
-                "municipio": "",
-                "tipo": "",
-                "habitaciones": "",
-                "banos": "",
-                "superficie": "",
-                "precio_alquiler": "",
-                "precio_venta": "",
-                "postal": "",
-                "descripcion": "",
-                "operaciones": "",
-                "estado": "",
-                "propietario": "",
-                "movil": ""}
+            propiedad = mapper.Mapper.initialize_propiedad()
             keys = list(propiedad.keys())
 
             query = QtSql.QSqlQuery()
@@ -389,24 +270,7 @@ class Conexion:
 
     def get_propiedad(codigo):
         try:
-            propiedad = {"codigo": "",
-                "fecha_alta": "",
-                "fecha_baja": "",
-                "direccion": "",
-                "provincia": "",
-                "municipio": "",
-                "tipo": "",
-                "habitaciones": "",
-                "banos": "",
-                "superficie": "",
-                "precio_alquiler": "",
-                "precio_venta": "",
-                "postal": "",
-                "descripcion": "",
-                "operaciones": "",
-                "estado": "",
-                "propietario": "",
-                "movil": ""}
+            propiedad = mapper.Mapper.initialize_propiedad()
 
             keys = list(propiedad.keys())
 
@@ -424,24 +288,7 @@ class Conexion:
     def filtrar_propiedades(tipo, municipio):
         try:
             propiedades = []
-            propiedad = {"codigo": "",
-                            "fecha_alta": "",
-                            "fecha_baja": "",
-                            "direccion": "",
-                            "provincia": "",
-                            "municipio": "",
-                            "tipo": "",
-                            "habitaciones": "",
-                            "banos": "",
-                            "superficie": "",
-                            "precio_alquiler": "",
-                            "precio_venta": "",
-                            "postal": "",
-                            "descripcion": "",
-                            "operaciones": "",
-                            "estado": "",
-                            "propietario": "",
-                            "movil": ""}
+            propiedad = mapper.Mapper.initialize_propiedad()
             keys = list(propiedad.keys())
 
             query = QtSql.QSqlQuery()

@@ -5,19 +5,19 @@ import time
 import re
 from datetime import datetime
 import os
-
-import clientes
-import propiedades
-import var
 from PyQt6 import QtWidgets, QtGui
-import conexion
 import locale
 import zipfile
 import shutil
+
+import var
+import clientes
+import propiedades
+import conexion
 import conexion_server
 import styles
-#Establecer configuración regional
 
+#Establecer configuración regional
 locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
 locale.setlocale(locale.LC_MONETARY, 'es_ES.UTF-8')
 
