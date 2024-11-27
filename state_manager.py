@@ -11,16 +11,11 @@ class StateManager:
         "historico_pro": False,
         "cliente_query_object": [],
         "propiedad_query_object": [],
-        "alta_cliente": False,
-        "modificar_cliente": False,
-        "baja_cliente": False,
-        "baja_propiedad": False
+        "precio_alquiler_propiedad": False,
+        "precio_venta_propiedad": False,
+        "check_alquiler_propiedad": False,
+        "check_venta_propiedad": False
     }
-
-    def __init__(self):
-        self.state["historico_cli"] = False
-        self.state["historico_pro"] = False
-        
 
     @staticmethod
     def default_queries():
@@ -38,31 +33,58 @@ class StateManager:
             if (key == "historico_cli" or key == "historico_pro"
                 or key == "cliente_query_object" or key == "propiedad_query_object"):
                 StateManager.update_tables_state()
-            elif (key == "baja_cliente" or key == "baja_propiedad"):
-                StateManager.update_fields_state()
+            elif (key == "precio_alquiler_propiedad" or key == "precio_venta_propiedad"
+            or key == "check_alquiler_propiedad" or key == "check_venta_propiedad"):
+                StateManager.update_propiedad_fields_state()
         except Exception as e:
             print(e)
 
-    def manage_cliente_state():
-        clientes.Clientes.inicializar_campos()
-        clientes.Clientes.inicializar_botones()
+    def manage_propiedad_state():
+        propiedades.Propiedades.inicializar_campos()
 
-        if StateManager.state["baja_cliente"] == True:
-            clientes.Clientes.botones["btn_grabar"].setEnabled(False)
-            clientes.Clientes.botones["btn_eliminar"].setEnabled(True)
+        if StateManager.state["precio_alquiler_propiedad"] == True:
+            propiedades.Propiedades.campos["check_alquiler"].setEnabled(True)
+            if StateManager.state["check_alquiler_propiedad"] == True:
+                propiedades.Propiedades.campos["radio_alquilado"].setEnabled(True)
+            else:
+                propiedades.Propiedades.campos["radio_alquilado"].setEnabled(False)
+                propiedades.Propiedades.campos["radio_alquilado"].setChecked(False)
         else:
-            clientes.Clientes.botones["btn_grabar"].setEnabled(True)
-            clientes.Clientes.botones["btn_eliminar"].setEnabled(False)
-        styles.reload_style(clientes.Clientes.botones["btn_grabar"])
-        styles.reload_style(clientes.Clientes.botones["btn_eliminar"])
+            propiedades.Propiedades.campos["check_alquiler"].setEnabled(False)
+            propiedades.Propiedades.campos["check_alquiler"].setChecked(False)
+            propiedades.Propiedades.campos["radio_alquilado"].setEnabled(False)
+            propiedades.Propiedades.campos["radio_alquilado"].setChecked(False)
+            if not propiedades.Propiedades.campos["radio_vendido"].isChecked():
+                propiedades.Propiedades.campos["radio_disponible"].setChecked(True)
+
+        if StateManager.state["precio_venta_propiedad"] == True:
+            propiedades.Propiedades.campos["check_venta"].setEnabled(True)
+            if StateManager.state["check_venta_propiedad"] == True:
+                propiedades.Propiedades.campos["radio_vendido"].setEnabled(True)
+            else:
+                propiedades.Propiedades.campos["radio_vendido"].setEnabled(False)
+                propiedades.Propiedades.campos["radio_vendido"].setChecked(False)
+        else:
+            propiedades.Propiedades.campos["check_venta"].setEnabled(False)
+            propiedades.Propiedades.campos["check_venta"].setChecked(False)
+            propiedades.Propiedades.campos["radio_vendido"].setEnabled(False)
+            propiedades.Propiedades.campos["radio_vendido"].setChecked(False)
+            if not propiedades.Propiedades.campos["radio_alquilado"].isChecked():
+                propiedades.Propiedades.campos["radio_disponible"].setChecked(True)
+
+        styles.reload_style(propiedades.Propiedades.campos["check_alquiler"])
+        styles.reload_style(propiedades.Propiedades.campos["radio_alquilado"])
+        styles.reload_style(propiedades.Propiedades.campos["check_venta"])
+        styles.reload_style(propiedades.Propiedades.campos["radio_vendido"])
 
     @staticmethod
     def update_state():
         StateManager.update_tables_state()
+        StateManager.update_propiedad_fields_state()
 
     def update_tables_state():
         eventos.Eventos.cargar_tabla_clientes()
         eventos.Eventos.cargar_tabla_propiedades()
         
-    def update_fields_state():
-        StateManager.manage_cliente_state()
+    def update_propiedad_fields_state():
+        StateManager.manage_propiedad_state()

@@ -109,6 +109,9 @@ class Main(QtWidgets.QMainWindow):
         var.ui.chk_cli_historico.stateChanged.connect(lambda: var.state_manager.change_state("historico_cli", var.ui.chk_cli_historico.isChecked()))
         var.ui.chk_pro_historico.stateChanged.connect(lambda: var.state_manager.change_state("historico_pro", var.ui.chk_pro_historico.isChecked()))
 
+        var.ui.chk_pro_alquiler.stateChanged.connect(lambda: eventos.Eventos.observar_checkbox(var.ui.chk_pro_alquiler))
+        var.ui.chk_pro_venta.stateChanged.connect(lambda: eventos.Eventos.observar_checkbox(var.ui.chk_pro_venta))
+
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
     window = Main()

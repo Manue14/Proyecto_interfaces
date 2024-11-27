@@ -16,6 +16,7 @@ import propiedades
 import conexion
 import conexion_server
 import styles
+from state_manager import StateManager
 
 #Establecer configuración regional
 locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
@@ -176,16 +177,40 @@ class Eventos:
     def observar_precio(widget):
         try:
             precio = widget.text()
-
+            nombre = widget.objectName()
             if Eventos.validar_numero(precio) or precio == "":
                 styles.set_style(widget, "no_obligatorio_valido")
+                if Eventos.validar_numero(precio):
+                    if (nombre == "txt_pro_precio_alquiler"):
+                        StateManager.change_state("precio_alquiler_propiedad", True)
+                    elif (nombre == "txt_pro_precio_venta"):
+                        StateManager.change_state("precio_venta_propiedad", True)
+                else:
+                    if (nombre == "txt_pro_precio_alquiler"):
+                        StateManager.change_state("precio_alquiler_propiedad", False)
+                    elif (nombre == "txt_pro_precio_venta"):
+                        StateManager.change_state("precio_venta_propiedad", False)
             else:
                 styles.set_style(widget, "no_obligatorio_error")
                 widget.setText(None)
                 widget.setText("Valor no válido")
                 widget.setFocus()
+                if (nombre == "txt_pro_precio_alquiler"):
+                    StateManager.change_state("precio_alquiler_propiedad", False)
+                elif (nombre == "txt_pro_precio_venta"):
+                    StateManager.change_state("precio_venta_propiedad", False)
         except Exception as error:
             print("Error al validar el precio", error)
+
+    def observar_checkbox(widget):
+        try:
+            name = widget.objectName()
+            if (name == "chk_pro_alquiler"):
+                StateManager.change_state("check_alquiler_propiedad", widget.isChecked())
+            elif (name == "chk_pro_venta"):
+                StateManager.change_state("check_venta_propiedad", widget.isChecked())
+        except Exception as error:
+            print("Error al observar el checkbox", error)
     
         
     def validar_dni(dni):

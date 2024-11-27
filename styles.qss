@@ -142,3 +142,11 @@ QPushButton#btn_pro_grabar:disabled, QPushButton#btn_pro_modificar:disabled {
 QPushButton#btn_cli_eliminar:disabled, QPushButton#btn_pro_eliminar:disabled {
     background-color: #fecaca; /*Red 200*/
 }
+
+QCheckBox#chk_pro_alquiler:disabled, QCheckBox#chk_pro_venta:disabled {
+    background-color: #fecaca; /*Red 200*/
+}
+
+QRadioButton#rbt_pro_alquilado:disabled, QRadioButton#rbt_pro_vendido:disabled {
+    background-color: #fecaca; /*Red 200*/
+}
