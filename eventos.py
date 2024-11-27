@@ -54,10 +54,18 @@ class Eventos:
         mbox.setIcon(QtWidgets.QMessageBox.Icon.Critical)
         mbox.setWindowIcon(QtGui.QIcon("img/house.ico"))
         mbox.setWindowTitle(titulo)
-        mbox.setText(mensaje)
         mbox.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Ok)
         mbox.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
         mbox.button(QtWidgets.QMessageBox.StandardButton.Ok).setText("Aceptar")
+
+        try:
+            iter(mensaje)
+            mensaje_total = ""
+            for m in mensaje:
+                mensaje_total = mensaje_total + m + "\n"
+            mbox.setText(mensaje_total)
+        except TypeError as te:
+            mbox.setText(mensaje)
         mbox.exec()
 
     def cargar_provincias(widget):
@@ -131,22 +139,11 @@ class Eventos:
             fecha = widget.text()
             if Eventos.validar_fecha(fecha) or fecha == "":
                 styles.set_style(widget, "no_obligatorio_valido")
-                if var.ui.panel_principal.currentIndex() == 0:
-                    if fecha != "":
-                        var.state_manager.change_state("baja_cliente", True)
-                    else:
-                        var.state_manager.change_state("baja_cliente", False)
-                elif var.ui.panel_principal.currentIndex() == 1:
-                    pass
             else:
                 styles.set_style(widget, "no_obligatorio_error")
                 widget.setText(None)
                 widget.setText("fecha no válida")
                 widget.setFocus()
-                if var.ui.panel_principal.currentIndex() == 0:
-                    var.state_manager.change_state("baja_cliente", False)
-                elif var.ui.panel_principal.currentIndex() == 1:
-                    pass
         except Exception as error:
             print("Error al validar la fecha de baja", error)
 
@@ -446,7 +443,6 @@ class Eventos:
                     pass
                 else:
                     value.setText("")
-            var.state_manager.change_state("baja_cliente", False)
             var.state_manager.change_state("cliente_query_object", conexion.Conexion.listar_clientes())
 
         if var.ui.panel_principal.currentIndex() == 1:
@@ -472,7 +468,6 @@ class Eventos:
                     value.setText("")
             
             Eventos.cargar_propiedad_tipos(propiedades.Propiedades.campos["tipo"])
-            var.state_manager.change_state("baja_propiedad", False)
             var.state_manager.change_state("propiedad_query_object", conexion.Conexion.listar_propiedades())
 
     def abrir_dlg_propiedades_tipo():

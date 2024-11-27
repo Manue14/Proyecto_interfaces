@@ -59,7 +59,6 @@ class StateManager:
     @staticmethod
     def update_state():
         StateManager.update_tables_state()
-        StateManager.update_fields_state()
 
     def update_tables_state():
         eventos.Eventos.cargar_tabla_clientes()

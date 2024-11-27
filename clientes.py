@@ -12,6 +12,8 @@ import mapper
 class Clientes:
     campos = {}
     botones = {}
+    _dni, _fecha_alta, _apellido, _nombre, _email, _movil, _direccion, _provincia, _municipio, _fecha_baja = "", "", "", "", "", "", "", "", "", ""
+
     def inicializar_campos():
         Clientes.campos = {
             "dni": var.ui.txt_cli_dni,
@@ -36,13 +38,23 @@ class Clientes:
             "btn_buscar": var.ui.btn_cli_buscar
         }
 
+    def inicializar_valores():
+        Clientes._dni = var.ui.txt_cli_dni.text()
+        Clientes._fecha_alta = var.ui.txt_cli_alta.text()
+        Clientes._apellido = var.ui.txt_cli_apellido.text()
+        Clientes._nombre = var.ui.txt_cli_nombre.text()
+        Clientes._email = var.ui.txt_cli_email.text()
+        Clientes._movil = var.ui.txt_cli_movil.text()
+        Clientes._direccion = var.ui.txt_cli_direccion.text()
+        Clientes._provincia = var.ui.cmb_cli_provincia.currentText()
+        Clientes._municipio = var.ui.cmb_cli_municipio.currentText()
+        Clientes._fecha_baja = var.ui.txt_cli_baja.text()
+
     def alta_cliente(self):
         Clientes.inicializar_campos()
-        if not Clientes.validar_campos_cli():
-            eventos.Eventos.mensaje_error("Aviso", "Faltan datos por introducir")
-            return
-        if Clientes.campos["fecha_baja"].text().strip() != "":
-            eventos.Eventos.mensaje_error("Aviso", "Al dar de alta un cliente no puedes introducir una fecha de baja")
+        response = Clientes.check_if_cliente_valid_for_create()
+        if not response["valid"]:
+            eventos.Eventos.mensaje_error("Aviso", response["messages"])
             return
         
         try:
@@ -57,15 +69,13 @@ class Clientes:
 
     def modificar_cliente(self):
         Clientes.inicializar_campos()
-        if not Clientes.validar_campos_cli():
-            eventos.Eventos.mensaje_error("Aviso", "Faltan datos por introducir")
+        response = Clientes.check_if_cliente_valid_for_edit()
+        if not response["valid"]:
+            eventos.Eventos.mensaje_error("Aviso", response["messages"])
             return
         
         try:
             cliente = mapper.Mapper.map_cliente(Clientes.campos)
-            if not Clientes.check_existe_cli(cliente["dni"]):
-                eventos.Eventos.mensaje_error("Aviso", "El cliente que intentas modificar no existe")
-                return
             if conexion.Conexion.modificar_cliente(cliente):
                 eventos.Eventos.mensaje_exito("Aviso", "Datos cliente modificados correctamente")
                 var.state_manager.change_state("cliente_query_object", conexion.Conexion.listar_clientes())
@@ -75,11 +85,14 @@ class Clientes:
             print("error modificar_cliente", error)
 
     def baja_cliente(self):
+        Clientes.inicializar_campos()
+        response = Clientes.check_if_cliente_valid_for_delete()
+        if not response["valid"]:
+            eventos.Eventos.mensaje_error("Aviso", response["messages"])
+            return
+        
         try:
             cliente = mapper.Mapper.map_cliente(Clientes.campos)
-            if not Clientes.check_existe_cli(cliente["dni"]):
-                eventos.Eventos.mensaje_error("Aviso", "El cliente que intentas dar de baja no existe")
-                return
             if cliente["fecha_baja"].strip() == "":
                 formato = '%d/%m/%Y'
                 cliente["fecha_baja"] = datetime.strftime(datetime.now(), formato)
@@ -88,7 +101,7 @@ class Clientes:
                 eventos.Eventos.mensaje_exito("Aviso", "Cliente dado de baja")
                 var.state_manager.change_state("cliente_query_object", conexion.Conexion.listar_clientes())
             else:
-                eventos.Eventos.mensaje_error("Aviso", "Error baja cliente: cliente no existe o dado de baja")
+                eventos.Eventos.mensaje_error("Aviso", "Error al dar de baja al cliente")
         except Exception as error:
             print("error baja_cliente", error)
 
@@ -127,35 +140,81 @@ class Clientes:
             return False
         else:
             return True
+        
+    def common_checks(response):
+        if (not Clientes._dni.strip() or not Clientes._apellido.strip() or not Clientes._direccion.strip() or not Clientes._fecha_alta.strip()
+        or not Clientes._nombre.strip() or not Clientes._movil.strip() or not Clientes._provincia.strip() or not Clientes._municipio.strip()):
+            response["valid"] = False
+            response["messages"].append("Algún campo obligatorio no está cubierto")
+        
+        if (not eventos.Eventos.validar_dni(Clientes._dni) or not eventos.Eventos.validar_movil(Clientes._movil)
+            or not eventos.Eventos.validar_fecha(Clientes._fecha_alta)):
+            response["valid"] = False
+            response["messages"].append("Algún campo obligatorio no tiene el formato esperado")
+
+        if (Clientes._email.strip() and not eventos.Eventos.validar_email(Clientes._email)):
+            response["valid"] = False
+            response["messages"].append("El email no está vacío y no tiene el formata esperado")
+
 
     def check_if_cliente_valid_for_create():
+        response = {
+            "valid": True,
+            "messages": []
+        }
+
         Clientes.inicializar_campos()
-        dni = Clientes.campos["dni"].text()
-        apellido = Clientes.campos["apellido"].text()
-        email = Clientes.campos["email"].text()
-        direccion = Clientes.campos["direccion"].text()
-        fecha_alta = Clientes.campos["fecha_alta"].text()
-        nombre = Clientes.campos["nombre"].text()
-        movil = Clientes.campos["movil"].text()
-        provincia = Clientes.campos["provincia"].currentText()
-        municipio = Clientes.campos["municipio"].currentText()
-        fecha_baja = Clientes.campos["fecha_baja"].text()
+        Clientes.inicializar_valores()
 
-        if (not dni.strip() or not apellido.strip() or not direccion.strip() or not fecha_alta.strip()
-        or not nombre.strip() or not movil.strip() or not provincia.strip() or not municipio.strip()):
-            return False
-        
-        if (not eventos.Eventos.validar_dni(dni) or not eventos.Eventos.validar_movil(movil)
-            or not eventos.Eventos.validar_fecha(fecha_alta)):
-            return False
+        Clientes.common_checks(response)
 
-        if (email.strip() and not eventos.Eventos.validar_email(email)):
-            return False
+        if (conexion.Conexion.get_cliente(Clientes._dni)):
+            response["valid"] = False
+            response["messages"].append("El cliente con dni " + Clientes._dni + " ya existe")
 
-        if (conexion.Conexion.get_cliente(dni)):
-            return False
+        if (Clientes._fecha_baja.strip()):
+            response["valid"] = False
+            response["messages"].append("Al dar de alta a un cliente no puedes introducir una fecha de baja")
 
-        if (fecha_baja.strip()):
-            return False
+        return response
+    
+    def check_if_cliente_valid_for_edit():
+        response = {
+            "valid": True,
+            "messages": []
+        }
 
-        return True
+        Clientes.inicializar_campos()
+        Clientes.inicializar_valores()
+
+        Clientes.common_checks(response)
+
+        if (conexion.Conexion.get_cliente(Clientes._dni) == False):
+            response["valid"] = False
+            response["messages"].append("El cliente con dni " + Clientes._dni + " no existe")
+
+        return response
+
+    def check_if_cliente_valid_for_delete():
+        response = {
+            "valid": True,
+            "messages": []
+        }
+
+        Clientes.inicializar_campos()
+        Clientes.inicializar_valores()
+
+        if (not Clientes._dni.strip() or not eventos.Eventos.validar_dni(Clientes._dni)):
+            response["valid"] = False
+            response["messages"].append("Es necesario un dni válido para dar de baja")
+
+        if (conexion.Conexion.get_cliente(Clientes._dni) == False):
+            response["valid"] = False
+            response["messages"].append("El cliente con dni " + Clientes._dni + " no existe")
+
+        '''if (not Clientes._fecha_baja.strip() or not eventos.Eventos.validar_fecha(Clientes._fecha_baja)):
+            response["valid"] = False
+            response["messages"].append("Es necesaria una fecha de baja para dar de baja a un cliente")'''
+        #Si no introducimos una fecha de baja se coge automáticamente la fecha actual
+
+        return response
