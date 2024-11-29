@@ -182,23 +182,23 @@ class Eventos:
                 styles.set_style(widget, "no_obligatorio_valido")
                 if Eventos.validar_numero(precio):
                     if (nombre == "txt_pro_precio_alquiler"):
-                        StateManager.change_state("precio_alquiler_propiedad", True)
+                        var.state_manager.change_state("precio_alquiler_propiedad", True)
                     elif (nombre == "txt_pro_precio_venta"):
-                        StateManager.change_state("precio_venta_propiedad", True)
+                        var.state_manager.change_state("precio_venta_propiedad", True)
                 else:
                     if (nombre == "txt_pro_precio_alquiler"):
-                        StateManager.change_state("precio_alquiler_propiedad", False)
+                        var.state_manager.change_state("precio_alquiler_propiedad", False)
                     elif (nombre == "txt_pro_precio_venta"):
-                        StateManager.change_state("precio_venta_propiedad", False)
+                        var.state_manager.change_state("precio_venta_propiedad", False)
             else:
                 styles.set_style(widget, "no_obligatorio_error")
                 widget.setText(None)
                 widget.setText("Valor no válido")
                 widget.setFocus()
                 if (nombre == "txt_pro_precio_alquiler"):
-                    StateManager.change_state("precio_alquiler_propiedad", False)
+                    var.state_manager.change_state("precio_alquiler_propiedad", False)
                 elif (nombre == "txt_pro_precio_venta"):
-                    StateManager.change_state("precio_venta_propiedad", False)
+                    var.state_manager.change_state("precio_venta_propiedad", False)
         except Exception as error:
             print("Error al validar el precio", error)
 
@@ -206,9 +206,9 @@ class Eventos:
         try:
             name = widget.objectName()
             if (name == "chk_pro_alquiler"):
-                StateManager.change_state("check_alquiler_propiedad", widget.isChecked())
+                var.state_manager.change_state("check_alquiler_propiedad", widget.isChecked())
             elif (name == "chk_pro_venta"):
-                StateManager.change_state("check_venta_propiedad", widget.isChecked())
+                var.state_manager.change_state("check_venta_propiedad", widget.isChecked())
         except Exception as error:
             print("Error al observar el checkbox", error)
     
@@ -494,6 +494,10 @@ class Eventos:
             
             Eventos.cargar_propiedad_tipos(propiedades.Propiedades.campos["tipo"])
             var.state_manager.change_state("propiedad_query_object", conexion.Conexion.listar_propiedades())
+            var.state_manager.change_state("precio_alquiler_propiedad", False)
+            var.state_manager.change_state("precio_venta_propiedad", False)
+            var.state_manager.change_state("check_alquiler_propiedad", False)
+            var.state_manager.change_state("check_venta_propiedad", False)
 
     def abrir_dlg_propiedades_tipo():
         try:

@@ -169,10 +169,10 @@ class Propiedades():
                     Propiedades.campos["check_intercambio"].setChecked(False)
                     if "Alquiler" in propiedad[key]:
                         Propiedades.campos["check_alquiler"].setChecked(True)
-
+                        var.state_manager.change_state("check_alquiler_propiedad", True)
                     if "Venta" in propiedad[key]:
                         Propiedades.campos["check_venta"].setChecked(True)
-
+                        var.state_manager.change_state("check_venta_propiedad", True)
                     if "Intercambio" in propiedad[key]:
                         Propiedades.campos["check_intercambio"].setChecked(True)
 
@@ -192,6 +192,8 @@ class Propiedades():
 
                 else:
                     Propiedades.campos[key].setText(propiedad[key])
+                    var.state_manager.change_state("precio_alquiler_propiedad", eventos.Eventos.validar_numero(propiedad["precio_alquiler"]))
+                    var.state_manager.change_state("precio_venta_propiedad", eventos.Eventos.validar_numero(propiedad["precio_venta"]))
         except Exception as error:
             print("error al cargar el cliente", error)
 

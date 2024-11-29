@@ -150,3 +150,7 @@ QCheckBox#chk_pro_alquiler:disabled, QCheckBox#chk_pro_venta:disabled {
 QRadioButton#rbt_pro_alquilado:disabled, QRadioButton#rbt_pro_vendido:disabled {
     background-color: #fecaca; /*Red 200*/
 }
+
+QLabel[qssClass="asterisk"] {
+    color: red;
+}
