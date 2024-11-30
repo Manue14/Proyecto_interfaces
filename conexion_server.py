@@ -21,7 +21,6 @@ class ConexionServer():
         except Error as e:
             print(f"Error al conectar a la base de datos: {e}")
             return None
-        return None
 
     @staticmethod
     def listar_provincias(self=None):
