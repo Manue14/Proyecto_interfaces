@@ -1,43 +1,39 @@
 /* ---- Estilo para QMainWindow ---- */
 QMainWindow {
-    background-color: whitesmoke;
+    background-color: #ffffff;
 }
 
 /* ---- Estilo para QTabWidget ---- */
 QTabWidget {
-	background-color: none;
+	background-color: #f4f4f4;
 	width: 100em;
 }
 
 /* ---- Estilo menu bar ---- */
 QMenuBar {
-	background-color: whitesmoke;
-}
-
-/* ---- Ejemplo de Estilo para QPushButton no lo usaremos ---- */
-QPushButton {
-	background-color: green;
-	color: white;
-	border: 1px solid black;
-	border-radius: 5px;
+	background-color: #f4f4f4;
 }
 
 /* ---- Estilos tabla ---- */
 QTableWidget {
+    background-color: #ffffff;
+}
 
+QTableWidget::item {
+    background-color: #f4f4f4;
 }
 
 QTableWidget::item:alternate {
-	background-color: whitesmoke;
+	background-color: #eaeaea;
 }
 
 QTableWidget::item:selected {
-	background-color: ghostwhite;
+	background-color: #e0e7ff; /*Indigo 100*/
 	color: black;
 }
 
 QHeaderView::section {
-    background-color: #d7eff6;
+    background-color: #c7d2fe; /*Indigo 200*/
     color: black;
     font-size: 16px;
     font-weight: bold;
@@ -45,11 +41,94 @@ QHeaderView::section {
     border: 1px solid black;
 }
 
-QToolbar {
-    background-color: whitesmoke;
+QToolBar {
+    background-color: #eaeaea;
+}
+
+/* ---- Estilos PushButtons ---- */
+QPushButton#btn_cli_grabar, QPushButton#btn_cli_modificar, QPushButton#btn_pro_grabar, QPushButton#btn_pro_modificar,
+QPushButton#btn_cli_eliminar, QPushButton#btn_pro_eliminar {
+	border: none;
+	border-radius: 10px;
+    color: white;
+}
+
+QPushButton#btn_cli_grabar, QPushButton#btn_cli_modificar, QPushButton#btn_pro_grabar, QPushButton#btn_pro_modificar {
+	background-color: #6366f1; /*Indigo 500*/
+}
+
+QPushButton#btn_cli_grabar:hover, QPushButton#btn_cli_modificar:hover, QPushButton#btn_pro_grabar:hover, QPushButton#btn_pro_modificar:hover {
+	background-color: #a5b4fc; /*Indigo 300*/
+}
+
+QPushButton#btn_cli_eliminar, QPushButton#btn_pro_eliminar {
+	background-color: #ef4444; /*Red 500*/
+}
+
+QPushButton#btn_cli_eliminar:hover, QPushButton#btn_pro_eliminar:hover {
+	background-color: #fca5a5; /*Red 300*/
+}
+
+/* ---- Estilos CheckBoxes ---- */
+QCheckBox#chk_pro_alquiler::indicator:unchecked, QCheckBox#chk_pro_venta::indicator:unchecked, QCheckBox#chk_pro_intercambio::indicator:unchecked,
+QCheckBox#chk_cli_historico::indicator:unchecked, QCheckBox#chk_pro_historico::indicator:unchecked {
+    image: url(./img/unchecked.png);
+}
+
+QCheckBox#chk_pro_alquiler::indicator:checked, QCheckBox#chk_pro_venta::indicator:checked, QCheckBox#chk_pro_intercambio::indicator:checked,
+QCheckBox#chk_cli_historico::indicator:checked, QCheckBox#chk_pro_historico::indicator:checked{
+    image: url(./img/checkbox.png);
+}
+
+QCheckBox#chk_pro_alquiler::indicator:disabled, QCheckBox#chk_pro_venta::indicator:disabled {
+    color: #c8c8c8;
+    image: url(./img/unchecked-disabled.png);
+}
+
+/* ---- Estilos RadioButtons ---- */
+QRadioButton#rbt_pro_alquilado::indicator:unchecked, QRadioButton#rbt_pro_vendido::indicator:unchecked, QRadioButton#rbt_pro_disponible::indicator:unchecked {
+    image: url(./img/empty.png);
+}
+
+QRadioButton#rbt_pro_alquilado::indicator:checked, QRadioButton#rbt_pro_vendido::indicator:checked, QRadioButton#rbt_pro_disponible::indicator:checked {
+    image: url(./img/choice.png);
+}
+
+QRadioButton#rbt_pro_alquilado::indicator:disabled, QRadioButton#rbt_pro_vendido::indicator:disabled {
+    color: #c8c8c8;
+    image: url(./img/empty-disabled.png);
+}
+
+/* ---- Estilos Labels ---- */
+*[qssClass="general_label"] {
+    background-color: #eef2ff; /*Indigo 50*/
+    border-bottom: 2px solid #a5b4fc; /*Indigo 300*/
+    border-radius: 2px 2px 2px 2px;
+    border-style: none none solid none;
+}
+
+*[qssClass="general_label"]:hover {
+    border-bottom: 2px solid #6366f1; /*Indigo 500*/
+}
+
+*[qssClass="general_label"]:focus {
+    background-color: #c7d2fe; /*Indigo 200*/
+    border-bottom: 2px solid #4f46e5 /*Indigo 600*/
+}
+
+/* ---- Estilos ComboBoxes ---- */
+*[qssClass="general_combobox"] {
+    padding-bottom: 2px;
+    padding-left: 10px;
+    padding-top: 2px;
+}
+
+*[qssClass="general_combobox"] QAbstractItemView::item:hover {
+    background-color: #6366f1; /*Indigo 500*/
 }
 
 /* ---- Estilos campos ---- */
+
 
 *[qssClass="no_obligatorio_valido"] {
 	border-bottom: 1px solid #93c5fd; /*Blue 300*/
@@ -101,7 +180,6 @@ QToolbar {
     background-color: #fca5a5; /*Red 300*/
     border-radius: 2px 2px 0px 2px;
 }
-
 /* ---- Colores campos error ---- */
 /* normal:
     border-color: #f87171 Red 400
@@ -111,46 +189,51 @@ QToolbar {
     background-color: #fca5a5 Red 300
 */
 
-/* ---- Estilos botones ---- */
-QPushButton#btn_cli_grabar, QPushButton#btn_cli_modificar, QPushButton#btn_pro_grabar, QPushButton#btn_pro_modificar,
-QPushButton#btn_cli_eliminar, QPushButton#btn_pro_eliminar {
-	border: none;
-	border-radius: 10px;
-}
-
-QPushButton#btn_cli_grabar, QPushButton#btn_cli_modificar, QPushButton#btn_pro_grabar, QPushButton#btn_pro_modificar {
-	background-color: #3b82f6; /*Blue 500*/
-}
-
-QPushButton#btn_cli_grabar:hover, QPushButton#btn_cli_modificar:hover, QPushButton#btn_pro_grabar:hover, QPushButton#btn_pro_modificar:hover {
-	background-color: #93c5fd; /*Blue 300*/
-}
-
-QPushButton#btn_cli_eliminar, QPushButton#btn_pro_eliminar {
-	background-color: #ef4444; /*Red 500*/
-}
-
-QPushButton#btn_cli_eliminar:hover, QPushButton#btn_pro_eliminar:hover {
-	background-color: #fca5a5; /*Red 300*/
-}
-
-QPushButton#btn_cli_grabar:disabled, QPushButton#btn_cli_modificar:disabled,
-QPushButton#btn_pro_grabar:disabled, QPushButton#btn_pro_modificar:disabled {
-    background-color: #bfdbfe; /*Blue 200*/
-}
-
-QPushButton#btn_cli_eliminar:disabled, QPushButton#btn_pro_eliminar:disabled {
-    background-color: #fecaca; /*Red 200*/
-}
-
-QCheckBox#chk_pro_alquiler:disabled, QCheckBox#chk_pro_venta:disabled {
-    background-color: #fecaca; /*Red 200*/
-}
-
-QRadioButton#rbt_pro_alquilado:disabled, QRadioButton#rbt_pro_vendido:disabled {
-    background-color: #fecaca; /*Red 200*/
-}
-
 QLabel[qssClass="asterisk"] {
     color: red;
 }
+
+
+/*
+Modo claro:
+    fondos: #ffffff
+    enfasis claro: #f4f4f4
+    enfasis medio: #eaeaea
+    enfasis oscuro: #c8c8c8
+    enfasis extra oscuro: #535353
+    texto: #000000
+*/
+
+/*
+Modo oscuro:
+    fondos: #000000
+    enfasis claro: #333333
+    enfasis medio: #1f1f1f
+    iconos: #747474
+    texto: #ffffff
+*/
+
+/*
+Color de enfasis:
+    Indigo 50: #eef2ff
+    Indigo 100: #e0e7ff
+    Indigo 200: #c7d2fe
+    Indigo 300: #a5b4fc
+    Indigo 400: #818cf8
+    Indigo 500: #6366f1
+    Indigo 600: #4f46e5
+    Indigo 700: #4338ca
+    Indigo 800: #3730a3
+    Indigo 900: #312e81
+    Indigo 950: #1e1b4b
+*/
+
+/*
+Color de errores:
+    red 200: #fecaca
+    red 300: #fca5a5
+    red 400: #f87171
+    red 600: #dc2626
+*/
+
+/*https://learn.microsoft.com/es-es/windows/apps/design/signature-experiences/color*/
