@@ -20,8 +20,8 @@ class StateManager:
     @staticmethod
     def default_queries():
         try:
-            StateManager.state["cliente_query_object"] = conexion.Conexion.listar_clientes()
-            StateManager.state["propiedad_query_object"] = conexion.Conexion.listar_propiedades()
+            StateManager.state["cliente_query_object"] = var.clase_conexion.listar_clientes()
+            StateManager.state["propiedad_query_object"] = var.clase_conexion.listar_propiedades()
         except Exception as error:
             print("Error al obtener información de la base de datos", error)
 

@@ -59,9 +59,9 @@ class Clientes:
         
         try:
             cliente = mapper.Mapper.map_cliente(Clientes.campos)
-            if conexion.Conexion.alta_cliente(cliente):
+            if var.clase_conexion.alta_cliente(cliente):
                 eventos.Eventos.mensaje_exito("Aviso", "Alta cliente en la base de datos")
-                var.state_manager.change_state("cliente_query_object", conexion.Conexion.listar_clientes())
+                var.state_manager.change_state("cliente_query_object", var.clase_conexion.listar_clientes())
             else:
                 eventos.Eventos.mensaje_error("Aviso", "El cliente ya existe")
         except Exception as error:
@@ -76,9 +76,9 @@ class Clientes:
         
         try:
             cliente = mapper.Mapper.map_cliente(Clientes.campos)
-            if conexion.Conexion.modificar_cliente(cliente):
+            if var.clase_conexion.modificar_cliente(cliente):
                 eventos.Eventos.mensaje_exito("Aviso", "Datos cliente modificados correctamente")
-                var.state_manager.change_state("cliente_query_object", conexion.Conexion.listar_clientes())
+                var.state_manager.change_state("cliente_query_object", var.clase_conexion.listar_clientes())
             else:
                 eventos.Eventos.mensaje_error("Aviso", "Error al modificar los datos del cliente")
         except Exception as error:
@@ -97,9 +97,9 @@ class Clientes:
                 formato = '%d/%m/%Y'
                 cliente["fecha_baja"] = datetime.strftime(datetime.now(), formato)
             
-            if conexion.Conexion.baja_cliente(cliente):
+            if var.clase_conexion.baja_cliente(cliente):
                 eventos.Eventos.mensaje_exito("Aviso", "Cliente dado de baja")
-                var.state_manager.change_state("cliente_query_object", conexion.Conexion.listar_clientes())
+                var.state_manager.change_state("cliente_query_object", var.clase_conexion.listar_clientes())
             else:
                 eventos.Eventos.mensaje_error("Aviso", "Error al dar de baja al cliente")
         except Exception as error:
@@ -110,7 +110,7 @@ class Clientes:
         try:
             fila = var.ui.tab_cli.selectedItems()
             datos = [dato.text() for dato in fila]
-            cliente = conexion.Conexion.get_cliente(str(datos[0]))
+            cliente = var.clase_conexion.get_cliente(str(datos[0]))
             for key in cliente:
                 if key == "provincia" or key == "municipio":
                     Clientes.campos[key].setCurrentText(cliente[key])
@@ -124,7 +124,7 @@ class Clientes:
         Clientes.inicializar_campos()
         try:
             dni = Clientes.campos["dni"].text()
-            cliente = conexion.Conexion.get_cliente(dni)
+            cliente = var.clase_conexion.get_cliente(dni)
             for key in cliente:
                 if key == "provincia" or key == "municipio":
                     Clientes.campos[key].setCurrentText(cliente[key])
@@ -135,7 +135,7 @@ class Clientes:
             print("Error al buscar cliente", error)
 
     def check_existe_cli(dni):
-        cliente = conexion.Conexion.get_cliente(dni)
+        cliente = var.clase_conexion.get_cliente(dni)
         if (cliente["dni"] == ""):
             return False
         else:
@@ -168,7 +168,7 @@ class Clientes:
 
         Clientes.common_checks(response)
 
-        if (conexion.Conexion.get_cliente(Clientes._dni)):
+        if (var.clase_conexion.get_cliente(Clientes._dni)):
             response["valid"] = False
             response["messages"].append("El cliente con dni " + Clientes._dni + " ya existe")
 
@@ -189,7 +189,7 @@ class Clientes:
 
         Clientes.common_checks(response)
 
-        if (conexion.Conexion.get_cliente(Clientes._dni) == False):
+        if (var.clase_conexion.get_cliente(Clientes._dni) == False):
             response["valid"] = False
             response["messages"].append("El cliente con dni " + Clientes._dni + " no existe")
 
@@ -208,7 +208,7 @@ class Clientes:
             response["valid"] = False
             response["messages"].append("Es necesario un dni válido para dar de baja")
 
-        if (conexion.Conexion.get_cliente(Clientes._dni) == False):
+        if (var.clase_conexion.get_cliente(Clientes._dni) == False):
             response["valid"] = False
             response["messages"].append("El cliente con dni " + Clientes._dni + " no existe")
 

@@ -10,3 +10,4 @@ global btn
 global dlg_gestion_propiedad_tipo
 global dlg_filtrar_propiedades
 global state_manager
+global clase_conexion

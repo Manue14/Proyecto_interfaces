@@ -71,14 +71,14 @@ class Eventos:
 
     def cargar_provincias(widget):
         widget.clear()
-        listado = conexion.Conexion.listar_provincias()
+        listado = var.clase_conexion.listar_provincias()
         #listado = conexionserver.ConexionServer.listar_provincias(self)
         for prov in listado:
             widget.addItem(prov[1], prov[0])
 
     def cargar_municipios(widget, provId = 1):
         widget.clear()
-        listado = conexion.Conexion.listar_municipios(provId)
+        listado = var.clase_conexion.listar_municipios(provId)
         #listado = conexionserver.ConexionServer.listar_municipios(provId)
         for mun in listado:
             widget.addItem(mun[0], mun[1])
@@ -450,7 +450,7 @@ class Eventos:
 
                 Eventos.mensaje_exito("Copia de Seguridad", "Copia de seguridad restaurada")
 
-                conexion.Conexion.db_conexion(self)
+                var.clase_conexion.db_conexion(self)
                 Eventos.cargar_provincias(self)
                 clientes.Clientes.cargar_cli_tab(self)
         except Exception as error:
@@ -468,7 +468,7 @@ class Eventos:
                     pass
                 else:
                     value.setText("")
-            var.state_manager.change_state("cliente_query_object", conexion.Conexion.listar_clientes())
+            var.state_manager.change_state("cliente_query_object", var.clase_conexion.listar_clientes())
 
         if var.ui.panel_principal.currentIndex() == 1:
             propiedades.Propiedades.inicializar_campos()
@@ -493,7 +493,7 @@ class Eventos:
                     value.setText("")
             
             Eventos.cargar_propiedad_tipos(propiedades.Propiedades.campos["tipo"])
-            var.state_manager.change_state("propiedad_query_object", conexion.Conexion.listar_propiedades())
+            var.state_manager.change_state("propiedad_query_object", var.clase_conexion.listar_propiedades())
             var.state_manager.change_state("precio_alquiler_propiedad", False)
             var.state_manager.change_state("precio_venta_propiedad", False)
             var.state_manager.change_state("check_alquiler_propiedad", False)
@@ -506,7 +506,7 @@ class Eventos:
             print("error en abrir gestión propiedades ", error)
 
     def cargar_propiedad_tipos(cmb):
-        registro = conexion.Conexion.cargar_propiedad_tipos()
+        registro = var.clase_conexion.cargar_propiedad_tipos()
         cmb.clear()
         cmb.addItems(registro)
 
@@ -517,7 +517,7 @@ class Eventos:
             directorio, fichero = var.dlg_abrir.getSaveFileName(None, "Exportar Datos en CSV", file, ".csv")
 
             if fichero:
-                registros = conexion.Conexion.listar_propiedades()
+                registros = var.clase_conexion.listar_propiedades()
                 with open(fichero, 'w', newline='', encoding="utf-8") as csvfile:
                     writer = csv.writer(csvfile)
                     writer.writerow(registros[0].keys())
@@ -539,7 +539,7 @@ class Eventos:
             directorio, fichero = var.dlg_abrir.getSaveFileName(None, "Exportar Datos en JSON", file, ".json")
 
             if fichero:
-                registros = conexion.Conexion.listar_propiedades()
+                registros = var.clase_conexion.listar_propiedades()
                 with open(fichero, 'w', newline='', encoding="utf-8") as jsonfile:
                     json.dump(registros, jsonfile, ensure_ascii=False, indent=4)
 

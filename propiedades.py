@@ -69,14 +69,13 @@ class Propiedades():
         Propiedades.inicializar_campos()
         try:
             tipo = var.dlg_gestion_propiedad_tipo.ui.txt_pro_gestion_tipo.text()
-            registro = conexion.Conexion.alta_propiedad_tipo(tipo)
-            if registro:
+            exito = var.clase_conexion.alta_propiedad_tipo(tipo)
+            if exito:
                 eventos.Eventos.mensaje_exito("Aviso", "Tipo de propiedad registrado con éxito")
             else:
                 eventos.Eventos.mensaje_error("Aviso", "Ese tipo de propieda ya existe")
             var.dlg_gestion_propiedad_tipo.ui.txt_pro_gestion_tipo.setText("")
             eventos.Eventos.cargar_propiedad_tipos(Propiedades.campos["tipo"])
-            eventos.Eventos.cargar_propiedad_tipos(var.dlg_filtrar_propiedades.ui.cmb_pro_tipo_filtrar)
         except Exception as e:
             print(f"Error: {e}")
 
@@ -84,13 +83,12 @@ class Propiedades():
         Propiedades.inicializar_campos()
         try:
             tipo = var.dlg_gestion_propiedad_tipo.ui.txt_pro_gestion_tipo.text()
-            if conexion.Conexion.baja_propiedad_tipo(tipo):
+            if var.clase_conexion.baja_propiedad_tipo(tipo):
                 eventos.Eventos.mensaje_exito("Aviso", "Tipo de propiedad dado de baja")
             else:
                 eventos.Eventos.mensaje_error("Aviso", "Ese tipo de propieda no existe")
             var.dlg_gestion_propiedad_tipo.ui.txt_pro_gestion_tipo.setText("")
             eventos.Eventos.cargar_propiedad_tipos(Propiedades.campos["tipo"])
-            eventos.Eventos.cargar_propiedad_tipos(var.dlg_filtrar_propiedades.ui.cmb_pro_tipo_filtrar)
         except Exception as e:
             print(f"Error: {e}")
 
@@ -103,11 +101,11 @@ class Propiedades():
 
         try:
             propiedad = mapper.Mapper.map_propiedad(Propiedades.campos)
-            if conexion.Conexion.alta_propiedad(propiedad):
+            if var.clase_conexion.alta_propiedad(propiedad):
                 eventos.Eventos.mensaje_exito("Aviso", "Propiedad dada de alta con éxito")
             else:
                 eventos.Eventos.mensaje_error("Aviso", "No se pudo dar de alta la propiedad")
-            var.state_manager.change_state("propiedad_query_object", conexion.Conexion.listar_propiedades())
+            var.state_manager.change_state("propiedad_query_object", var.clase_conexion.listar_propiedades())
         except Exception as e:
             print("error en en alta de una propiedad")
 
@@ -119,11 +117,11 @@ class Propiedades():
 
         try:
             propiedad = mapper.Mapper.map_propiedad(Propiedades.campos)
-            if conexion.Conexion.modificar_propiedad(propiedad):
+            if var.clase_conexion.modificar_propiedad(propiedad):
                 eventos.Eventos.mensaje_exito("Aviso", "Propiedad modificada con éxito")
             else:
                 eventos.Eventos.mensaje_error("Aviso", "No se pudo modificar la propiedad")
-            var.state_manager.change_state("propiedad_query_object", conexion.Conexion.listar_propiedades())
+            var.state_manager.change_state("propiedad_query_object", var.clase_conexion.listar_propiedades())
         except Exception as e:
             print("Error al modificar la propiedad", e)
 
@@ -135,11 +133,11 @@ class Propiedades():
 
         try:
             propiedad = mapper.Mapper.map_propiedad(Propiedades.campos)
-            if conexion.Conexion.eliminar_propiedad(propiedad):
+            if var.clase_conexion.eliminar_propiedad(propiedad):
                 eventos.Eventos.mensaje_exito("Aviso", "Propiedad dada de baja con éxito")
             else:
                 eventos.Eventos.mensaje_error("Aviso", "No se pudo dar de baja la propiedad")
-            var.state_manager.change_state("propiedad_query_object", conexion.Conexion.listar_propiedades())
+            var.state_manager.change_state("propiedad_query_object", var.clase_conexion.listar_propiedades())
         except Exception as e:
             print("Error al dar de baja la propiedad", e)
 
@@ -147,7 +145,7 @@ class Propiedades():
         try:
             tipo = Propiedades.campos["tipo"].currentText()
             municipio = Propiedades.campos["municipio"].currentText()
-            propiedades = conexion.Conexion.filtrar_propiedades(tipo, municipio)
+            propiedades = var.clase_conexion.filtrar_propiedades(tipo, municipio)
 
             var.state_manager.change_state("propiedad_query_object", propiedades)
         except Exception as error:
@@ -157,7 +155,7 @@ class Propiedades():
         Propiedades.inicializar_campos()
         try:
             codigo = var.ui.tab_pro.selectedItems()[0].text()
-            propiedad = conexion.Conexion.get_propiedad(codigo)
+            propiedad = var.clase_conexion.get_propiedad(codigo)
             for key in propiedad:
                 if key == "provincia" or key == "municipio" or key == "tipo":
                     Propiedades.campos[key].setCurrentText(propiedad[key])
@@ -242,7 +240,7 @@ class Propiedades():
 
         Propiedades.common_checks(response)
 
-        if (conexion.Conexion.get_propiedad(Propiedades._codigo)):
+        if (var.clase_conexion.get_propiedad(Propiedades._codigo)):
             response["valid"] = False
             response["messages"].append("La propiedad con código " + Propiedades._codigo + " ya existe")
 
@@ -267,7 +265,7 @@ class Propiedades():
 
         Propiedades.common_checks(response)
 
-        if (not Propiedades._codigo.strip() or not conexion.Conexion.get_propiedad(Propiedades._codigo)):
+        if (not Propiedades._codigo.strip() or not var.clase_conexion.get_propiedad(Propiedades._codigo)):
             response["valid"] = False
             response["messages"].append("La propiedad con código " + Propiedades._codigo + " no existe")
 
@@ -314,7 +312,7 @@ class Propiedades():
         Propiedades.inicializar_campos()
         Propiedades.inicializar_valores()
 
-        if (not Propiedades._codigo.strip() or not conexion.Conexion.get_propiedad(Propiedades._codigo)):
+        if (not Propiedades._codigo.strip() or not var.clase_conexion.get_propiedad(Propiedades._codigo)):
             response["valid"] = False
             response["messages"].append("La propiedad con código " + Propiedades._codigo + " no existe")
 

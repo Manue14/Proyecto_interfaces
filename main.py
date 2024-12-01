@@ -15,10 +15,12 @@ class Main(QtWidgets.QMainWindow):
         super(Main, self).__init__()
         var.ui = Ui_VentanaPrincipal()
         var.ui.setupUi(self)
-        conexion.Conexion.db_conexion(self)
+        var.clase_conexion = conexion.Conexion
+        #var.clase_conexion = conexion_server.ConexionServer
+        var.clase_conexion.db_conexion(self)
         var.state_manager = state_manager.StateManager()
         var.state_manager.default_queries()
-        state_manager.StateManager.update_state()
+        var.state_manager.update_state()
         var.ui_calendar = Calendar()
         var.dlg_abrir = FileDialogAbrir()
         var.dlg_gestion_propiedad_tipo = DlgGestionPropiedadTipo()

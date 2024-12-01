@@ -21,7 +21,7 @@ class Mapper:
                     "direccion": campos["direccion"].text(), "provincia": campos["provincia"].currentText(),
                     "municipio": campos["municipio"].currentText(), "fecha_baja": campos["fecha_baja"].text()}
         return cliente
-
+    
     @staticmethod
     def bind_cliente_query(query, cliente):
         query.bindValue(":dnicli", cliente["dni"])
@@ -136,3 +136,50 @@ class Mapper:
         Mapper.bind_propiedad_create_query(query, propiedad)
         query.bindValue(":codigo", propiedad["codigo"])
         query.bindValue(":bajaprop", str(propiedad["fecha_baja"]))
+
+    @staticmethod
+    def map_cliente_servidor_list(fila):
+        cliente = {"dni": fila["dnicli"], "fecha_alta": fila["altacli"], "apellido": fila["apelcli"],
+                    "nombre": fila["nomecli"], "email": fila["emailcli"], "movil": fila["movilcli"],
+                    "direccion": fila["dircli"], "provincia": fila["provcli"],
+                    "municipio": fila["municli"], "fecha_baja": fila["bajacli"]}
+        return cliente
+    
+    @staticmethod
+    def map_propiedad_servidor_list(fila):
+        propiedad = {"codigo": fila["codigo"], "fecha_alta": fila["altaprop"], "fecha_baja": fila["bajaprop"], "direccion": fila["dirprop"],
+            "provincia": fila["provprop"], "municipio": fila["muniprop"], "tipo": fila["tipoprop"], "habitaciones": fila["habprop"],
+            "banos": fila["banprop"], "superficie": fila["superprop"], "precio_alquiler": fila["prealquiprop"], "precio_venta": fila["prevenprop"],
+            "postal": fila["cpprop"], "descripcion": fila["obserprop"], "operaciones": fila["tipooper"], "estado": fila["estadoprop"],
+            "propietario": fila["nomeprop"], "movil": fila["movilprop"]}
+        return propiedad
+
+    @staticmethod
+    def bind_cliente_create_query_servidor(cursor, query, cliente):
+        cursor.execute(query, (cliente["dni"], cliente["fecha_alta"], cliente["apellido"], cliente["nombre"], cliente["email"], cliente["movil"],
+                               cliente["direccion"], cliente["provincia"], cliente["municipio"]))
+        
+    @staticmethod
+    def bind_cliente_update_query_servidor(cursor, query, cliente):
+        cursor.execute(query, (cliente["fecha_alta"], cliente["apellido"], cliente["nombre"], cliente["email"], cliente["movil"],
+                                cliente["direccion"], cliente["provincia"], cliente["municipio"],
+                                (None if cliente["fecha_baja"] == "" else cliente["fecha_baja"]), cliente["dni"]))
+        
+    @staticmethod
+    def bind_propiedad_create_query_servidor(cursor, query, propiedad):
+        cursor.execute(query, (propiedad["fecha_alta"], propiedad["direccion"], propiedad["provincia"], propiedad["municipio"], propiedad["tipo"],
+                               propiedad["habitaciones"], propiedad["banos"], propiedad["superficie"],
+                               (None if propiedad["precio_alquiler"] == "" else propiedad["precio_alquiler"]),
+                               (None if propiedad["precion_venta"] == "" else propiedad["precion_venta"]), propiedad["postal"],
+                               (None if propiedad["descripcion"] == "" else propiedad["descripcion"]), propiedad["operaciones"],
+                               propiedad["estado"], propiedad["propietario"], propiedad["movil"]))
+        
+    @staticmethod
+    def bind_propiedad_update_query_servidor(cursor, query, propiedad):
+        cursor.execute(query, (propiedad["fecha_alta"], propiedad["direccion"], propiedad["provincia"], propiedad["municipio"], propiedad["tipo"],
+                               propiedad["habitaciones"], propiedad["banos"], propiedad["superficie"],
+                               (None if propiedad["precio_alquiler"] == "" else propiedad["precio_alquiler"]),
+                               (None if propiedad["precion_venta"] == "" else propiedad["precion_venta"]), propiedad["postal"],
+                               (None if propiedad["descripcion"] == "" else propiedad["descripcion"]), propiedad["operaciones"],
+                               propiedad["estado"], propiedad["propietario"], propiedad["movil"],
+                               (None if propiedad["fecha_baja"] == "" else propiedad["fecha_baja"]), propiedad["codigo"]))

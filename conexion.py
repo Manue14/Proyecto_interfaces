@@ -118,6 +118,7 @@ class Conexion:
                 return cliente
         except Exception as error:
             print("error datos un cliente", error)
+            return {}
 
     def modificar_cliente(cliente):
         try:
@@ -140,6 +141,7 @@ class Conexion:
                 return False
         except Exception as error:
             print("error modificar cliente", error)
+            return False
 
     def baja_cliente(cliente):
         try:
@@ -153,6 +155,7 @@ class Conexion:
                 return False
         except Exception as error:
             print("error baja cliente", error)
+            return False
 
     def alta_propiedad_tipo(tipo):
         try:
@@ -166,11 +169,12 @@ class Conexion:
                     registro = []
                     while query.next():
                         registro.append(query.value(0))
-                    return registro
+                    return True
             else:
                 return False
         except Exception as error:
             print("error alta tipo propiedad", error)
+            return False
 
     def cargar_propiedad_tipos():
         query = QtSql.QSqlQuery()
@@ -180,6 +184,8 @@ class Conexion:
             while query.next():
                 registro.append(query.value(0))
             return registro
+        else:
+            return []
 
     def baja_propiedad_tipo(tipo):
         try:
@@ -197,7 +203,6 @@ class Conexion:
             print("error baja tipo propiedad", error)
 
     def alta_propiedad(propiedad):
-        print(propiedad)
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT into propiedades (altaprop, dirprop, provprop, muniprop, tipoprop, habprop, "
@@ -213,6 +218,7 @@ class Conexion:
                 return False
         except Exception as error:
             print("error al dar de alta la propiedad en la base de datos", error)
+            return False
 
     def modificar_propiedad(propiedad):
         try:
@@ -231,13 +237,15 @@ class Conexion:
                 return False
         except Exception as error:
             print("Error al modificar la propiedad en la base de datos", error)
+            return False
 
     def eliminar_propiedad(propiedad):
         try:
             query = QtSql.QSqlQuery()
-            query.prepare("UPDATE propiedades SET bajaprop = :bajaprop WHERE codigo = :codigo")
+            query.prepare("UPDATE propiedades SET bajaprop = :bajaprop, estadoprop = :estadoprop WHERE codigo = :codigo")
 
             query.bindValue(":bajaprop", str(propiedad["fecha_baja"]))
+            query.bindValue(":estadoprop", str(propiedad["estado"]))
             query.bindValue(":codigo", propiedad["codigo"])
 
             if query.exec():
@@ -246,6 +254,7 @@ class Conexion:
                 return False
         except Exception as error:
             print("Error al dar de baja la propiedad en la base de datos", error)
+            return False
 
     def listar_propiedades():
         try:
@@ -282,8 +291,11 @@ class Conexion:
                     for i in range(query.record().count()):
                         propiedad[keys[i]] = str(query.value(i))
                 return propiedad
+            else:
+                return {}
         except Exception as error:
             print("error al obtener la propiedad de la base de datos", error)
+            return {}
 
     def filtrar_propiedades(tipo, municipio):
         try:
