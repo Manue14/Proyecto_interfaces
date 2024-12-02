@@ -291,14 +291,25 @@ class Eventos:
         var.ui.tab_cli.verticalHeader().setVisible(False)
         clientes = var.state_manager.state["cliente_query_object"]
 
-        for cliente in clientes:
-            if (var.state_manager.state["historico_cli"] == False):
-                if (not cliente["fecha_baja"]):
+        start = var.state_manager.state["current_cli_pagina"] * var.state_manager.state["cliente_pagination"]
+        end = var.state_manager.state["current_cli_pagina"] * var.state_manager.state["cliente_pagination"] + var.state_manager.state["cliente_pagination"]
+
+        for i in range(start, end):
+            if (i < len(clientes)):
+                cliente = clientes[i]
+                print(cliente)
+        print("\n")
+
+        for i in range(start, end):
+            if (i < len(clientes)):
+                cliente = clientes[i]
+                if (var.state_manager.state["historico_cli"] == False):
+                    if (not cliente["fecha_baja"]):
+                        Eventos.show_cli_on_table(cliente, index)
+                        index += 1
+                else:
                     Eventos.show_cli_on_table(cliente, index)
                     index += 1
-            else:
-                Eventos.show_cli_on_table(cliente, index)
-                index += 1
 
     def cargar_tabla_propiedades():
         index = 0
@@ -553,3 +564,15 @@ class Eventos:
                 Eventos.mensaje_error("Aviso", "Error al exportar las propiedades")
         except Exception as error:
             print("Error al exportar las propiedades ", error)
+
+    def avanzar_pagina_cliente():
+        if var.state_manager.state["current_cli_pagina"] < len(var.state_manager.state["cliente_query_object"]) / var.state_manager.state["cliente_pagination"]:
+            var.state_manager.change_state("current_cli_pagina", var.state_manager.state["current_cli_pagina"] + 1)
+        else:
+            pass
+
+    def retroceder_pagina_cliente():
+        if var.state_manager.state["current_cli_pagina"] > 0:
+            var.state_manager.change_state("current_cli_pagina", var.state_manager.state["current_cli_pagina"] - 1)
+        else:
+            pass

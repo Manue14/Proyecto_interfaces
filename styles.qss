@@ -47,17 +47,20 @@ QToolBar {
 
 /* ---- Estilos PushButtons ---- */
 QPushButton#btn_cli_grabar, QPushButton#btn_cli_modificar, QPushButton#btn_pro_grabar, QPushButton#btn_pro_modificar,
-QPushButton#btn_cli_eliminar, QPushButton#btn_pro_eliminar {
+QPushButton#btn_cli_eliminar, QPushButton#btn_pro_eliminar,
+QPushButton#btn_cli_siguiente, QPushButton#btn_cli_anterior, QPushButton#btn_pro_siguiente, QPushButton#btn_pro_anterior {
 	border: none;
 	border-radius: 10px;
     color: white;
 }
 
-QPushButton#btn_cli_grabar, QPushButton#btn_cli_modificar, QPushButton#btn_pro_grabar, QPushButton#btn_pro_modificar {
+QPushButton#btn_cli_grabar, QPushButton#btn_cli_modificar, QPushButton#btn_pro_grabar, QPushButton#btn_pro_modificar,
+QPushButton#btn_cli_siguiente, QPushButton#btn_cli_anterior, QPushButton#btn_pro_siguiente, QPushButton#btn_pro_anterior {
 	background-color: #6366f1; /*Indigo 500*/
 }
 
-QPushButton#btn_cli_grabar:hover, QPushButton#btn_cli_modificar:hover, QPushButton#btn_pro_grabar:hover, QPushButton#btn_pro_modificar:hover {
+QPushButton#btn_cli_grabar:hover, QPushButton#btn_cli_modificar:hover, QPushButton#btn_pro_grabar:hover, QPushButton#btn_pro_modificar:hover,
+QPushButton#btn_cli_siguiente:hover, QPushButton#btn_cli_anterior:hover, QPushButton#btn_pro_siguiente:hover, QPushButton#btn_pro_anterior:hover {
 	background-color: #a5b4fc; /*Indigo 300*/
 }
 

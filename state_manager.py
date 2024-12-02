@@ -14,7 +14,9 @@ class StateManager:
         "precio_alquiler_propiedad": False,
         "precio_venta_propiedad": False,
         "check_alquiler_propiedad": False,
-        "check_venta_propiedad": False
+        "check_venta_propiedad": False,
+        "current_cli_pagina": 0,
+        "cliente_pagination": 20
     }
 
     @staticmethod
@@ -31,7 +33,8 @@ class StateManager:
             StateManager.state[key] = value
 
             if (key == "historico_cli" or key == "historico_pro"
-                or key == "cliente_query_object" or key == "propiedad_query_object"):
+                or key == "cliente_query_object" or key == "propiedad_query_object"
+                or key == "current_cli_pagina"):
                 StateManager.update_tables_state()
             elif (key == "precio_alquiler_propiedad" or key == "precio_venta_propiedad"
             or key == "check_alquiler_propiedad" or key == "check_venta_propiedad"):
