@@ -140,9 +140,9 @@ class Mapper:
     @staticmethod
     def map_cliente_servidor_list(fila):
         cliente = {"dni": fila["dnicli"], "fecha_alta": fila["altacli"], "apellido": fila["apelcli"],
-                    "nombre": fila["nomecli"], "email": fila["emailcli"], "movil": fila["movilcli"],
+                    "nombre": fila["nomecli"], "email": ("" if fila["emailcli"] == None else fila["emailcli"]), "movil": fila["movilcli"],
                     "direccion": fila["dircli"], "provincia": fila["provcli"],
-                    "municipio": fila["municli"], "fecha_baja": fila["bajacli"]}
+                    "municipio": fila["municli"], "fecha_baja": ("" if fila["bajacli"] == None else fila["bajacli"])}
         return cliente
     
     @staticmethod
@@ -170,7 +170,7 @@ class Mapper:
         cursor.execute(query, (propiedad["fecha_alta"], propiedad["direccion"], propiedad["provincia"], propiedad["municipio"], propiedad["tipo"],
                                propiedad["habitaciones"], propiedad["banos"], propiedad["superficie"],
                                (None if propiedad["precio_alquiler"] == "" else propiedad["precio_alquiler"]),
-                               (None if propiedad["precion_venta"] == "" else propiedad["precion_venta"]), propiedad["postal"],
+                               (None if propiedad["precio_venta"] == "" else propiedad["precio_venta"]), propiedad["postal"],
                                (None if propiedad["descripcion"] == "" else propiedad["descripcion"]), propiedad["operaciones"],
                                propiedad["estado"], propiedad["propietario"], propiedad["movil"]))
         
@@ -179,7 +179,7 @@ class Mapper:
         cursor.execute(query, (propiedad["fecha_alta"], propiedad["direccion"], propiedad["provincia"], propiedad["municipio"], propiedad["tipo"],
                                propiedad["habitaciones"], propiedad["banos"], propiedad["superficie"],
                                (None if propiedad["precio_alquiler"] == "" else propiedad["precio_alquiler"]),
-                               (None if propiedad["precion_venta"] == "" else propiedad["precion_venta"]), propiedad["postal"],
+                               (None if propiedad["precio_venta"] == "" else propiedad["precio_venta"]), propiedad["postal"],
                                (None if propiedad["descripcion"] == "" else propiedad["descripcion"]), propiedad["operaciones"],
                                propiedad["estado"], propiedad["propietario"], propiedad["movil"],
                                (None if propiedad["fecha_baja"] == "" else propiedad["fecha_baja"]), propiedad["codigo"]))

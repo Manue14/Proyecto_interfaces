@@ -13,7 +13,8 @@ IMPORTANTE TO-DOs:
     Comprobar que cursor.execute() efectivamente devuelve el número de filas afectadas
 '''
 class ConexionServer():
-    def db_conexion(self):
+    @staticmethod
+    def db_conexion():
 
         try:
             conexion = mysql.connector.connect(
@@ -34,7 +35,7 @@ class ConexionServer():
     @staticmethod
     def listar_provincias():
         listaprov = []
-        conexion = ConexionServer().crear_conexion()
+        conexion = ConexionServer().db_conexion()
 
         if conexion:
             try:
@@ -42,7 +43,7 @@ class ConexionServer():
                 cursor.execute("SELECT * FROM provincias")
                 resultados = cursor.fetchall()
                 for fila in resultados:
-                    listaprov.append(fila[0], fila[1])  # Asumiendo que el nombre de la provincia está en la segunda columna
+                    listaprov.append([fila[0], fila[1]])  # Asumiendo que el nombre de la provincia está en la segunda columna
                 cursor.close()
                 conexion.close()
             except Error as e:
@@ -52,7 +53,7 @@ class ConexionServer():
     @staticmethod
     def listar_municipios(prov_id):
         try:
-            conexion = ConexionServer().crear_conexion()
+            conexion = ConexionServer().db_conexion()
             listamunicipios = []
             cursor = conexion.cursor()
             cursor.execute(
@@ -61,7 +62,7 @@ class ConexionServer():
             )
             resultados = cursor.fetchall()
             for fila in resultados:
-                listamunicipios.append(fila[0], fila[1])  # Asumiendo que el nombre de la provincia está en la segunda columna
+                listamunicipios.append([fila[1], fila[0]])  # Asumiendo que el nombre de la provincia está en la segunda columna
             cursor.close()
             conexion.close()
             return listamunicipios
@@ -72,7 +73,7 @@ class ConexionServer():
         try:
             clientes = []
 
-            conexion = ConexionServer().crear_conexion()
+            conexion = ConexionServer().db_conexion()
             cursor = conexion.cursor(dictionary=True)
             cursor.execute("SELECT * FROM clientes ORDER BY apelcli, nomecli ASC")
             resultados = cursor.fetchall()
@@ -93,14 +94,14 @@ class ConexionServer():
     @staticmethod
     def alta_cliente(cliente):
         try:
-            conexion = ConexionServer.crear_conexion()
+            conexion = ConexionServer.db_conexion()
             cursor = conexion.cursor()
             add_cliente = ("INSERT INTO clientes "
             "(dnicli, altacli, apelcli, nomecli, emailcli, movilcli, dircli, provcli, municli) "
             "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)")
             mapper.Mapper.bind_cliente_create_query_servidor(cursor, add_cliente, cliente)
             affected_files = cursor.rowcount
-            cursor.commit()
+            conexion.commit()
             cursor.close()
             conexion.close()
             if affected_files >= 1:
@@ -115,7 +116,7 @@ class ConexionServer():
     def get_cliente(dni):
         try:
             cliente = mapper.Mapper.initialize_cliente()
-            conexion = ConexionServer.crear_conexion()
+            conexion = ConexionServer.db_conexion()
             cursor = conexion.cursor(dictionary=True)
             query = ("SELECT dnicli, altacli, apelcli, nomecli, emailcli, movilcli, dircli, provcli, municli, bajacli "
                      "FROM clientes "
@@ -134,14 +135,14 @@ class ConexionServer():
     @staticmethod
     def modificar_cliente(cliente):
         try:
-            conexion = ConexionServer.crear_conexion()
+            conexion = ConexionServer.db_conexion()
             cursor = conexion.cursor()
             update_cliente = ("UPDATE clientes "
                      "SET altacli = %s, apelcli = %s, nomecli = %s, emailcli = %s, movilcli = %s, dircli = %s, provcli = %s, municli = %s, bajacli = %s "
                      "WHERE dnicli = %s")
             mapper.Mapper.bind_cliente_update_query_servidor(cursor, update_cliente, cliente)
             affected_files = cursor.rowcount
-            cursor.commit()
+            conexion.commit()
             cursor.close()
             conexion.close()
             if affected_files >= 1:
@@ -155,14 +156,14 @@ class ConexionServer():
     @staticmethod
     def baja_cliente(cliente):
         try:
-            conexion = ConexionServer.crear_conexion()
+            conexion = ConexionServer.db_conexion()
             cursor = conexion.cursor()
             delete_cliente = ("UPDATE clientes "
                               "SET bajacli = %s "
                               "WHERE dnicli = %s")
             cursor.execute(delete_cliente, (cliente["fecha_baja"], cliente["dni"]))
             affected_files = cursor.rowcount
-            cursor.commit()
+            conexion.commit()
             cursor.close()
             if affected_files >= 1:
                 return True
@@ -175,13 +176,13 @@ class ConexionServer():
     @staticmethod
     def alta_propiedad_tipo(tipo):
         try:
-            conexion = ConexionServer.crear_conexion()
+            conexion = ConexionServer.db_conexion()
             cursor = conexion.cursor()
             insert_tipo = ("INSERT INTO tipopropiedad (tipo) "
-                           "VALUES (?)")
+                           "VALUES (%s)")
             cursor.execute(insert_tipo, (tipo,))
             affected_files = cursor.rowcount
-            cursor.commit()
+            conexion.commit()
             cursor.close()
             if affected_files >= 1:
                 return True
@@ -194,7 +195,7 @@ class ConexionServer():
     @staticmethod
     def cargar_propiedad_tipos():
         try:
-            conexion = ConexionServer.crear_conexion()
+            conexion = ConexionServer.db_conexion()
             cursor = conexion.cursor()
             query = ("SELECT tipo FROM tipopropiedad ORDER BY tipo ASC")
             cursor.execute(query)
@@ -210,13 +211,13 @@ class ConexionServer():
     @staticmethod
     def baja_propiedad_tipo(tipo):
         try:
-            conexion = ConexionServer.crear_conexion()
+            conexion = ConexionServer.db_conexion()
             cursor = conexion.cursor()
             delete_tipo = ("DELETE FROM tipopropiedad "
                            "WHERE tipo = %s")
             cursor.execute(delete_tipo, (tipo,))
             affected_files = cursor.rowcount
-            cursor.commit()
+            conexion.commit()
             cursor.close()
             if affected_files >= 1:
                 return True
@@ -229,7 +230,7 @@ class ConexionServer():
     @staticmethod
     def alta_propiedad(propiedad):
         try:
-            conexion = ConexionServer.crear_conexion()
+            conexion = ConexionServer.db_conexion()
             cursor = conexion.cursor()
             add_propiedad = ("INSERT INTO propiedades "
             "(altaprop, dirprop, provprop, muniprop, tipoprop, habprop, banprop, superprop, prealquiprop, prevenprop, "
@@ -237,7 +238,7 @@ class ConexionServer():
             "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
             mapper.Mapper.bind_propiedad_create_query_servidor(cursor, add_propiedad, propiedad)
             affected_files = cursor.rowcount
-            cursor.commit()
+            conexion.commit()
             cursor.close()
             conexion.close()
             if affected_files >= 1:
@@ -251,7 +252,7 @@ class ConexionServer():
     @staticmethod
     def modificar_propiedad(propiedad):
         try:
-            conexion = ConexionServer.crear_conexion()
+            conexion = ConexionServer.db_conexion()
             cursor = conexion.cursor()
             update_propiedad = ("UPDATE propiedades "
                                 "SET altaprop = %s, dirprop = %s, provprop = %s, muniprop = %s, tipoprop = %s, habprop = %s, banprop = %s, superprop = %s, "
@@ -260,7 +261,7 @@ class ConexionServer():
                                 "WHERE codigo = %s")
             mapper.Mapper.bind_propiedad_update_query_servidor(cursor, update_propiedad, propiedad)
             affected_files = cursor.rowcount
-            cursor.commit()
+            conexion.commit()
             cursor.close()
             conexion.close()
             if affected_files >= 1:
@@ -274,14 +275,14 @@ class ConexionServer():
     @staticmethod
     def eliminar_propiedad(propiedad):
         try:
-            conexion = ConexionServer.crear_conexion()
+            conexion = ConexionServer.db_conexion()
             cursor = conexion.cursor()
             delete_propiedad = ("UPDATE propiedades "
                                 "SET bajaprop = %s, estadoprop = %s "
                                 "WHERE codigo = %s")
             cursor.execute(delete_propiedad, (propiedad["fecha_baja"], propiedad["estado"], propiedad["codigo"]))
             affected_files = cursor.rowcount
-            cursor.commit()
+            conexion.commit()
             cursor.close()
             conexion.close()
             if affected_files >= 1:
@@ -296,7 +297,7 @@ class ConexionServer():
     def listar_propiedades():
         try:
             propiedades = []
-            conexion = ConexionServer.crear_conexion()
+            conexion = ConexionServer.db_conexion()
             cursor = conexion.cursor(dictionary=True)
             query = ("SELECT * FROM propiedades ORDER BY muniprop ASC")
             cursor.execute(query)
@@ -314,7 +315,7 @@ class ConexionServer():
     def get_propiedad(codigo):
         try:
             propiedad = mapper.Mapper.initialize_propiedad()
-            conexion = ConexionServer.crear_conexion()
+            conexion = ConexionServer.db_conexion()
             cursor = conexion.cursor(dictionary=True)
             query = ("SELECT * FROM propiedades "
                      "WHERE codigo = %s")
@@ -333,7 +334,7 @@ class ConexionServer():
     def filtrar_propiedades(tipo, municipio):
         try:
             propiedades = []
-            conexion = ConexionServer.crear_conexion()
+            conexion = ConexionServer.db_conexion()
             cursor = conexion.cursor(dictionary=True)
             query = ("SELECT * FROM propiedades "
                      "WHERE tipoprop = %s AND muniprop = %s " 

@@ -168,7 +168,7 @@ class Clientes:
 
         Clientes.common_checks(response)
 
-        if (var.clase_conexion.get_cliente(Clientes._dni)):
+        if (Clientes.check_existe_cli(Clientes._dni)):
             response["valid"] = False
             response["messages"].append("El cliente con dni " + Clientes._dni + " ya existe")
 

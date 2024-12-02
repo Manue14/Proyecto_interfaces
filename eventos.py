@@ -79,18 +79,17 @@ class Eventos:
     def cargar_municipios(widget, provId = 1):
         widget.clear()
         listado = var.clase_conexion.listar_municipios(provId)
-        #listado = conexionserver.ConexionServer.listar_municipios(provId)
         for mun in listado:
-            widget.addItem(mun[0], mun[1])
+            widget.addItem(str(mun[0]), mun[1])
 
     def observar_dni(widget):
         try:
             dni = widget.text()
             if Eventos.validar_dni(dni):
-                styles.set_style(widget,"obligatorio_valido")
+                styles.set_style(widget,"general_label")
                 widget.setText(dni.upper())
             else:
-                styles.set_style(widget,"obligatorio_error")
+                styles.set_style(widget,"general_label_error")
                 widget.setText(None)
         except Exception as error:
             print("Error al validar el dni", error)
@@ -99,10 +98,10 @@ class Eventos:
         try:
             mail = widget.text()
             if Eventos.validar_email(mail) or mail == "":
-                styles.set_style(widget, "no_obligatorio_valido")
+                styles.set_style(widget, "general_label")
                 widget.setText(mail.lower())
             else:
-                styles.set_style(widget, "no_obligatorio_error")
+                styles.set_style(widget, "general_label_error")
                 widget.setText(None)
                 widget.setText("Email no válido")
                 widget.setFocus()
@@ -113,9 +112,9 @@ class Eventos:
         try:
             movil = widget.text()
             if Eventos.validar_movil(movil):
-                styles.set_style(widget, "obligatorio_valido")
+                styles.set_style(widget, "general_label")
             else:
-                styles.set_style(widget, "obligatorio_error")
+                styles.set_style(widget, "general_label_error")
                 widget.setText(None)
                 widget.setText("Móvil no válido")
                 widget.setFocus()
@@ -126,9 +125,9 @@ class Eventos:
         try:
             fecha = widget.text()
             if Eventos.validar_fecha(fecha):
-                styles.set_style(widget, "obligatorio_valido")
+                styles.set_style(widget, "general_label")
             else:
-                styles.set_style(widget, "obligatorio_error")
+                styles.set_style(widget, "general_label_error")
                 widget.setText(None)
                 widget.setText("Fecha no válida")
                 widget.setFocus()
@@ -139,9 +138,9 @@ class Eventos:
         try:
             fecha = widget.text()
             if Eventos.validar_fecha(fecha) or fecha == "":
-                styles.set_style(widget, "no_obligatorio_valido")
+                styles.set_style(widget, "general_label_valido")
             else:
-                styles.set_style(widget, "no_obligatorio_error")
+                styles.set_style(widget, "general_label_error")
                 widget.setText(None)
                 widget.setText("fecha no válida")
                 widget.setFocus()
@@ -152,9 +151,9 @@ class Eventos:
         try:
             postal = widget.text()
             if Eventos.validar_numero(postal):
-                styles.set_style(widget, "obligatorio_valido")
+                styles.set_style(widget, "general_label")
             else:
-                styles.set_style(widget, "obligatorio_error")
+                styles.set_style(widget, "general_label_error")
                 widget.setText(None)
                 widget.setText("CP no válido")
                 widget.setFocus()
@@ -165,9 +164,9 @@ class Eventos:
         try:
             superficie = widget.text()
             if Eventos.validar_numero(superficie):
-                styles.set_style(widget, "obligatorio_valido")
+                styles.set_style(widget, "general_label")
             else:
-                styles.set_style(widget, "obligatorio_error")
+                styles.set_style(widget, "general_label_error")
                 widget.setText(None)
                 widget.setText("Valor no válido")
                 widget.setFocus()
@@ -179,7 +178,7 @@ class Eventos:
             precio = widget.text()
             nombre = widget.objectName()
             if Eventos.validar_numero(precio) or precio == "":
-                styles.set_style(widget, "no_obligatorio_valido")
+                styles.set_style(widget, "general_label")
                 if Eventos.validar_numero(precio):
                     if (nombre == "txt_pro_precio_alquiler"):
                         var.state_manager.change_state("precio_alquiler_propiedad", True)
@@ -191,7 +190,7 @@ class Eventos:
                     elif (nombre == "txt_pro_precio_venta"):
                         var.state_manager.change_state("precio_venta_propiedad", False)
             else:
-                styles.set_style(widget, "no_obligatorio_error")
+                styles.set_style(widget, "general_label_error")
                 widget.setText(None)
                 widget.setText("Valor no válido")
                 widget.setFocus()
@@ -508,7 +507,11 @@ class Eventos:
     def cargar_propiedad_tipos(cmb):
         registro = var.clase_conexion.cargar_propiedad_tipos()
         cmb.clear()
-        cmb.addItems(registro)
+        for tipo in registro:
+            if (isinstance(tipo, tuple)):
+                cmb.addItem(tipo[0])
+            else:
+                cmb.addItem(tipo)
 
     def exportar_propiedades_csv(self):
         try:

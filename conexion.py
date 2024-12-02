@@ -17,7 +17,7 @@ class Conexion:
     '''
 
     @staticmethod
-    def db_conexion(self):
+    def db_conexion():
         # Verifica si el archivo de base de datos existe
         if not os.path.isfile('bbdd.sqlite'):
             QtWidgets.QMessageBox.critical(None, 'Error', 'El archivo de la base de datos no existe.',

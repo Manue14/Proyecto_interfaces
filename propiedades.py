@@ -240,7 +240,7 @@ class Propiedades():
 
         Propiedades.common_checks(response)
 
-        if (var.clase_conexion.get_propiedad(Propiedades._codigo)):
+        if (var.clase_conexion.get_propiedad(Propiedades._codigo) and Propiedades._codigo != ""):
             response["valid"] = False
             response["messages"].append("La propiedad con código " + Propiedades._codigo + " ya existe")
 

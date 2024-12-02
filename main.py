@@ -17,7 +17,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.setupUi(self)
         var.clase_conexion = conexion.Conexion
         #var.clase_conexion = conexion_server.ConexionServer
-        var.clase_conexion.db_conexion(self)
+        var.clase_conexion.db_conexion()
         var.state_manager = state_manager.StateManager()
         var.state_manager.default_queries()
         var.state_manager.update_state()

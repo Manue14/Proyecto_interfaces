@@ -101,7 +101,7 @@ QRadioButton#rbt_pro_alquilado::indicator:disabled, QRadioButton#rbt_pro_vendido
 
 /* ---- Estilos Labels ---- */
 *[qssClass="general_label"] {
-    background-color: #eef2ff; /*Indigo 50*/
+    background-color: #e0e7ff; /*Indigo 100*/
     border-bottom: 2px solid #a5b4fc; /*Indigo 300*/
     border-radius: 2px 2px 2px 2px;
     border-style: none none solid none;
@@ -116,79 +116,57 @@ QRadioButton#rbt_pro_alquilado::indicator:disabled, QRadioButton#rbt_pro_vendido
     border-bottom: 2px solid #4f46e5 /*Indigo 600*/
 }
 
+*[qssClass="general_label_error"] {
+    background-color: #fee2e2; /*Red 100*/
+    border-bottom: 2px solid #fca5a5; /*Red 300*/
+    border-radius: 2px 2px 2px 2px;
+    border-style: none none solid none;
+}
+
+*[qssClass="general_label_error"]:hover {
+    border-bottom: 2px solid #ef4444; /*Red 500*/
+}
+
+*[qssClass="general_label_error"]:focus {
+    background-color: #fecaca; /*Red 200*/
+    border-bottom: 2px solid #dc2626 /*Red 600*/
+}
+
 /* ---- Estilos ComboBoxes ---- */
 *[qssClass="general_combobox"] {
+    border-left: 3px solid #a5b4fc; /*Indigo 300*/
+    border-top: 0.5px solid #ededed;
+    border-bottom: 0.5px solid #ededed;
+    border-right: 0.5px solid #ededed;
+    border-style: solid solid solid solid;
+    border-radius: 2px;
     padding-bottom: 2px;
     padding-left: 10px;
     padding-top: 2px;
+}
+
+*[qssClass="general_combobox"]:hover {
+    border-left: 3px solid #6366f1; /*Indigo 500*/
+}
+
+*[qssClass="general_combobox"]::drop-down:button {
+    border-radius: 2px;
+}
+
+*[qssClass="general_combobox"]::down-arrow {
+    image: url(./img/down-arrow.png);
 }
 
 *[qssClass="general_combobox"] QAbstractItemView::item:hover {
     background-color: #6366f1; /*Indigo 500*/
 }
 
-/* ---- Estilos campos ---- */
-
-
-*[qssClass="no_obligatorio_valido"] {
-	border-bottom: 1px solid #93c5fd; /*Blue 300*/
-	background-color: #dbeafe; /*Blue 100*/
-	border-radius: 2px 2px 0px 2px;
+/* ---- Estilos SpinBoxes ---- */
+*[qssClass="general_spinbox"] {
+    background-color: #e0e7ff; /*Indigo 100*/
 }
 
-
-*[qssClass="no_obligatorio_valido"]:focus {
-	border-bottom: 1.5px solid #2563eb; /*Blue 600*/
-	background-color: #bfdbfe; /*Blue 200*/
-	border-radius: 2px 2px 0px 2px;
-}
-
-*[qssClass="no_obligatorio_error"] {
-    border-bottom: 1px solid #f87171; /*Red 400*/
-    background-color: #fecaca; /*Red 200*/
-    border-radius: 2px 2px 0px 2px;
-}
-
-*[qssClass="no_obligatorio_error"]:focus {
-    border-bottom: 1.5px solid #dc2626; /*Red 600*/
-    background-color: #fca5a5; /*Red 300*/
-    border-radius: 2px 2px 0px 2px;
-}
-/* ---- Estilos campos obligatorios ---- */
-
-*[qssClass="obligatorio_valido"] {
-	border-bottom: 1px solid #fdba74; /*Orange 300*/
-	background-color: #ffedd5; /*Orange 100*/
-	border-radius: 2px 2px 0px 2px;
-}
-
-
-*[qssClass="obligatorio_valido"]:focus {
-	border-bottom: 1.5px solid #ea580c; /*Orange 600*/
-	background-color: #fed7aa; /*Orange 200*/
-	border-radius: 2px 2px 0px 2px;
-}
-
-*[qssClass="obligatorio_error"] {
-    border-bottom: 1px solid #f87171; /*Red 400*/
-    background-color: #fecaca; /*Red 200*/
-    border-radius: 2px 2px 0px 2px;
-}
-
-*[qssClass="obligatorio_error"]:focus {
-    border-bottom: 1.5px solid #dc2626; /*Red 600*/
-    background-color: #fca5a5; /*Red 300*/
-    border-radius: 2px 2px 0px 2px;
-}
-/* ---- Colores campos error ---- */
-/* normal:
-    border-color: #f87171 Red 400
-    background-color: #fecaca Red 200
-   focus:
-    border-color: #dc2626 Red 600
-    background-color: #fca5a5 Red 300
-*/
-
+/* ---- Estilos asteriscos ---- */
 QLabel[qssClass="asterisk"] {
     color: red;
 }
@@ -230,10 +208,17 @@ Color de enfasis:
 
 /*
 Color de errores:
-    red 200: #fecaca
-    red 300: #fca5a5
-    red 400: #f87171
-    red 600: #dc2626
+    Red 50: #fef2f2
+    Red 100: #fee2e2
+    Red 200: #fecaca
+    Red 300: #fca5a5
+    Red 400: #f87171
+    Red 500: #ef4444
+    Red 600: #dc2626
+    Red 700: #b91c1c
+    Red 800: #991b1b
+    Red 900: #7f1d1d
+    Red 950: #450a0a
 */
 
 /*https://learn.microsoft.com/es-es/windows/apps/design/signature-experiences/color*/
