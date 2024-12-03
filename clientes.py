@@ -61,7 +61,7 @@ class Clientes:
             cliente = mapper.Mapper.map_cliente(Clientes.campos)
             if var.clase_conexion.alta_cliente(cliente):
                 eventos.Eventos.mensaje_exito("Aviso", "Alta cliente en la base de datos")
-                var.state_manager.change_state("cliente_query_object", var.clase_conexion.listar_clientes())
+                var.state_manager.update_tabla_clientes()
             else:
                 eventos.Eventos.mensaje_error("Aviso", "El cliente ya existe")
         except Exception as error:
@@ -78,7 +78,7 @@ class Clientes:
             cliente = mapper.Mapper.map_cliente(Clientes.campos)
             if var.clase_conexion.modificar_cliente(cliente):
                 eventos.Eventos.mensaje_exito("Aviso", "Datos cliente modificados correctamente")
-                var.state_manager.change_state("cliente_query_object", var.clase_conexion.listar_clientes())
+                var.state_manager.update_tabla_clientes()
             else:
                 eventos.Eventos.mensaje_error("Aviso", "Error al modificar los datos del cliente")
         except Exception as error:
@@ -99,7 +99,7 @@ class Clientes:
             
             if var.clase_conexion.baja_cliente(cliente):
                 eventos.Eventos.mensaje_exito("Aviso", "Cliente dado de baja")
-                var.state_manager.change_state("cliente_query_object", var.clase_conexion.listar_clientes())
+                var.state_manager.update_tabla_clientes()
             else:
                 eventos.Eventos.mensaje_error("Aviso", "Error al dar de baja al cliente")
         except Exception as error:

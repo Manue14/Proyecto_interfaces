@@ -5,7 +5,6 @@ import sqlite3
 
 import var
 import mapper
-from faker import Faker
 
 class Conexion:
 
@@ -83,33 +82,6 @@ class Conexion:
             print("error alta cliente", error)
             return False
 
-    @staticmethod
-    def alta_100_clientes():
-        fake = Faker()
-        try:
-            for i in range(1, 101):
-                query = QtSql.QSqlQuery()
-                query.prepare("INSERT into clientes (dnicli, altacli, apelcli, nomecli, emailcli, movilcli, "
-                          "dircli, procli, municli, bajacli) VALUES (:dnicli, :altacli, :apelcli, :nomecli, :emailcli, "
-                          " :movilcli, :dircli, :procli, :municli, :bajacli)")
-                query.bindValue(":dnicli", f"DNI{i:04d}")
-                query.bindValue(":altacli", fake.date_this_decade().isoformat())
-                query.bindValue(":apelcli", fake.last_name())
-                query.bindValue(":nomecli", fake.first_name())
-                query.bindValue(":emailcli", fake.email())
-                query.bindValue(":movilcli", fake.phone_number())
-                query.bindValue(":dircli", fake.address().replace("\n", ", "))
-                query.bindValue(":procli", "Pontevedra")
-                query.bindValue(":municli", "Vigo")
-                query.bindValue(":bajacli", None)
-                query.bindValue(":bajacli", fake.date_this_decade().isoformat() if i <= 50 else None)
-                query.exec()
-        except sqlite3.IntegrityError:
-            return False
-        except Exception as error:
-            print("error alta cliente", error)
-            return False
-
     def listar_clientes():
         try:
             clientes = []
@@ -117,7 +89,10 @@ class Conexion:
             keys = list(cliente.keys())
 
             query = QtSql.QSqlQuery()
-            query.prepare("SELECT * FROM clientes ORDER BY nomecli, apelcli ASC;")
+            if not var.state_manager.state["historico_cli"]:
+                query.prepare("SELECT * FROM clientes WHERE bajacli IS NULL ORDER BY nomecli, apelcli ASC;")
+            else:
+                query.prepare("SELECT * FROM clientes ORDER BY nomecli, apelcli ASC;")
 
             if query.exec():
                 while query.next():
@@ -137,7 +112,11 @@ class Conexion:
             keys = list(cliente.keys())
 
             query = QtSql.QSqlQuery()
-            query.prepare("SELECT * FROM clientes WHERE dnicli = :dni;")
+            if not var.state_manager.state["historico_cli"]:
+                query.prepare("SELECT * FROM clientes WHERE dnicli = :dni AND bajacli IS NULL;")
+            else:
+                query.prepare("SELECT * FROM clientes WHERE dnicli = :dni;")
+
             query.bindValue(":dni", dni)
             if query.exec():
                 while query.next():
@@ -291,7 +270,10 @@ class Conexion:
             keys = list(propiedad.keys())
 
             query = QtSql.QSqlQuery()
-            query.prepare("SELECT * FROM propiedades ORDER BY muniprop ASC;")
+            if not var.state_manager.state["historico_cli"]:
+                query.prepare("SELECT * FROM propiedades WHERE bajaprop IS NULL ORDER BY muniprop ASC;")
+            else:
+                query.prepare("SELECT * FROM propiedades ORDER BY muniprop ASC;")
 
             if query.exec():
                 while query.next():
@@ -332,7 +314,10 @@ class Conexion:
             keys = list(propiedad.keys())
 
             query = QtSql.QSqlQuery()
-            query.prepare("SELECT * FROM propiedades WHERE tipoprop = :tipoprop AND muniprop = :muniprop ORDER BY muniprop ASC;")
+            if not var.state_manager.state["historico_pro"]:
+                query.prepare("SELECT * FROM propiedades WHERE tipoprop = :tipoprop AND muniprop = :muniprop AND bajaprop IS NULL ORDER BY muniprop ASC;")
+            else:
+                query.prepare("SELECT * FROM propiedades WHERE tipoprop = :tipoprop AND muniprop = :muniprop ORDER BY muniprop ASC;")
 
             query.bindValue(":tipoprop", tipo)
             query.bindValue(":muniprop", municipio)

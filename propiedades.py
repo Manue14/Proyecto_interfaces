@@ -105,7 +105,7 @@ class Propiedades():
                 eventos.Eventos.mensaje_exito("Aviso", "Propiedad dada de alta con éxito")
             else:
                 eventos.Eventos.mensaje_error("Aviso", "No se pudo dar de alta la propiedad")
-            var.state_manager.change_state("propiedad_query_object", var.clase_conexion.listar_propiedades())
+            var.state_manager.update_tabla_propiedades()
         except Exception as e:
             print("error en en alta de una propiedad")
 
@@ -121,7 +121,7 @@ class Propiedades():
                 eventos.Eventos.mensaje_exito("Aviso", "Propiedad modificada con éxito")
             else:
                 eventos.Eventos.mensaje_error("Aviso", "No se pudo modificar la propiedad")
-            var.state_manager.change_state("propiedad_query_object", var.clase_conexion.listar_propiedades())
+            var.state_manager.update_tabla_propiedades()
         except Exception as e:
             print("Error al modificar la propiedad", e)
 
@@ -137,7 +137,7 @@ class Propiedades():
                 eventos.Eventos.mensaje_exito("Aviso", "Propiedad dada de baja con éxito")
             else:
                 eventos.Eventos.mensaje_error("Aviso", "No se pudo dar de baja la propiedad")
-            var.state_manager.change_state("propiedad_query_object", var.clase_conexion.listar_propiedades())
+            var.state_manager.update_tabla_propiedades()
         except Exception as e:
             print("Error al dar de baja la propiedad", e)
 
@@ -146,8 +146,7 @@ class Propiedades():
             tipo = Propiedades.campos["tipo"].currentText()
             municipio = Propiedades.campos["municipio"].currentText()
             propiedades = var.clase_conexion.filtrar_propiedades(tipo, municipio)
-
-            var.state_manager.change_state("propiedad_query_object", propiedades)
+            var.state_manager.change_last_propiedad_function(var.clase_conexion.filtrar_propiedades, [tipo, municipio])
         except Exception as error:
             print("Error al filtrar las propiedades", error)
 

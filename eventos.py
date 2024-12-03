@@ -297,19 +297,8 @@ class Eventos:
         for i in range(start, end):
             if (i < len(clientes)):
                 cliente = clientes[i]
-                print(cliente)
-        print("\n")
-
-        for i in range(start, end):
-            if (i < len(clientes)):
-                cliente = clientes[i]
-                if (var.state_manager.state["historico_cli"] == False):
-                    if (not cliente["fecha_baja"]):
-                        Eventos.show_cli_on_table(cliente, index)
-                        index += 1
-                else:
-                    Eventos.show_cli_on_table(cliente, index)
-                    index += 1
+                Eventos.show_cli_on_table(cliente, index)
+                index += 1
 
     def cargar_tabla_propiedades():
         index = 0
@@ -318,13 +307,8 @@ class Eventos:
 
         if propiedades:
             for propiedad in propiedades:
-                if (var.state_manager.state["historico_pro"] == False):
-                    if (not propiedad["fecha_baja"]):
-                        Eventos.show_pro_on_table(propiedad, index)
-                        index += 1
-                else:
-                    Eventos.show_pro_on_table(propiedad, index)
-                    index += 1
+                Eventos.show_pro_on_table(propiedad, index)
+                index += 1
         else:
 
             var.ui.tab_pro.setRowCount(index + 1)
@@ -478,7 +462,7 @@ class Eventos:
                     pass
                 else:
                     value.setText("")
-            var.state_manager.change_state("cliente_query_object", var.clase_conexion.listar_clientes())
+            var.state_manager.change_state("last_cliente_function", var.clase_conexion.listar_clientes)
 
         if var.ui.panel_principal.currentIndex() == 1:
             propiedades.Propiedades.inicializar_campos()
@@ -503,7 +487,7 @@ class Eventos:
                     value.setText("")
             
             Eventos.cargar_propiedad_tipos(propiedades.Propiedades.campos["tipo"])
-            var.state_manager.change_state("propiedad_query_object", var.clase_conexion.listar_propiedades())
+            var.state_manager.change_state("last_propiedad_function", var.clase_conexion.listar_propiedades)
             var.state_manager.change_state("precio_alquiler_propiedad", False)
             var.state_manager.change_state("precio_venta_propiedad", False)
             var.state_manager.change_state("check_alquiler_propiedad", False)
