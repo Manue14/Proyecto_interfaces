@@ -19,8 +19,7 @@ class Main(QtWidgets.QMainWindow):
         #var.clase_conexion = conexion_server.ConexionServer
         var.clase_conexion.db_conexion()
         var.state_manager = state_manager.StateManager()
-        var.state_manager.default_queries()
-        var.state_manager.update_state()
+        var.state_manager.initialize_state()
         var.ui_calendar = Calendar()
         var.dlg_abrir = FileDialogAbrir()
         var.dlg_gestion_propiedad_tipo = DlgGestionPropiedadTipo()
@@ -82,6 +81,9 @@ class Main(QtWidgets.QMainWindow):
 
         var.ui.btn_cli_anterior.clicked.connect(eventos.Eventos.retroceder_pagina_cliente)
         var.ui.btn_cli_siguiente.clicked.connect(eventos.Eventos.avanzar_pagina_cliente)
+
+        var.ui.btn_pro_anterior.clicked.connect(eventos.Eventos.retroceder_pagina_propiedad)
+        var.ui.btn_pro_siguiente.clicked.connect(eventos.Eventos.avanzar_pagina_propiedad)
 
         '''
         Zona eventos combox

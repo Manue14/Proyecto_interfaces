@@ -16,7 +16,6 @@ import propiedades
 import conexion
 import conexion_server
 import styles
-from state_manager import StateManager
 
 #Establecer configuración regional
 locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
@@ -294,6 +293,18 @@ class Eventos:
         start = var.state_manager.state["current_cli_pagina"] * var.state_manager.state["cliente_pagination"]
         end = var.state_manager.state["current_cli_pagina"] * var.state_manager.state["cliente_pagination"] + var.state_manager.state["cliente_pagination"]
 
+        if (var.state_manager.state["current_cli_pagina"] > len(clientes) / var.state_manager.state["cliente_pagination"]):
+            var.state_manager.change_state("current_cli_pagina", int(len(clientes) / var.state_manager.state["cliente_pagination"]))
+        elif (var.state_manager.state["current_cli_pagina"] == len(clientes) / var.state_manager.state["cliente_pagination"] and len(clientes) != 0):
+            var.state_manager.change_state("current_cli_pagina", 0)
+
+        if (len(clientes) % var.state_manager.state["cliente_pagination"] == 0 and len(clientes) != 0):
+            var.ui.lbl_cli_pagina.setText("Página " + str(var.state_manager.state["current_cli_pagina"] + 1) + " de "
+                + str(int(len(clientes) / var.state_manager.state["cliente_pagination"]))) 
+        else:
+            var.ui.lbl_cli_pagina.setText("Página " + str(var.state_manager.state["current_cli_pagina"] + 1) + " de "
+                + str(int(len(clientes) / var.state_manager.state["cliente_pagination"] + 1))) 
+
         for i in range(start, end):
             if (i < len(clientes)):
                 cliente = clientes[i]
@@ -305,12 +316,28 @@ class Eventos:
         var.ui.tab_pro.verticalHeader().setVisible(False)
         propiedades = var.state_manager.state["propiedad_query_object"]
 
-        if propiedades:
-            for propiedad in propiedades:
-                Eventos.show_pro_on_table(propiedad, index)
-                index += 1
-        else:
+        start = var.state_manager.state["current_pro_pagina"] * var.state_manager.state["propiedad_pagination"]
+        end = var.state_manager.state["current_pro_pagina"] * var.state_manager.state["propiedad_pagination"] + var.state_manager.state["propiedad_pagination"]
 
+        if (var.state_manager.state["current_pro_pagina"] > len(propiedades) / var.state_manager.state["propiedad_pagination"]):
+            var.state_manager.change_state("current_pro_pagina", int(len(propiedades) / var.state_manager.state["propiedad_pagination"]))
+        elif (var.state_manager.state["current_pro_pagina"] == len(propiedades) / var.state_manager.state["propiedad_pagination"] and len(propiedades) != 0):
+            var.state_manager.change_state("current_pro_pagina", 0)
+
+        if (len(propiedades) % var.state_manager.state["propiedad_pagination"] == 0 and len(propiedades) != 0):
+            var.ui.lbl_pro_pagina.setText("Página " + str(var.state_manager.state["current_pro_pagina"] + 1) + " de "
+                + str(int(len(propiedades) / var.state_manager.state["propiedad_pagination"]))) 
+        else:
+            var.ui.lbl_pro_pagina.setText("Página " + str(var.state_manager.state["current_pro_pagina"] + 1) + " de "
+                + str(int(len(propiedades) / var.state_manager.state["propiedad_pagination"] + 1))) 
+
+        if propiedades:
+            for i in range(start, end):
+                if (i < len(propiedades)):
+                    propiedad = propiedades[i]
+                    Eventos.show_pro_on_table(propiedad, index)
+                    index += 1
+        else:
             var.ui.tab_pro.setRowCount(index + 1)
             var.ui.tab_pro.setItem(index, 0, QtWidgets.QTableWidgetItem(""))
             var.ui.tab_pro.setItem(index, 1, QtWidgets.QTableWidgetItem(""))
@@ -383,7 +410,6 @@ class Eventos:
         var.ui.tab_pro.item(index, 6)
         var.ui.tab_pro.item(index, 7)
         var.ui.tab_pro.item(index, 8)
-
 
     def resize_cli_tab(self):
         try:
@@ -558,5 +584,17 @@ class Eventos:
     def retroceder_pagina_cliente():
         if var.state_manager.state["current_cli_pagina"] > 0:
             var.state_manager.change_state("current_cli_pagina", var.state_manager.state["current_cli_pagina"] - 1)
+        else:
+            pass
+
+    def avanzar_pagina_propiedad():
+        if var.state_manager.state["current_pro_pagina"] < len(var.state_manager.state["propiedad_query_object"]) / var.state_manager.state["propiedad_pagination"]:
+            var.state_manager.change_state("current_pro_pagina", var.state_manager.state["current_pro_pagina"] + 1)
+        else:
+            pass
+
+    def retroceder_pagina_propiedad():
+        if var.state_manager.state["current_pro_pagina"] > 0:
+            var.state_manager.change_state("current_pro_pagina", var.state_manager.state["current_pro_pagina"] - 1)
         else:
             pass

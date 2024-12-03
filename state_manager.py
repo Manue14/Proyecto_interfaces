@@ -18,7 +18,7 @@ class StateManager:
         "current_cli_pagina": 0,
         "cliente_pagination": 20,
         "current_pro_pagina": 0,
-        "propiedad_pagination": 20,
+        "propiedad_pagination": 10,
         "last_cliente_function": conexion.Conexion.listar_clientes,
         "last_cliente_params": [],
         "last_propiedad_function": conexion.Conexion.listar_propiedades,
@@ -26,42 +26,27 @@ class StateManager:
     }
 
     @staticmethod
-    def default_queries():
-        try:
-            StateManager.state["cliente_query_object"] = var.clase_conexion.listar_clientes()
-            StateManager.state["propiedad_query_object"] = var.clase_conexion.listar_propiedades()
-        except Exception as error:
-            print("Error al obtener información de la base de datos", error)
-
-    @staticmethod
     def change_state(key, value):
         try:
             StateManager.state[key] = value
 
-            if (key == "historico_cli" or key == "current_cli_pagina"):
-                StateManager.state["cliente_query_object"] = StateManager.state["last_cliente_function"]()
+            if (key == "current_cli_pagina"):
+                eventos.Eventos.cargar_tabla_clientes()
+
+            elif (key == "historico_cli" or key == "last_cliente_function"):
                 StateManager.update_tabla_clientes()
-            elif (key == "historico_pro" or key == "current_pro_pagina"):
+
+            elif (key == "current_pro_pagina"):
+                eventos.Eventos.cargar_tabla_propiedades()
+
+            elif (key == "historico_pro" or key == "last_propiedad_function"):
                 StateManager.update_tabla_propiedades()
+
             elif (key == "precio_alquiler_propiedad" or key == "precio_venta_propiedad"
             or key == "check_alquiler_propiedad" or key == "check_venta_propiedad"):
                 StateManager.update_propiedad_fields_state()
         except Exception as e:
             print(e)
-
-    def change_last_cliente_function(func, params = None):
-        if params == None:
-            StateManager.state["cliente_query_object"] = func()
-        else:
-            StateManager.state["cliente_query_object"] = func(params)
-        StateManager.update_tabla_clientes()
-
-    def change_last_propiedad_function(func, params = None):
-        if params == None:
-            StateManager.state["propiedad_query_object"] = func()
-        else:
-            StateManager.state["propiedad_query_object"] = func(params[0], params[1])
-        StateManager.update_tabla_propiedades()
 
     def update_propiedad_fields_state():
         propiedades.Propiedades.inicializar_campos()
@@ -102,15 +87,20 @@ class StateManager:
         styles.reload_style(propiedades.Propiedades.campos["radio_vendido"])
 
     @staticmethod
-    def update_state():
+    def initialize_state():
         StateManager.update_tabla_clientes()
         StateManager.update_tabla_propiedades()
         StateManager.update_propiedad_fields_state()
 
     @staticmethod
     def update_tabla_clientes():
+        StateManager.state["cliente_query_object"] = StateManager.state["last_cliente_function"]()
         eventos.Eventos.cargar_tabla_clientes()
 
     @staticmethod
     def update_tabla_propiedades():
+        if (StateManager.state["last_propiedad_function"] == var.clase_conexion.filtrar_propiedades):
+            StateManager.state["propiedad_query_object"] = StateManager.state["last_propiedad_function"](StateManager.state["last_propiedad_params"][0], StateManager.state["last_propiedad_params"][1])
+        else:
+            StateManager.state["propiedad_query_object"] = StateManager.state["last_propiedad_function"]()
         eventos.Eventos.cargar_tabla_propiedades()

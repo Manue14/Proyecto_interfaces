@@ -146,7 +146,8 @@ class Propiedades():
             tipo = Propiedades.campos["tipo"].currentText()
             municipio = Propiedades.campos["municipio"].currentText()
             propiedades = var.clase_conexion.filtrar_propiedades(tipo, municipio)
-            var.state_manager.change_last_propiedad_function(var.clase_conexion.filtrar_propiedades, [tipo, municipio])
+            var.state_manager.change_state("last_propiedad_params", [tipo, municipio])
+            var.state_manager.change_state("last_propiedad_function", var.clase_conexion.filtrar_propiedades)
         except Exception as error:
             print("Error al filtrar las propiedades", error)
 

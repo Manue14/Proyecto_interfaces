@@ -270,7 +270,7 @@ class Conexion:
             keys = list(propiedad.keys())
 
             query = QtSql.QSqlQuery()
-            if not var.state_manager.state["historico_cli"]:
+            if not var.state_manager.state["historico_pro"]:
                 query.prepare("SELECT * FROM propiedades WHERE bajaprop IS NULL ORDER BY muniprop ASC;")
             else:
                 query.prepare("SELECT * FROM propiedades ORDER BY muniprop ASC;")
