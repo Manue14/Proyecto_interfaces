@@ -135,7 +135,10 @@ class Mapper:
     def bind_propiedad_update_query(query, propiedad):
         Mapper.bind_propiedad_create_query(query, propiedad)
         query.bindValue(":codigo", propiedad["codigo"])
-        query.bindValue(":bajaprop", str(propiedad["fecha_baja"]))
+        if propiedad["fecha_baja"] == "":
+            query.bindValue(":bajaprop", None)
+        else:
+            query.bindValue(":bajaprop", str(propiedad["fecha_baja"]))
 
     @staticmethod
     def map_cliente_servidor_list(fila):

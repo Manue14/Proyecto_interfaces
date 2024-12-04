@@ -30,14 +30,44 @@ class StateManager:
         try:
             StateManager.state[key] = value
 
-            if (key == "current_cli_pagina"):
+            if (key == "current_cli_pagina" or key == "cliente_query_object"):
                 eventos.Eventos.cargar_tabla_clientes()
+                if (StateManager.state["current_cli_pagina"] == 0):
+                    var.ui.btn_cli_anterior.setEnabled(False)
+                else:
+                    var.ui.btn_cli_anterior.setEnabled(True)
+                if (StateManager.state["current_cli_pagina"] ==
+                    int(len(StateManager.state["cliente_query_object"]) / StateManager.state["cliente_pagination"])
+                        or
+                        (StateManager.state["current_cli_pagina"] + 1 ==
+                         int(len(StateManager.state["cliente_query_object"]) / StateManager.state["cliente_pagination"])
+                            and
+                            len(StateManager.state["cliente_query_object"]) % StateManager.state["cliente_pagination"] == 0)
+                ):
+                    var.ui.btn_cli_siguiente.setEnabled(False)
+                else:
+                    var.ui.btn_cli_siguiente.setEnabled(True)
 
             elif (key == "historico_cli" or key == "last_cliente_function"):
                 StateManager.update_tabla_clientes()
 
-            elif (key == "current_pro_pagina"):
+            elif (key == "current_pro_pagina" or key == "propiedad_query_object"):
                 eventos.Eventos.cargar_tabla_propiedades()
+                if (StateManager.state["current_pro_pagina"] == 0):
+                    var.ui.btn_pro_anterior.setEnabled(False)
+                else:
+                    var.ui.btn_pro_anterior.setEnabled(True)
+                if (StateManager.state["current_pro_pagina"] ==
+                    int(len(StateManager.state["propiedad_query_object"]) / StateManager.state["propiedad_pagination"])
+                        or
+                        (StateManager.state["current_pro_pagina"] + 1 ==
+                         int(len(StateManager.state["propiedad_query_object"]) / StateManager.state["propiedad_pagination"])
+                            and
+                         len(StateManager.state["propiedad_query_object"]) % StateManager.state["propiedad_pagination"] == 0)
+                ):
+                    var.ui.btn_pro_siguiente.setEnabled(False)
+                else:
+                    var.ui.btn_pro_siguiente.setEnabled(True)
 
             elif (key == "historico_pro" or key == "last_propiedad_function"):
                 StateManager.update_tabla_propiedades()
@@ -91,16 +121,21 @@ class StateManager:
         StateManager.update_tabla_clientes()
         StateManager.update_tabla_propiedades()
         StateManager.update_propiedad_fields_state()
+        StateManager.change_state("current_cli_pagina", 0)
+        StateManager.change_state("current_pro_pagina", 0)
 
     @staticmethod
     def update_tabla_clientes():
-        StateManager.state["cliente_query_object"] = StateManager.state["last_cliente_function"]()
+        StateManager.change_state("cliente_query_object", StateManager.state["last_cliente_function"]())
         eventos.Eventos.cargar_tabla_clientes()
 
     @staticmethod
     def update_tabla_propiedades():
         if (StateManager.state["last_propiedad_function"] == var.clase_conexion.filtrar_propiedades):
-            StateManager.state["propiedad_query_object"] = StateManager.state["last_propiedad_function"](StateManager.state["last_propiedad_params"][0], StateManager.state["last_propiedad_params"][1])
+            StateManager.change_state("propiedad_query_object",
+                                      StateManager.state["last_propiedad_function"](
+                                          StateManager.state["last_propiedad_params"][0],
+                                          StateManager.state["last_propiedad_params"][1]))
         else:
-            StateManager.state["propiedad_query_object"] = StateManager.state["last_propiedad_function"]()
+            StateManager.change_state("propiedad_query_object", StateManager.state["last_propiedad_function"]())
         eventos.Eventos.cargar_tabla_propiedades()
