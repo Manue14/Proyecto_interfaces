@@ -48,27 +48,30 @@ QToolBar {
 /* ---- Estilos PushButtons ---- */
 QPushButton#btn_cli_grabar, QPushButton#btn_cli_modificar, QPushButton#btn_pro_grabar, QPushButton#btn_pro_modificar,
 QPushButton#btn_cli_eliminar, QPushButton#btn_pro_eliminar,
-QPushButton#btn_cli_siguiente, QPushButton#btn_cli_anterior, QPushButton#btn_pro_siguiente, QPushButton#btn_pro_anterior {
+QPushButton#btn_cli_siguiente, QPushButton#btn_cli_anterior, QPushButton#btn_pro_siguiente, QPushButton#btn_pro_anterior,
+QPushButton#btn_cerrar_about, QPushButton#btn_pro_tipo_alta, QPushButton#btn_pro_tipo_eliminar {
 	border: none;
 	border-radius: 10px;
     color: white;
 }
 
 QPushButton#btn_cli_grabar, QPushButton#btn_cli_modificar, QPushButton#btn_pro_grabar, QPushButton#btn_pro_modificar,
-QPushButton#btn_cli_siguiente, QPushButton#btn_cli_anterior, QPushButton#btn_pro_siguiente, QPushButton#btn_pro_anterior {
+QPushButton#btn_cli_siguiente, QPushButton#btn_cli_anterior, QPushButton#btn_pro_siguiente, QPushButton#btn_pro_anterior,
+QPushButton#btn_pro_tipo_alta {
 	background-color: #6366f1; /*Indigo 500*/
 }
 
 QPushButton#btn_cli_grabar:hover, QPushButton#btn_cli_modificar:hover, QPushButton#btn_pro_grabar:hover, QPushButton#btn_pro_modificar:hover,
-QPushButton#btn_cli_siguiente:hover, QPushButton#btn_cli_anterior:hover, QPushButton#btn_pro_siguiente:hover, QPushButton#btn_pro_anterior:hover {
+QPushButton#btn_cli_siguiente:hover, QPushButton#btn_cli_anterior:hover, QPushButton#btn_pro_siguiente:hover, QPushButton#btn_pro_anterior:hover,
+QPushButton#btn_pro_tipo_alta:hover {
 	background-color: #a5b4fc; /*Indigo 300*/
 }
 
-QPushButton#btn_cli_eliminar, QPushButton#btn_pro_eliminar {
+QPushButton#btn_cli_eliminar, QPushButton#btn_pro_eliminar, QPushButton#btn_pro_tipo_eliminar, QPushButton#btn_cerrar_about {
 	background-color: #ef4444; /*Red 500*/
 }
 
-QPushButton#btn_cli_eliminar:hover, QPushButton#btn_pro_eliminar:hover {
+QPushButton#btn_cli_eliminar:hover, QPushButton#btn_pro_eliminar:hover, QPushButton#btn_pro_tipo_eliminar:hover, QPushButton#btn_cerrar_about:hover {
 	background-color: #fca5a5; /*Red 300*/
 }
 

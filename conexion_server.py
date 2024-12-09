@@ -176,6 +176,8 @@ class ConexionServer():
     @staticmethod
     def alta_propiedad_tipo(tipo):
         try:
+            if (ConexionServer.check_if_tipo_propiedad_existe(tipo)):
+                return False
             conexion = ConexionServer.db_conexion()
             cursor = conexion.cursor()
             insert_tipo = ("INSERT INTO tipopropiedad (tipo) "
@@ -211,6 +213,8 @@ class ConexionServer():
     @staticmethod
     def baja_propiedad_tipo(tipo):
         try:
+            if (not ConexionServer.check_if_tipo_propiedad_existe(tipo)):
+                return False
             conexion = ConexionServer.db_conexion()
             cursor = conexion.cursor()
             delete_tipo = ("DELETE FROM tipopropiedad "
@@ -225,6 +229,25 @@ class ConexionServer():
                 return False
         except Exception as e:
             print("Error al dar de baja tipo de propiedad en el servidor", e)
+            return False
+        
+    @staticmethod
+    def check_if_tipo_propiedad_existe(tipo):
+        try:
+            conexion = ConexionServer.db_conexion()
+            cursor = conexion.cursor()
+            query = ("SELECT * FROM tipopropiedad "
+                           "WHERE tipo = %s")
+            cursor.execute(query, (tipo,))
+            resultado = cursor.fetchall()
+            conexion.commit()
+            cursor.close()
+            if resultado:
+                return True
+            else:
+                return False
+        except Exception as e:
+            print("Error al comprobar si el tipo de propiedad existe en el servidor", e)
             return False
         
     @staticmethod

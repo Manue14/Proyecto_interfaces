@@ -575,6 +575,12 @@ class Eventos:
         except Exception as error:
             print("Error al exportar las propiedades ", error)
 
+    def abrir_dlg_about():
+        try:
+            var.dlg_about.show()
+        except Exception as error:
+            print("Error al abrir la ventana de acerca de ", error)
+
     def avanzar_pagina_cliente():
         if var.state_manager.state["current_cli_pagina"] < len(var.state_manager.state["cliente_query_object"]) / var.state_manager.state["cliente_pagination"]:
             var.state_manager.change_state("current_cli_pagina", var.state_manager.state["current_cli_pagina"] + 1)

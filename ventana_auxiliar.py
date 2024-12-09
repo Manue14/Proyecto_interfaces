@@ -1,9 +1,11 @@
 from datetime import datetime
 from dlg_calendar import *
+from dlg_gestion_propiedad_tipo import *
+from dlg_about import *
 import var
 import eventos
-from dlg_gestion_propiedad_tipo import *
 import propiedades
+import styles
 
 class Calendar(QtWidgets.QDialog):
     def __init__(self):
@@ -26,5 +28,14 @@ class DlgGestionPropiedadTipo(QtWidgets.QDialog):
         super(DlgGestionPropiedadTipo, self).__init__()
         self.ui = Ui_DlgGestionPropiedadTipo()
         self.ui.setupUi(self)
+        self.setStyleSheet(styles.load_stylesheet())
         self.ui.btn_pro_tipo_alta.clicked.connect(propiedades.Propiedades.alta_tipo_propiedad)
         self.ui.btn_pro_tipo_eliminar.clicked.connect(propiedades.Propiedades.baja_tipo_propiedad)
+
+class DlgAbout(QtWidgets.QDialog):
+    def __init__(self):
+        super(DlgAbout, self).__init__()
+        self.ui = Ui_DlgAbout()
+        self.ui.setupUi(self)
+        self.setStyleSheet(styles.load_stylesheet())
+        self.ui.btn_cerrar_about.clicked.connect(self.close)

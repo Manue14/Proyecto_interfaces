@@ -23,6 +23,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui_calendar = Calendar()
         var.dlg_abrir = FileDialogAbrir()
         var.dlg_gestion_propiedad_tipo = DlgGestionPropiedadTipo()
+        var.dlg_about = DlgAbout()
         self.setStyleSheet(styles.load_stylesheet())
         styles.initialize_styles()
         #conexionserver.ConexionServer.crear_conexion(self)
@@ -109,6 +110,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.action_tool_filtrar_propiedades.triggered.connect(propiedades.Propiedades.filtrar_propiedades)
         var.ui.action_exportar_propiedades_CSV.triggered.connect(eventos.Eventos.exportar_propiedades_csv)
         var.ui.action_exportar_propiedades_JSON.triggered.connect(eventos.Eventos.exportar_propiedades_json)
+        var.ui.action_abrir_about.triggered.connect(eventos.Eventos.abrir_dlg_about)
 
         '''
         Zona eventos checkbox
