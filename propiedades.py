@@ -101,8 +101,11 @@ class Propiedades():
 
         try:
             propiedad = mapper.Mapper.map_propiedad(Propiedades.campos)
-            if var.clase_conexion.alta_propiedad(propiedad):
+            last_id = var.clase_conexion.alta_propiedad(propiedad)
+            if last_id != -1:
                 eventos.Eventos.mensaje_exito("Aviso", "Propiedad dada de alta con éxito")
+                propiedad_updated = var.clase_conexion.get_propiedad(last_id)
+                Propiedades.populate_fields(propiedad_updated)
             else:
                 eventos.Eventos.mensaje_error("Aviso", "No se pudo dar de alta la propiedad")
             var.state_manager.update_tabla_propiedades()
@@ -138,6 +141,7 @@ class Propiedades():
             else:
                 eventos.Eventos.mensaje_error("Aviso", "No se pudo dar de baja la propiedad")
             var.state_manager.update_tabla_propiedades()
+            eventos.Eventos.limpiar_panel()
         except Exception as e:
             print("Error al dar de baja la propiedad", e)
 
@@ -156,44 +160,47 @@ class Propiedades():
         try:
             codigo = var.ui.tab_pro.selectedItems()[0].text()
             propiedad = var.clase_conexion.get_propiedad(codigo)
-            for key in propiedad:
-                if key == "provincia" or key == "municipio" or key == "tipo":
-                    Propiedades.campos[key].setCurrentText(propiedad[key])
-                elif key == "habitaciones" or key == "banos":
-                    Propiedades.campos[key].setValue(int(propiedad[key]))
-                elif key == "operaciones":
-                    Propiedades.campos["check_alquiler"].setChecked(False)
-                    Propiedades.campos["check_venta"].setChecked(False)
-                    Propiedades.campos["check_intercambio"].setChecked(False)
-                    if "Alquiler" in propiedad[key]:
-                        Propiedades.campos["check_alquiler"].setChecked(True)
-                        var.state_manager.change_state("check_alquiler_propiedad", True)
-                    if "Venta" in propiedad[key]:
-                        Propiedades.campos["check_venta"].setChecked(True)
-                        var.state_manager.change_state("check_venta_propiedad", True)
-                    if "Intercambio" in propiedad[key]:
-                        Propiedades.campos["check_intercambio"].setChecked(True)
-
-                elif key == "estado":
-                    Propiedades.campos["radio_disponible"].setChecked(False)
-                    Propiedades.campos["radio_alquilado"].setChecked(False)
-                    Propiedades.campos["radio_vendido"].setChecked(False)
-
-                    if propiedad[key] == "Disponible":
-                        Propiedades.campos["radio_disponible"].setChecked(True)
-
-                    if propiedad[key] == "Alquilado":
-                        Propiedades.campos["radio_alquilado"].setChecked(True)
-
-                    if propiedad[key] == "Vendido":
-                        Propiedades.campos["radio_vendido"].setChecked(True)
-
-                else:
-                    Propiedades.campos[key].setText(propiedad[key])
-                    var.state_manager.change_state("precio_alquiler_propiedad", eventos.Eventos.validar_numero(propiedad["precio_alquiler"]))
-                    var.state_manager.change_state("precio_venta_propiedad", eventos.Eventos.validar_numero(propiedad["precio_venta"]))
+            Propiedades.populate_fields(propiedad)
         except Exception as error:
             print("error al cargar el cliente", error)
+
+    def populate_fields(propiedad):
+        for key in propiedad:
+            if key == "provincia" or key == "municipio" or key == "tipo":
+                Propiedades.campos[key].setCurrentText(propiedad[key])
+            elif key == "habitaciones" or key == "banos":
+                Propiedades.campos[key].setValue(int(propiedad[key]))
+            elif key == "operaciones":
+                Propiedades.campos["check_alquiler"].setChecked(False)
+                Propiedades.campos["check_venta"].setChecked(False)
+                Propiedades.campos["check_intercambio"].setChecked(False)
+                if "Alquiler" in propiedad[key]:
+                    Propiedades.campos["check_alquiler"].setChecked(True)
+                    var.state_manager.change_state("check_alquiler_propiedad", True)
+                if "Venta" in propiedad[key]:
+                    Propiedades.campos["check_venta"].setChecked(True)
+                    var.state_manager.change_state("check_venta_propiedad", True)
+                if "Intercambio" in propiedad[key]:
+                    Propiedades.campos["check_intercambio"].setChecked(True)
+
+            elif key == "estado":
+                Propiedades.campos["radio_disponible"].setChecked(False)
+                Propiedades.campos["radio_alquilado"].setChecked(False)
+                Propiedades.campos["radio_vendido"].setChecked(False)
+
+                if propiedad[key] == "Disponible":
+                    Propiedades.campos["radio_disponible"].setChecked(True)
+
+                if propiedad[key] == "Alquilado":
+                    Propiedades.campos["radio_alquilado"].setChecked(True)
+
+                if propiedad[key] == "Vendido":
+                    Propiedades.campos["radio_vendido"].setChecked(True)
+
+            else:
+                Propiedades.campos[key].setText(propiedad[key])
+                var.state_manager.change_state("precio_alquiler_propiedad", eventos.Eventos.validar_numero(propiedad["precio_alquiler"]))
+                var.state_manager.change_state("precio_venta_propiedad", eventos.Eventos.validar_numero(propiedad["precio_venta"]))
 
     def common_checks(response):
         if (not Propiedades._fecha_alta.strip() or not Propiedades._direccion.strip() or not Propiedades._provincia.strip()
@@ -319,6 +326,10 @@ class Propiedades():
         if (not Propiedades._fecha_baja.strip() or not eventos.Eventos.validar_fecha(Propiedades._fecha_baja)):
             response["valid"] = False
             response["messages"].append("Para dar de baja es necesaria una fecha de baja válida")
+        else:
+            if not eventos.Eventos.comparar_fechas(Propiedades._fecha_alta.strip(), Propiedades._fecha_baja.strip()):
+                response["valid"] = False
+                response["messages"].append("La fecha de baja no puede ser anterior a la fecha de alta")
 
         if Propiedades._radio_disponible:
                 response["valid"] = False

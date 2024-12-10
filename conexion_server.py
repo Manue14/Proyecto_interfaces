@@ -4,6 +4,7 @@ import os
 from PyQt6 import QtSql, QtWidgets
 
 import mapper
+import var
 
 '''
 IMPORTANTE TO-DOs:
@@ -75,7 +76,10 @@ class ConexionServer():
 
             conexion = ConexionServer().db_conexion()
             cursor = conexion.cursor(dictionary=True)
-            cursor.execute("SELECT * FROM clientes ORDER BY apelcli, nomecli ASC")
+            if not var.state_manager.state["historico_cli"]:
+                cursor.execute("SELECT * FROM clientes WHERE bajacli IS NULL ORDER BY apelcli, nomecli ASC")
+            else:
+                cursor.execute("SELECT * FROM clientes ORDER BY apelcli, nomecli ASC")
             resultados = cursor.fetchall()
 
             # Procesar cada fila de los resultados
@@ -101,16 +105,17 @@ class ConexionServer():
             "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)")
             mapper.Mapper.bind_cliente_create_query_servidor(cursor, add_cliente, cliente)
             affected_files = cursor.rowcount
+            last_id = cursor.lastrowid
             conexion.commit()
             cursor.close()
             conexion.close()
             if affected_files >= 1:
-                return True
+                return last_id
             else:
-                return False
+                return -1
         except Exception as e:
             print("Error al dar de alta el cliente en el servidor", e)
-            return False
+            return -1
         
     @staticmethod
     def get_cliente(dni):
@@ -261,16 +266,17 @@ class ConexionServer():
             "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)")
             mapper.Mapper.bind_propiedad_create_query_servidor(cursor, add_propiedad, propiedad)
             affected_files = cursor.rowcount
+            last_id = cursor.lastrowid
             conexion.commit()
             cursor.close()
             conexion.close()
             if affected_files >= 1:
-                return True
+                return last_id
             else:
-                return False
+                return -1
         except Exception as e:
             print("Error dar de alta propiedad en el servidor", e)
-            return False
+            return -1
         
     @staticmethod
     def modificar_propiedad(propiedad):
@@ -317,12 +323,15 @@ class ConexionServer():
             return False
         
     @staticmethod
-    def listar_propiedades():
+    def listar_propiedades(to_export = False):
         try:
             propiedades = []
             conexion = ConexionServer.db_conexion()
             cursor = conexion.cursor(dictionary=True)
-            query = ("SELECT * FROM propiedades ORDER BY muniprop ASC")
+            if not var.state_manager.state["historico_pro"] and not to_export:
+                query = ("SELECT * FROM propiedades WHERE bajaprop IS NULL ORDER BY muniprop ASC")
+            else:
+                query = ("SELECT * FROM propiedades ORDER BY muniprop ASC")
             cursor.execute(query)
             resultados = cursor.fetchall()
             for fila in resultados:

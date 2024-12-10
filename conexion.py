@@ -73,14 +73,14 @@ class Conexion:
                           " :movilcli, :dircli, :procli, :municli, :bajacli)")
             mapper.Mapper.bind_cliente_query(query, cliente)
             if query.exec():
-                return True
+                return query.lastInsertId()
             else:
-                return False
+                return -1
         except sqlite3.IntegrityError:
-            return False
+            return -1
         except Exception as error:
             print("error alta cliente", error)
-            return False
+            return -1
 
     def listar_clientes():
         try:
@@ -220,12 +220,12 @@ class Conexion:
             mapper.Mapper.bind_propiedad_create_query(query, propiedad)
 
             if query.exec():
-                return True
+                return query.lastInsertId()
             else:
-                return False
+                return -1
         except Exception as error:
             print("error al dar de alta la propiedad en la base de datos", error)
-            return False
+            return -1
 
     def modificar_propiedad(propiedad):
         try:
@@ -263,14 +263,14 @@ class Conexion:
             print("Error al dar de baja la propiedad en la base de datos", error)
             return False
 
-    def listar_propiedades():
+    def listar_propiedades(to_export = False):
         try:
             propiedades = []
             propiedad = mapper.Mapper.initialize_propiedad()
             keys = list(propiedad.keys())
 
             query = QtSql.QSqlQuery()
-            if not var.state_manager.state["historico_pro"]:
+            if not var.state_manager.state["historico_pro"] and not to_export:
                 query.prepare("SELECT * FROM propiedades WHERE bajaprop IS NULL ORDER BY muniprop ASC;")
             else:
                 query.prepare("SELECT * FROM propiedades ORDER BY muniprop ASC;")

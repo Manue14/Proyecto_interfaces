@@ -59,9 +59,12 @@ class Clientes:
         
         try:
             cliente = mapper.Mapper.map_cliente(Clientes.campos)
-            if var.clase_conexion.alta_cliente(cliente):
+            last_id = var.clase_conexion.alta_cliente(cliente)
+            if last_id != -1:
                 eventos.Eventos.mensaje_exito("Aviso", "Alta cliente en la base de datos")
                 var.state_manager.update_tabla_clientes()
+                cliente_updated = var.clase_conexion.get_cliente(cliente["dni"])
+                Clientes.populate_fields(cliente_updated)
             else:
                 eventos.Eventos.mensaje_error("Aviso", "El cliente ya existe")
         except Exception as error:
@@ -100,25 +103,29 @@ class Clientes:
             if var.clase_conexion.baja_cliente(cliente):
                 eventos.Eventos.mensaje_exito("Aviso", "Cliente dado de baja")
                 var.state_manager.update_tabla_clientes()
+                eventos.Eventos.limpiar_panel()
             else:
                 eventos.Eventos.mensaje_error("Aviso", "Error al dar de baja al cliente")
         except Exception as error:
             print("error baja_cliente", error)
 
-    def cargar_cliente(self):
+    def cargar_cliente():
         Clientes.inicializar_campos()
         try:
             fila = var.ui.tab_cli.selectedItems()
             datos = [dato.text() for dato in fila]
             cliente = var.clase_conexion.get_cliente(str(datos[0]))
-            for key in cliente:
-                if key == "provincia" or key == "municipio":
-                    Clientes.campos[key].setCurrentText(cliente[key])
-                else:
-                    Clientes.campos[key].setText(cliente[key])
-            eventos.Eventos.observar_fecha_baja(Clientes.campos["fecha_baja"])
+            Clientes.populate_fields(cliente)
         except Exception as error:
             print("error cargar_cliente", error)
+
+    def populate_fields(cliente):
+        for key in cliente:
+            if key == "provincia" or key == "municipio":
+                Clientes.campos[key].setCurrentText(cliente[key])
+            else:
+                Clientes.campos[key].setText(cliente[key])
+        eventos.Eventos.observar_fecha_baja(Clientes.campos["fecha_baja"])
 
     def buscar_cliente():
         Clientes.inicializar_campos()
@@ -216,5 +223,13 @@ class Clientes:
             response["valid"] = False
             response["messages"].append("Es necesaria una fecha de baja para dar de baja a un cliente")'''
         #Si no introducimos una fecha de baja se coge automáticamente la fecha actual
-
+            
+        if (Clientes._fecha_baja.strip()):  #Comprobamos que hay una fecha de baja porque si se deja en blanco usamos la actual
+            if not eventos.Eventos.comparar_fechas(Clientes._fecha_alta, Clientes._fecha_baja):
+                response["valid"] = False
+                response["messages"].append("La fecha de baja no puede ser anterior a la fecha de alta")
+        else:
+            if not eventos.Eventos.comparar_fechas(Clientes._fecha_alta, str(datetime.now().date().strftime('%d/%m/%Y'))):
+                response["valid"] = False
+                response["messages"].append("La fecha de baja no puede ser anterior a la fecha de alta")
         return response

@@ -476,7 +476,7 @@ class Eventos:
         except Exception as error:
             print("error en restaurar backup: ", error)
 
-    def limpiar_panel(self):
+    def limpiar_panel():
         if var.ui.panel_principal.currentIndex() == 0:
             clientes.Clientes.inicializar_campos()
             objetos_panel_cli = clientes.Clientes.campos
@@ -541,7 +541,7 @@ class Eventos:
             directorio, fichero = var.dlg_abrir.getSaveFileName(None, "Exportar Datos en CSV", file, ".csv")
 
             if fichero:
-                registros = var.clase_conexion.listar_propiedades()
+                registros = var.clase_conexion.listar_propiedades(True)
                 with open(fichero, 'w', newline='', encoding="utf-8") as csvfile:
                     writer = csv.writer(csvfile)
                     writer.writerow(registros[0].keys())
@@ -563,7 +563,7 @@ class Eventos:
             directorio, fichero = var.dlg_abrir.getSaveFileName(None, "Exportar Datos en JSON", file, ".json")
 
             if fichero:
-                registros = var.clase_conexion.listar_propiedades()
+                registros = var.clase_conexion.listar_propiedades(True)
                 with open(fichero, 'w', newline='', encoding="utf-8") as jsonfile:
                     json.dump(registros, jsonfile, ensure_ascii=False, indent=4)
 
@@ -604,3 +604,10 @@ class Eventos:
             var.state_manager.change_state("current_pro_pagina", var.state_manager.state["current_pro_pagina"] - 1)
         else:
             pass
+
+    def comparar_fechas(fecha_alta, fecha_baja):
+        formato = '%d/%m/%Y'
+        if datetime.strptime(fecha_alta, formato) <= datetime.strptime(fecha_baja, formato):
+            return True
+        else:
+            return False
