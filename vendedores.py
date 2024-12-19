@@ -170,7 +170,7 @@ class Vendedores:
             return
 
         try:
-            vendedor = mapper.Mapper.map_cliente(Vendedores.campos)
+            vendedor = mapper.Mapper.map_vendedor(Vendedores.campos)
             if var.clase_conexion.modificar_vendedor(vendedor):
                 eventos.Eventos.mensaje_exito("Aviso", "Datos vendedor modificados correctamente")
                 var.state_manager.update_tabla_vendedores()
@@ -204,9 +204,8 @@ class Vendedores:
     def cargar_vendedor():
         Vendedores.inicializar_campos()
         try:
-            fila = var.ui.tab_cli.selectedItems()
-            datos = [dato.text() for dato in fila]
-            vendedor = var.clase_conexion.get_vendedor(datos[0])
+            fila = var.ui.tab_ven.selectedItems()
+            vendedor = var.clase_conexion.get_vendedor(fila[0].text())
             Vendedores.populate_fields(vendedor)
         except Exception as error:
             print("error cargar_vendedor", error)

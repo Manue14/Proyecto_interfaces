@@ -372,7 +372,7 @@ class Conexion:
             query = QtSql.QSqlQuery()
             query.prepare("UPDATE vendedores SET bajaVendedor = :bajaven WHERE idVendedor = :idven")
 
-            query.bindValue(":bajaprop", str(vendedor["fecha_baja"]))
+            query.bindValue(":bajaven", str(vendedor["fecha_baja"]))
             query.bindValue(":idven", vendedor["codigo"])
 
             if query.exec():
