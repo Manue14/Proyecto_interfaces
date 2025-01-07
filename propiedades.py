@@ -201,6 +201,7 @@ class Propiedades():
                 Propiedades.campos[key].setText(propiedad[key])
                 var.state_manager.change_state("precio_alquiler_propiedad", eventos.Eventos.validar_numero(propiedad["precio_alquiler"]))
                 var.state_manager.change_state("precio_venta_propiedad", eventos.Eventos.validar_numero(propiedad["precio_venta"]))
+        eventos.Eventos.observar_fecha_baja(Propiedades.campos["fecha_baja"])
 
     def common_checks(response):
         if (not Propiedades._fecha_alta.strip() or not Propiedades._direccion.strip() or not Propiedades._provincia.strip()

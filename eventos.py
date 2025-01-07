@@ -140,7 +140,7 @@ class Eventos:
         try:
             fecha = widget.text()
             if Eventos.validar_fecha(fecha) or fecha == "":
-                styles.set_style(widget, "general_label_valido")
+                styles.set_style(widget, "general_label")
             else:
                 styles.set_style(widget, "general_label_error")
                 widget.setText(None)
@@ -567,7 +567,7 @@ class Eventos:
             var.state_manager.change_state("check_alquiler_propiedad", False)
             var.state_manager.change_state("check_venta_propiedad", False)
 
-        if var.ui.panel_principal.currentIndex() == 3:
+        if var.ui.panel_principal.currentIndex() == 2:
             vendedores.Vendedores.inicializar_campos()
             objetos_panel_ven = vendedores.Vendedores.campos
 
@@ -666,6 +666,8 @@ class Eventos:
 
     def comparar_fechas(fecha_alta, fecha_baja):
         formato = '%d/%m/%Y'
+        if(not fecha_alta):
+            return False
         if datetime.strptime(fecha_alta, formato) <= datetime.strptime(fecha_baja, formato):
             return True
         else:

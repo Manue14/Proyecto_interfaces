@@ -3,7 +3,7 @@ import eventos
 import conexion
 import conexion_server
 import mapper
-import datetime
+from datetime import datetime
 
 class Vendedores:
     campos = {}
@@ -60,7 +60,6 @@ class Vendedores:
                 or not Vendedores._movil.strip() or not Vendedores._provincia.strip()):
             response["valid"] = False
             response["messages"].append("Algún campo obligatorio no está cubierto")
-            print("adios")
 
         if (not eventos.Eventos.validar_dni(Vendedores._dni) or not eventos.Eventos.validar_movil(Vendedores._movil)
                 or not eventos.Eventos.validar_fecha(Vendedores._fecha_alta)):
@@ -112,6 +111,16 @@ class Vendedores:
             response["valid"] = False
             response["messages"].append("El vendedor con código " + Vendedores._codigo + " no existe")
 
+        if (Vendedores._fecha_baja.strip()):  # Comprobamos que hay una fecha de baja porque si se deja en blanco usamos la actual
+            if not eventos.Eventos.comparar_fechas(Vendedores._fecha_alta, Vendedores._fecha_baja):
+                response["valid"] = False
+                response["messages"].append("La fecha de baja no puede ser anterior a la fecha de alta")
+        else:
+            if not eventos.Eventos.comparar_fechas(Vendedores._fecha_alta,
+                                                   str(datetime.now().date().strftime('%d/%m/%Y'))):
+                response["valid"] = False
+                response["messages"].append("La fecha de baja no puede ser anterior a la fecha de alta")
+
         return response
 
     def check_if_vendedor_valid_for_delete():
@@ -131,8 +140,7 @@ class Vendedores:
             response["valid"] = False
             response["messages"].append("El vendedor con código " + Vendedores._codigo + " no existe")
 
-        if (
-        Vendedores._fecha_baja.strip()):  # Comprobamos que hay una fecha de baja porque si se deja en blanco usamos la actual
+        if (Vendedores._fecha_baja.strip()):  # Comprobamos que hay una fecha de baja porque si se deja en blanco usamos la actual
             if not eventos.Eventos.comparar_fechas(Vendedores._fecha_alta, Vendedores._fecha_baja):
                 response["valid"] = False
                 response["messages"].append("La fecha de baja no puede ser anterior a la fecha de alta")
