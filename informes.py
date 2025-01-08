@@ -1,3 +1,4 @@
+from PyQt6 import QtSql
 from reportlab.pdfgen import canvas
 from datetime import datetime
 from PIL import Image
@@ -8,6 +9,8 @@ class Informes:
     @staticmethod
     def reportClientes(self):
         try:
+            pageObjectList = []
+            totalPageCount = 0
             rootPath = '.\\informes'
             if not os.path.exists(rootPath):
                 os.makedirs(rootPath)
@@ -22,12 +25,50 @@ class Informes:
             items = ['DNI', 'APELLIDOS', 'NOMBRE', 'MOVIL', 'PROVINCIA', 'MUNICIPIO']
             var.report.setFont('Helvetica-Bold', size=10)
             var.report.drawString(50, 650, str(items[0]))
-            var.report.drawString(120, 650, str(items[1]))
+            var.report.drawString(95, 650, str(items[1]))
             var.report.drawString(200, 650, str(items[2]))
             var.report.drawString(285, 650, str(items[3]))
             var.report.drawString(390, 650, str(items[4]))
             var.report.drawString(460, 650, str(items[5]))
             var.report.line(50, 645, 525, 645)
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT dnicli, apelcli, nomecli, movilcli, procli, municli FROM "
+                          "clientes ORDER BY apelcli")
+            if query.exec():
+                x = 55
+                y = 625
+                while query.next():
+                    if y <= 90:
+                        var.report.setFont('Helvetica-Oblique', size=8)
+                        var.report.drawString(450, 80, 'Página siguiente...')
+                        var.report.showPage() #crea una página nueva
+                        Informes.topInforme(titulo)
+                        Informes.footInforme(titulo)
+
+                        items = ['DNI', 'APELLIDOS', 'NOMBRE', 'MOVIL', 'PROVINCIA', 'MUNICIPIO']
+                        var.report.setFont('Helvetica-Bold', size=10)
+                        var.report.drawString(50, 650, str(items[0]))
+                        var.report.drawString(95, 650, str(items[1]))
+                        var.report.drawString(200, 650, str(items[2]))
+                        var.report.drawString(285, 650, str(items[3]))
+                        var.report.drawString(390, 650, str(items[4]))
+                        var.report.drawString(460, 650, str(items[5]))
+                        var.report.line(50, 645, 525, 645)
+
+                        x = 55
+                        y = 625
+
+                    var.report.setFont('Helvetica', size=9)
+                    dni = '***' + str(query.value(0)[4:7] + '***')
+                    var.report.drawCentredString(x + 10, y, str(dni))
+                    var.report.drawString(x + 50, y, str(query.value(1)))
+                    var.report.drawString(x + 140, y, str(query.value(2)))
+                    var.report.drawString(x + 220, y, str(query.value(3)))
+                    var.report.drawString(x + 305, y, str(query.value(4)))
+                    var.report.drawString(x + 390, y, str(query.value(5)))
+                    y -= 25
+            totalPageCount = var.report.getPageNumber()
+            print(totalPageCount)
             var.report.save()
             for file in os.listdir(rootPath):
                 if file.endswith(nomepdfcli):
@@ -46,7 +87,7 @@ class Informes:
                 var.report.line(50, 800, 525, 800)
                 var.report.setFont('Helvetica-Bold', size=14)
                 var.report.drawString(55, 785, 'Inmobiliaria Teis')
-                var.report.drawString(230, 670, titulo)
+                var.report.drawString(230, 675, titulo)
                 var.report.line(50, 665, 525, 665)
 
                 # Dibuja la imagen en el informe
@@ -72,7 +113,8 @@ class Informes:
             var.report.setFont('Helvetica-Oblique', size=7)
             var.report.drawString(50, 40, str(fecha))
             var.report.drawString(250, 40, str(titulo))
-            var.report.drawString(490, 40, str('Página %s' % var.report.getPageNumber()))
+            var.report.drawString(490, 40, str('Página %s' % var.report.getPageNumber()) + " / " +
+                                  "x")
 
         except Exception as error:
             print('Error en pie informe de cualquier tipo: ', error)
