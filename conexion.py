@@ -10,7 +10,7 @@ class Conexion:
 
     '''
 
-    método de una clase que no depende de una instancia específica de esa clase. 
+    Método de una clase que no depende de una instancia específica de esa clase.
     Se puede llamarlo directamente a través de la clase, sin necesidad de crear un objeto de esa clase. 
     Es útil en comportamientos o funcionalidades que son más a una clase en general que a una instancia en particular.
     
@@ -18,6 +18,17 @@ class Conexion:
 
     @staticmethod
     def db_conexion():
+        """
+
+        :param None: None
+        :type None: None
+        :return:False or True
+        :rtype: bool
+
+        Módulo para establecer conexión con la base de datos.
+        Si éxito devuelve true, en caso contrario devuelve false
+
+        """
         # Verifica si el archivo de base de datos existe
         if not os.path.isfile('bbdd.sqlite'):
             QtWidgets.QMessageBox.critical(None, 'Error', 'El archivo de la base de datos no existe.',
@@ -47,6 +58,16 @@ class Conexion:
 
     @staticmethod
     def listar_provincias():
+        """
+
+        :param None: None
+        :type None: None
+        :return: lista provincias
+        :rtype: bytearray
+
+        Método que obtiene listado de provincias de la base de datos
+
+        """
         listaprov = []
         query = QtSql.QSqlQuery()
         query.prepare("SELECT * FROM provincias;")
@@ -56,6 +77,16 @@ class Conexion:
         return listaprov
 
     def listar_municipios(prov_id):
+        """
+
+        :param prov_id: id provincia
+        :type prov_id: int
+        :return: mun_list
+        :rtype: bytearray
+
+        Método que obtiene listado de municipios de una provincia de la base de datos
+
+        """
         mun_list = []
         query = QtSql.QSqlQuery()
         query.prepare(f"SELECT * FROM municipios where idprov = {prov_id};")
@@ -66,6 +97,17 @@ class Conexion:
 
     @staticmethod
     def alta_cliente(cliente):
+        """
+
+        :param cliente: cliente a dar de alta
+        :type cliente: dict
+        :return: id del cliente registrado o -1
+        :rtype: int
+
+        Método que inserta a la base de datos el cliente
+        Si éxito devuelve el id del cliente, en caso contrario devuelve -1
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT into clientes (dnicli, altacli, apelcli, nomecli, emailcli, movilcli, "
@@ -83,6 +125,16 @@ class Conexion:
             return -1
 
     def listar_clientes():
+        """
+
+        :param None: None
+        :type None: None
+        :return: listado clientes
+        :rtype: list
+
+        Método que devuelve una lista con los clientes de la base de datos
+
+        """
         try:
             clientes = []
             cliente = mapper.Mapper.initialize_cliente()
@@ -107,6 +159,16 @@ class Conexion:
             return []
 
     def get_cliente(dni):
+        """
+
+        :param dni: DNI del cliente que se quiere obtener de la base de datos
+        :type dni: str
+        :return: cliente correspondiente al dni pasado por parametro
+        :rtype: dict
+
+        Método que a partir de un DNI obtiene el usuario de la base de datos
+
+        """
         try:
             cliente = mapper.Mapper.initialize_cliente()
             keys = list(cliente.keys())
@@ -128,6 +190,17 @@ class Conexion:
             return {}
 
     def modificar_cliente(cliente):
+        """
+
+        :param cliente: cliente a modificar
+        :type cliente: dict
+        :return: True o False
+        :rtype: bool
+
+        Método que actualiza un cliente en la base de datos
+        Si éxito devuelve True, en caso contrario devuelve False
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("select count(*) from clientes where dnicli = :dni")
@@ -151,6 +224,17 @@ class Conexion:
             return False
 
     def baja_cliente(cliente):
+        """
+
+        :param cliente: cliente a dar de baja
+        :type cliente: dict
+        :return: True o False
+        :rtype: bool
+
+        Método que da de baja un cliente en la base de datos (lo oculta añadiéndole una fecha de baja)
+        Si éxito devuelve True, en caso contrario devuelve False
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("UPDATE clientes SET bajacli = :bajacli WHERE dnicli = :dnicli")
@@ -165,6 +249,17 @@ class Conexion:
             return False
 
     def alta_propiedad_tipo(tipo):
+        """
+
+        :param tipo: tipo de propiedad a dar de alta
+        :type tipo: str
+        :return: True o False
+        :rtype: bool
+
+        Método para registrar un tipo de propiedad en la base de datos
+        Si éxito devuelve True, en caso contrario devuelve False
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT into tipopropiedad (TIPO) VALUES (:tipo) ")
@@ -184,17 +279,38 @@ class Conexion:
             return False
 
     def cargar_propiedad_tipos():
+        """
+
+        :param None: None
+        :type None: None
+        :return: listado de tipos de propiedad de la base de datos
+        :rtype: list
+
+        Método que devuelve un listado con todos los tipos de propiedades en la base de datos
+
+        """
         query = QtSql.QSqlQuery()
         query.prepare("SELECT tipo FROM tipopropiedad ORDER BY tipo ASC")
         if query.exec():
-            registro = []
+            tipos = []
             while query.next():
-                registro.append(query.value(0))
-            return registro
+                tipos.append(query.value(0))
+            return tipos
         else:
             return []
 
     def baja_propiedad_tipo(tipo):
+        """
+
+        :param None: None
+        :type None: None
+        :return: True o False
+        :rtype: bool
+
+        Método que elimina de la base de datos el tipo de propiedad pasado por parametro
+        Si éxito devuelve True, en caso contrario False
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("DELETE from tipopropiedad WHERE tipo = :tipo")
@@ -210,6 +326,17 @@ class Conexion:
             print("error baja tipo propiedad", error)
 
     def alta_propiedad(propiedad):
+        """
+
+        :param propiedad: propiedad a registrar en la base de datos
+        :type propiedad: dict
+        :return: id de la última propiedad registrada o -1
+        :rtype: int
+
+        Método que registra en la base de datos la propiedad pasada por parámetro
+        Si éxito devuelve id de la última propiedad registrada, en caso contrario -1
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT into propiedades (altaprop, dirprop, provprop, muniprop, tipoprop, habprop, "
@@ -228,6 +355,17 @@ class Conexion:
             return -1
 
     def modificar_propiedad(propiedad):
+        """
+
+        :param propiedad: propiedad a modificar en la base de datos
+        :type propiedad: dict
+        :return: True o False
+        :rtype: bool
+
+        Método que actualiza una propiedad en la base de datos
+        Si éxito devuelve True, en caso contrario False
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("UPDATE propiedades SET altaprop = :altaprop, dirprop = :dirprop, provprop = :provprop, "
@@ -247,6 +385,17 @@ class Conexion:
             return False
 
     def eliminar_propiedad(propiedad):
+        """
+
+        :param propiedad: propiedad a dar de baja en la base de datos
+        :type propiedad: dict
+        :return: True o False
+        :rtype: bool
+
+        Método que da de baja una propiedad en la base de datos (la oculta añadiéndole una fecha de baja)
+        Si éxito devuelve True, en caso contrario False
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("UPDATE propiedades SET bajaprop = :bajaprop, estadoprop = :estadoprop WHERE codigo = :codigo")
@@ -264,6 +413,16 @@ class Conexion:
             return False
 
     def listar_propiedades(to_export = False):
+        """
+
+        :param to_export: bandera para controlar si el listado de propiedades es para realizar una exportación
+        :type to_export: bool
+        :return: listado de propiedades existentes en la base de datos
+        :rtype: list
+
+        Método que devuelve una lista con las propiedades existentes en la base de datos
+
+        """
         try:
             propiedades = []
             propiedad = mapper.Mapper.initialize_propiedad()
@@ -288,6 +447,16 @@ class Conexion:
             return []
 
     def get_propiedad(codigo):
+        """
+
+        :param codigo: código de la propiedad a obtener desde la base de datos
+        :type codigo: int
+        :return: propiedad correspondiente al código pasado por parámetro
+        :rtype: dict
+
+        Método que obtiene una propiedad de la base de datos a partir de su código
+
+        """
         try:
             propiedad = mapper.Mapper.initialize_propiedad()
 
@@ -308,6 +477,18 @@ class Conexion:
             return {}
 
     def filtrar_propiedades(tipo, municipio):
+        """
+
+        :param tipo: tipo de propiedad para filtrar
+        :type tipo: str
+        :param municipio: municipio para filtrar
+        :type municipio: str
+        :return: listado de propiedades filtradas
+        :rtype: list
+
+        Método que devuelve una lista de propiedades filtradas
+
+        """
         try:
             propiedades = []
             propiedad = mapper.Mapper.initialize_propiedad()
@@ -336,6 +517,17 @@ class Conexion:
 
 
     def alta_vendedor(vendedor):
+        """
+
+        :param vendedor: vendedor a dar de alta en la base de datos
+        :type vendedor: dict
+        :return: id del último vendedor registrado o -1
+        :rtype: int
+
+        Método que registra un vendedor en la base de datos
+        Si éxito devuelve el id del vendedor registrado, en caso contrario -1
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT into vendedores (dniVendedor, nombreVendedor, altaVendedor, "
@@ -352,6 +544,17 @@ class Conexion:
             return -1
 
     def modificar_vendedor(vendedor):
+        """
+
+        :param vendedor: vendedor a actualizar en la base de datos
+        :type vendedor: dict
+        :return: True o False
+        :rtype: bool
+
+        Método que actualiza un vendedor en la base de datos
+        Si éxito devuelve True, en caso contrario False
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("UPDATE vendedores SET dniVendedor = :dniven, nombreVendedor = :nomven, altaVendedor = :altaven, bajaVendedor = :bajaven, "
@@ -368,6 +571,17 @@ class Conexion:
             return False
 
     def baja_vendedor(vendedor):
+        """
+
+        :param vendedor: vendedor a dar de baja en la base de datos
+        :type vendedor: dict
+        :return: True o False
+        :rtype: bool
+
+        Método que da de baja un vendedor en la base de datos (lo oculta añadiéndole una fecha de baja)
+        Si éxito devuelve True, en caso contrario devuelve False
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("UPDATE vendedores SET bajaVendedor = :bajaven WHERE idVendedor = :idven")
@@ -384,6 +598,16 @@ class Conexion:
             return False
 
     def listar_vendedores():
+        """
+
+        :param None: None
+        :type None: None
+        :return: listado de vendedores existentes en la base de datos
+        :rtype: list
+
+        Método que devuelve un listado de los vendedores existentes en la base de datos
+
+        """
         try:
             vendedores = []
             vendedor = mapper.Mapper.initialize_vendedor()
@@ -408,6 +632,16 @@ class Conexion:
             return []
 
     def get_vendedor(codigo):
+        """
+
+        :param codigo: código del vendedor a obtener desde la base de datos
+        :type codigo: int
+        :return: vendedor correspondiente al código pasado por parámetro
+        :rtype: dict
+
+        Método que devuelve desde la base de datos un vendedor a partir de su código
+
+        """
         try:
             vendedor = mapper.Mapper.initialize_vendedor()
             keys = list(vendedor.keys())
@@ -426,6 +660,16 @@ class Conexion:
             return {}
 
     def get_vendedor_dni(dni):
+        """
+
+        :param dni: dni del vendedor a obtener desde la base de datos
+        :type dni: str
+        :return: vendedor correspondiente al dni pasado por parámetro
+        :rtype: dict
+
+        Método que devuelve desde la base de datos un vendedor a partir de su dni
+
+        """
         try:
             vendedor = mapper.Mapper.initialize_vendedor()
             keys = list(vendedor.keys())
