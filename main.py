@@ -120,6 +120,7 @@ class Main(QtWidgets.QMainWindow):
             eventos.Eventos.cargar_municipios(var.ui.cmb_pro_municipio, var.ui.cmb_pro_provincia.itemData(var.ui.cmb_pro_provincia.currentIndex())))
 
         eventos.Eventos.cargar_provincias(var.ui.cmb_ven_provincia)
+        var.ui.cmb_ven_provincia.currentTextChanged.connect(eventos.Eventos.search_combobox)
 
         '''
         Zona eventos toolbar

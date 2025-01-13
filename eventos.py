@@ -672,3 +672,6 @@ class Eventos:
             return True
         else:
             return False
+
+    def search_combobox(self):
+        print(self.sender())

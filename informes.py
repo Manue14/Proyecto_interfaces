@@ -9,8 +9,6 @@ class Informes:
     @staticmethod
     def reportClientes(self):
         try:
-            pageObjectList = []
-            totalPageCount = 0
             rootPath = '.\\informes'
             if not os.path.exists(rootPath):
                 os.makedirs(rootPath)
@@ -20,6 +18,7 @@ class Informes:
             pdf_path = os.path.join(rootPath, nomepdfcli)   #también esto
             var.report = canvas.Canvas(pdf_path)
             titulo = "Listado Clientes"
+            query0 = QtSql.Query()
             Informes.topInforme(titulo)
             Informes.footInforme(titulo)
             items = ['DNI', 'APELLIDOS', 'NOMBRE', 'MOVIL', 'PROVINCIA', 'MUNICIPIO']

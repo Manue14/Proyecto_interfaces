@@ -965,6 +965,7 @@ class Ui_VentanaPrincipal(object):
         self.cmb_ven_provincia = QtWidgets.QComboBox(parent=self.pestana_vendedores)
         self.cmb_ven_provincia.setMinimumSize(QtCore.QSize(350, 0))
         self.cmb_ven_provincia.setMaximumSize(QtCore.QSize(350, 16777215))
+        self.cmb_ven_provincia.setEditable(True)
         self.cmb_ven_provincia.setObjectName("cmb_ven_provincia")
         self.gridLayout_6.addWidget(self.cmb_ven_provincia, 10, 1, 1, 1)
         self.txt_ven_nombre = QtWidgets.QLineEdit(parent=self.pestana_vendedores)
