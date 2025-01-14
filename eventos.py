@@ -673,5 +673,8 @@ class Eventos:
         else:
             return False
 
-    def search_combobox(self):
-        print(self.sender())
+    def abrir_dlg_buscar_propiedades():
+        try:
+            var.dlg_buscar_propiedad.show()
+        except Exception as error:
+            print("Error al abrir la ventana de acerca de ", error)

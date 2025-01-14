@@ -76,6 +76,10 @@ class Informes:
         except Exception as error:
             print(error)
 
+    def reportPropiedades(self):
+        print("Hola")
+        #código, dirección, tipo propiedad, tipo operación, precio alquiler, precio compra
+
     def topInforme(titulo):
         try:
             ruta_logo = '.\\img\\house.ico'

@@ -81,8 +81,8 @@ class Conexion:
 
         :param prov_id: id provincia
         :type prov_id: int
-        :return: mun_list
-        :rtype: bytearray
+        :return: lista de municipios de la provincia con el id pasado por parámetro
+        :rtype: list
 
         Método que obtiene listado de municipios de una provincia de la base de datos
 
@@ -90,6 +90,26 @@ class Conexion:
         mun_list = []
         query = QtSql.QSqlQuery()
         query.prepare(f"SELECT * FROM municipios where idprov = {prov_id};")
+        if query.exec():
+            while query.next():
+                mun_list.append([query.value(1), query.value(2)])
+        return mun_list
+
+    @staticmethod
+    def listar_all_municipios():
+        """
+
+        :param none: none
+        :type: none
+        :return: lista de todas las provincias existentes en la base de datos
+        :rtype: list
+
+        Método que obtiene un listado de todas los municipios existentes en la base de datos
+
+        """
+        mun_list = []
+        query = QtSql.QSqlQuery()
+        query.prepare("SELECT * FROM municipios;")
         if query.exec():
             while query.next():
                 mun_list.append([query.value(1), query.value(2)])

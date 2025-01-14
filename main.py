@@ -53,6 +53,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.action_archivo_backup_restaurar.triggered.connect(eventos.Eventos.restaurar_backup)
         var.ui.action_gestion_propiedades_tipo.triggered.connect(eventos.Eventos.abrir_dlg_propiedades_tipo)
         var.ui.action_listado_clientes.triggered.connect(informes.Informes.reportClientes)
+        var.ui.action_listado_propiedades.triggered.connect()
 
         '''
         Zona eventos comprobaciones
@@ -120,7 +121,6 @@ class Main(QtWidgets.QMainWindow):
             eventos.Eventos.cargar_municipios(var.ui.cmb_pro_municipio, var.ui.cmb_pro_provincia.itemData(var.ui.cmb_pro_provincia.currentIndex())))
 
         eventos.Eventos.cargar_provincias(var.ui.cmb_ven_provincia)
-        var.ui.cmb_ven_provincia.currentTextChanged.connect(eventos.Eventos.search_combobox)
 
         '''
         Zona eventos toolbar
@@ -132,6 +132,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.action_tool_filtrar_propiedades.triggered.connect(propiedades.Propiedades.filtrar_propiedades)
         var.ui.action_exportar_propiedades_CSV.triggered.connect(eventos.Eventos.exportar_propiedades_csv)
         var.ui.action_exportar_propiedades_JSON.triggered.connect(eventos.Eventos.exportar_propiedades_json)
+
         var.ui.action_abrir_about.triggered.connect(eventos.Eventos.abrir_dlg_about)
 
         '''

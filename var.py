@@ -13,3 +13,4 @@ global dlg_about
 global state_manager
 global clase_conexion
 global report
+global dlg_buscar_propiedad
