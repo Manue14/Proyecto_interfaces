@@ -52,8 +52,8 @@ class DlgBuscarPropiedad(QtWidgets.QDialog):
         self.ui.setupUi(self)
         self.ui.cmb_buscar_pro_municipio.addItem("----")
 
-        municipios = conexion.Conexion.listar_all_municipios
-        self.ui.cmb_buscar_pro_municipio.addItem(municipios)
+        municipios = conexion.Conexion.listar_all_municipios()
+        self.ui.cmb_buscar_pro_municipio.addItems(municipios)
 
         my_window = self
         completer = QCompleter(municipios,my_window)

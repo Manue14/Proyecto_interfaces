@@ -112,7 +112,7 @@ class Conexion:
         query.prepare("SELECT * FROM municipios;")
         if query.exec():
             while query.next():
-                mun_list.append([query.value(1), query.value(2)])
+                mun_list.append(query.value(1))
         return mun_list
 
     @staticmethod

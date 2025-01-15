@@ -2,14 +2,15 @@ from PyQt6 import QtSql
 from reportlab.pdfgen import canvas
 from datetime import datetime
 from PIL import Image
-import os, shutil
+import os, shutil, sys, subprocess
 import var
 
 class Informes:
+    separator = os.sep
     @staticmethod
     def reportClientes(self):
         try:
-            rootPath = '.\\informes'
+            rootPath = '.' + Informes.separator + 'informes'
             if not os.path.exists(rootPath):
                 os.makedirs(rootPath)
             fecha = datetime.today()
@@ -18,12 +19,12 @@ class Informes:
             pdf_path = os.path.join(rootPath, nomepdfcli)   #también esto
             var.report = canvas.Canvas(pdf_path)
             titulo = "Listado Clientes"
-            query0 = QtSql.Query() #¿query para el número de páginas?
+            #query0 = QtSql.Query() ¿query para el número de páginas?
             Informes.topInforme(titulo)
             Informes.footInforme(titulo)
             items = ['DNI', 'APELLIDOS', 'NOMBRE', 'MOVIL', 'PROVINCIA', 'MUNICIPIO']
             var.report.setFont('Helvetica-Bold', size=10)
-            var.report.drawString(50, 650, str(items[0]))
+            var.report.drawString(55, 650, str(items[0]))
             var.report.drawString(95, 650, str(items[1]))
             var.report.drawString(200, 650, str(items[2]))
             var.report.drawString(285, 650, str(items[3]))
@@ -46,7 +47,7 @@ class Informes:
 
                         items = ['DNI', 'APELLIDOS', 'NOMBRE', 'MOVIL', 'PROVINCIA', 'MUNICIPIO']
                         var.report.setFont('Helvetica-Bold', size=10)
-                        var.report.drawString(50, 650, str(items[0]))
+                        var.report.drawString(70, 650, str(items[0]))
                         var.report.drawString(95, 650, str(items[1]))
                         var.report.drawString(200, 650, str(items[2]))
                         var.report.drawString(285, 650, str(items[3]))
@@ -71,7 +72,10 @@ class Informes:
             var.report.save()
             for file in os.listdir(rootPath):
                 if file.endswith(nomepdfcli):
-                    os.startfile(pdf_path)
+                    if sys.platform == "win32":
+                        os.startfile(pdf_path)
+                    elif sys.platform == "linux":
+                        subprocess.call([pdf_path])
 
         except Exception as error:
             print(error)
@@ -82,7 +86,7 @@ class Informes:
 
     def topInforme(titulo):
         try:
-            ruta_logo = '.\\img\\house.ico'
+            ruta_logo = '.' + Informes.separator + 'img' + Informes.separator + 'house.ico'
             logo = Image.open(ruta_logo)
 
             # Asegúrate de que el objeto 'logo' sea de tipo 'PngImageFile'

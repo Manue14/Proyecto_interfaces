@@ -26,6 +26,7 @@ class Main(QtWidgets.QMainWindow):
         var.dlg_abrir = FileDialogAbrir()
         var.dlg_gestion_propiedad_tipo = DlgGestionPropiedadTipo()
         var.dlg_about = DlgAbout()
+        var.dlg_buscar_propiedad = DlgBuscarPropiedad()
         self.setStyleSheet(styles.load_stylesheet())
         styles.initialize_styles()
         #conexionserver.ConexionServer.crear_conexion(self)
@@ -53,7 +54,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.action_archivo_backup_restaurar.triggered.connect(eventos.Eventos.restaurar_backup)
         var.ui.action_gestion_propiedades_tipo.triggered.connect(eventos.Eventos.abrir_dlg_propiedades_tipo)
         var.ui.action_listado_clientes.triggered.connect(informes.Informes.reportClientes)
-        var.ui.action_listado_propiedades.triggered.connect()
+        var.ui.action_listado_propiedades.triggered.connect(eventos.Eventos.abrir_dlg_buscar_propiedades)
 
         '''
         Zona eventos comprobaciones
