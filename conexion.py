@@ -706,3 +706,16 @@ class Conexion:
         except Exception as error:
             print("error datos un vendedor", error)
             return {}
+
+    def alta_factura(self, factura):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("INSERT INTO factura (fechafac, dnifac) VALUES (:fechafac, :dnifac) ")
+            query.bindValue(":fechafac", str(factura[0]))
+            query.bindValue(":dnifac", str(factura[1]))
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as error:
+            print("error alta_factura", error)

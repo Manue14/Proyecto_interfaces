@@ -18,7 +18,7 @@ class Informes:
             pdf_path = os.path.join(rootPath, nomepdfcli)   #también esto
             var.report = canvas.Canvas(pdf_path)
             titulo = "Listado Clientes"
-            query0 = QtSql.Query()
+            query0 = QtSql.Query() #¿query para el número de páginas?
             Informes.topInforme(titulo)
             Informes.footInforme(titulo)
             items = ['DNI', 'APELLIDOS', 'NOMBRE', 'MOVIL', 'PROVINCIA', 'MUNICIPIO']
