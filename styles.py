@@ -1,6 +1,7 @@
 import clientes
 import propiedades
 import vendedores
+import facturas
 # styles.py
 def load_stylesheet():
     '''
@@ -14,6 +15,7 @@ def initialize_styles():
     clientes.Clientes.inicializar_campos()
     propiedades.Propiedades.inicializar_campos()
     vendedores.Vendedores.inicializar_campos()
+    facturas.Facturas.inicializar_campos()
 
     clientes.Clientes.campos["dni"].setProperty("qssClass", "general_label")
     clientes.Clientes.campos["fecha_alta"].setProperty("qssClass", "general_label")
@@ -56,6 +58,10 @@ def initialize_styles():
     vendedores.Vendedores.campos["email"].setProperty("qssClass", "general_label")
     vendedores.Vendedores.campos["movil"].setProperty("qssClass", "general_label")
     vendedores.Vendedores.campos["provincia"].setProperty("qssClass", "general_combobox")
+
+    for widget in facturas.Facturas.campos.values():
+        widget.setProperty("qssClass", "general_label")
+        reload_style(widget)
 
     for widget in clientes.Clientes.campos.values():
         reload_style(widget)
