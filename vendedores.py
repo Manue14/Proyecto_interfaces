@@ -5,6 +5,9 @@ import conexion_server
 import mapper
 from datetime import datetime
 
+from facturas import Facturas
+
+
 class Vendedores:
     campos = {}
     botones = {}
@@ -215,6 +218,7 @@ class Vendedores:
             fila = var.ui.tab_ven.selectedItems()
             vendedor = var.clase_conexion.get_vendedor(fila[0].text())
             Vendedores.populate_fields(vendedor)
+            Facturas.populate_vendedor_fields(vendedor)
         except Exception as error:
             print("error cargar_vendedor", error)
 

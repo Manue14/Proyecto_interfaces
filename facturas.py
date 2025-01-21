@@ -28,6 +28,27 @@ class Facturas:
             "btn_grabar_ven": var.ui.btn_fac_ven_grabar
         }
 
+    @staticmethod
+    def populate_cliente_fields(cliente):
+        Facturas.inicializar_campos()
+        Facturas.campos["dni_cliente"].setText(cliente["dni"])
+        Facturas.campos["apellidos_cliente"].setText(cliente["apellido"])
+        Facturas.campos["nombre_cliente"].setText(cliente["nombre"])
+
+    @staticmethod
+    def populate_propiedad_fields(propiedad):
+        Facturas.inicializar_campos()
+        Facturas.campos["codigo_propiedad"].setText(propiedad["codigo"])
+        Facturas.campos["tipo_propiedad"].setText(propiedad["tipo"])
+        Facturas.campos["precio_propiedad"].setText("34")
+        Facturas.campos["direccion_propiedad"].setText(propiedad["direccion"])
+        Facturas.campos["localidad_propiedad"].setText(propiedad["municipio"])
+
+    @staticmethod
+    def populate_vendedor_fields(vendedor):
+        Facturas.inicializar_campos()
+        Facturas.campos["id_vendedor"].setText(vendedor["codigo"])
+
     def alta_factura(self):
         try:
             nueva_factura = [var.ui.lbl_fac_codigo.text(), var.ui.txt_fac_fecha.text(), var.ui.txt_fac_dni.text()]

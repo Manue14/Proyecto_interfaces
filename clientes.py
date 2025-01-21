@@ -3,11 +3,14 @@ from PyQt6.QtWidgets import QTableWidgetItem
 from PyQt6.uic.properties import QtCore
 from datetime import datetime
 
+import facturas
 import var
 import eventos
 import conexion
 import conexion_server
 import mapper
+from facturas import Facturas
+
 
 class Clientes:
     campos = {}
@@ -116,6 +119,7 @@ class Clientes:
             datos = [dato.text() for dato in fila]
             cliente = var.clase_conexion.get_cliente(str(datos[0]))
             Clientes.populate_fields(cliente)
+            facturas.Facturas.populate_cliente_fields(cliente)
         except Exception as error:
             print("error cargar_cliente", error)
 

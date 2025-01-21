@@ -290,6 +290,10 @@ class Eventos:
                 var.ui.txt_ven_baja.setText(str(data))
                 Eventos.observar_fecha_baja(var.ui.txt_ven_baja)
 
+            elif var.ui.panel_principal.currentIndex() == 3:
+                var.ui.txt_fac_alta.setText(str(data))
+                Eventos.observar_fecha_alta(var.ui.txt_fac_alta)
+
             time.sleep(0.5)
             var.ui_calendar.hide()
             return data
@@ -378,6 +382,42 @@ class Eventos:
             vendedor = vendedores[i]
             Eventos.show_ven_on_table(vendedor, index)
             index += 1
+
+    '''
+    @staticmethod
+    def cargar_tabla_facturas():
+        try:
+            listado = conexion.Conexion.listadoFacturas()
+            var.ui.tablaFacturas.setRowCount(len(listado))
+            index = 0
+            for registro in listado:
+                container = QWidget()
+                layout = QVBoxLayout()
+                var.botondel = QPushButton()
+                var.botondel.setFixedSize(30, 20)
+                var.botondel.setIcon(QIcon("./img/papelera.ico"))
+                var.botondel.setStyleSheet("background-color: #efefef;")
+                var.botondel.clicked.connect(Facturas.deleteFactura)
+                layout.addWidget(var.botondel)
+                layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                layout.setContentsMargins(0, 0, 0, 0)
+                layout.setSpacing(0)
+                container.setLayout(layout)
+                var.ui.tablaFacturas.setItem(index, 0, QTableWidgetItem(str(registro[0])))
+                var.ui.tablaFacturas.setItem(index, 1, QTableWidgetItem(registro[1]))
+                var.ui.tablaFacturas.setItem(index, 2, QTableWidgetItem(registro[2]))
+                var.ui.tablaFacturas.setCellWidget(index, 3, container)
+
+                var.ui.tablaFacturas.item(index, 0).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                var.ui.tablaFacturas.item(index, 1).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+                var.ui.tablaFacturas.item(index, 2).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+
+                index += 1
+            eventos.Eventos.resizeTablaFacturas()
+        except Exception as e:
+            print("Error al cargar la tabla de facturas", e)
+        
+        '''
 
     def show_cli_on_table(cliente, index):
         var.ui.tab_cli.setRowCount(index + 1)
