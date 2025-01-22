@@ -707,12 +707,11 @@ class Conexion:
             print("error datos un vendedor", error)
             return {}
 
-    def alta_factura(self, factura):
+    def alta_factura(factura):
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT INTO factura (fechafac, dnifac) VALUES (:fechafac, :dnifac) ")
-            query.bindValue(":fechafac", str(factura[0]))
-            query.bindValue(":dnifac", str(factura[1]))
+            mapper.Mapper.bind_factura_create_query(query, factura)
             if query.exec():
                 return True
             else:

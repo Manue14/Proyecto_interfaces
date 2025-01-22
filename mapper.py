@@ -223,3 +223,14 @@ class Mapper:
             query.bindValue(":bajaven", None)
         else:
             query.bindValue(":bajaven", str(vendedor["fecha_baja"]))
+
+    @staticmethod
+    def map_factura(campos):
+        factura = {"numero": campos["numero"].text(), "fecha_registro": campos["fecha_registro"].text(),
+                   "dni_cliente": campos["dni_cliente"].text()}
+        return factura
+
+    @staticmethod
+    def bind_factura_create_query(query, factura):
+        query.bindValue(":fechafac", factura["fecha_registro"])
+        query.bindValue(":dnifac", factura["dni_cliente"])

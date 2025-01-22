@@ -1,5 +1,6 @@
 import conexion
 import eventos
+import facturas
 import styles
 import vendedores
 from ventana_principal import *
@@ -104,6 +105,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btn_ven_baja.clicked.connect(lambda: eventos.Eventos.abrir_calendar(1))
 
         var.ui.btn_fac_alta.clicked.connect(lambda: eventos.Eventos.abrir_calendar(0))
+        var.ui.btn_fac_grabar.clicked.connect(facturas.Facturas.alta_factura)
 
         var.ui.btn_cli_anterior.clicked.connect(eventos.Eventos.retroceder_pagina_cliente)
         var.ui.btn_cli_siguiente.clicked.connect(eventos.Eventos.avanzar_pagina_cliente)

@@ -1,3 +1,6 @@
+from datetime import datetime
+
+import mapper
 import var
 import conexion
 import eventos
@@ -5,6 +8,7 @@ import eventos
 class Facturas:
     campos = {}
     botones = {}
+    _numero, _fecha_registro, _dni_cliente = "", "", ""
 
     @staticmethod
     def inicializar_campos():
@@ -21,6 +25,12 @@ class Facturas:
             "localidad_propiedad": var.ui.txt_fac_pro_localidad,
             "id_vendedor": var.ui.txt_fac_ven_id
         }
+
+    @staticmethod
+    def inicializar_valores():
+        Facturas._numero = Facturas.campos["numero"].text()
+        Facturas._fecha_registro = Facturas.campos["fecha_registro"].text()
+        Facturas._dni_cliente = Facturas.campos["dni_cliente"].text()
 
     def inicializar_botones(self):
         Facturas.botones = {
@@ -49,14 +59,54 @@ class Facturas:
         Facturas.inicializar_campos()
         Facturas.campos["id_vendedor"].setText(vendedor["codigo"])
 
-    def alta_factura(self):
+    @staticmethod
+    def alta_factura():
+        response = Facturas.check_if_factura_valid_for_create()
+        if not response["valid"]:
+            eventos.Eventos.mensaje_error("Aviso", response["messages"])
+            return
+
         try:
-            nueva_factura = [var.ui.lbl_fac_codigo.text(), var.ui.txt_fac_fecha.text(), var.ui.txt_fac_dni.text()]
-            print(nueva_factura)
-            if (conexion.Conexion.alta_factura(nueva_factura)):
+            factura = mapper.Mapper.map_factura(Facturas.campos)
+            if factura["fecha_registro"].strip() == "":
+                factura["fecha_registro"] = datetime.strftime(datetime.now(), '%d/%m/%Y')
+            print(factura)
+            if (conexion.Conexion.alta_factura(factura)):
                 eventos.Eventos.mensaje_exito("Aviso", "Alta factura en la base de datos")
                 #var.state_manager.update_tabla_facturas()
             else:
                 eventos.Eventos.mensaje_error("Aviso", "La factura ya existe")
         except Exception as error:
             print("factura", error)
+
+    @staticmethod
+    def check_if_factura_valid_for_create():
+        response = {
+            "valid": True,
+            "messages": []
+        }
+
+        Facturas.inicializar_campos()
+        Facturas.inicializar_valores()
+
+        if Facturas._numero != "":
+            response["valid"] = False
+            response["messages"].append("Para registrar una nueva factura no debes introducir un código de factura")
+
+        if Facturas._fecha_registro:
+            if not eventos.Eventos.validar_fecha(Facturas._fecha_registro):
+                response["valid"] = False
+                response["messages"].append("Debes introducir una fecha de registro válida")
+
+        if Facturas._dni_cliente:
+            if not eventos.Eventos.validar_dni(Facturas._dni_cliente):
+                response["valid"] = False
+                response["messages"].append("DNI introducido no válido")
+            if not conexion.Conexion.get_cliente(Facturas._dni_cliente):
+                response["valid"] = False
+                response["messages"].append("El DNI introducido no se corresponde con ningún cliente")
+        else:
+            response["valid"] = False
+            response["messages"].append("Una factura necesita el DNI del cliente asociado")
+
+        return response
