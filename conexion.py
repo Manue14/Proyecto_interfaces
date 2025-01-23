@@ -708,13 +708,24 @@ class Conexion:
             return {}
 
     def alta_factura(factura):
+        """
+
+        :param factura: factura a almacenar en la base de datos
+        :type factura: dict
+        :return: id de la última factura registrada o -1
+        :rtype: int
+
+        Método que registra una factura en la base de datos
+        Si éxito devuelve el id de la factura registrada, en caso contrario -1
+
+        """
         try:
             query = QtSql.QSqlQuery()
-            query.prepare("INSERT INTO factura (fechafac, dnifac) VALUES (:fechafac, :dnifac) ")
+            query.prepare("INSERT INTO facturas (fechafac, dnicli) VALUES (:fechafac, :dnicli)")
             mapper.Mapper.bind_factura_create_query(query, factura)
             if query.exec():
-                return True
+                return query.lastInsertId()
             else:
-                return False
+                return -1
         except Exception as error:
             print("error alta_factura", error)

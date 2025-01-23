@@ -233,4 +233,4 @@ class Mapper:
     @staticmethod
     def bind_factura_create_query(query, factura):
         query.bindValue(":fechafac", factura["fecha_registro"])
-        query.bindValue(":dnifac", factura["dni_cliente"])
+        query.bindValue(":dnicli", factura["dni_cliente"])

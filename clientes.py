@@ -9,7 +9,6 @@ import eventos
 import conexion
 import conexion_server
 import mapper
-from facturas import Facturas
 
 
 class Clientes:
@@ -18,6 +17,16 @@ class Clientes:
     _dni, _fecha_alta, _apellido, _nombre, _email, _movil, _direccion, _provincia, _municipio, _fecha_baja = "", "", "", "", "", "", "", "", "", ""
 
     def inicializar_campos():
+        """
+
+        :param None: None
+        :type None: None
+        :return: None
+        :rtype: None
+
+        Inicializa un diccionario con una referencia a los widgets de texto de la vista de clientes
+
+        """
         Clientes.campos = {
             "dni": var.ui.txt_cli_dni,
             "fecha_alta": var.ui.txt_cli_alta,
@@ -32,6 +41,16 @@ class Clientes:
         }
 
     def inicializar_botones():
+        """
+
+        :param None: None
+        :type None: None
+        :return: None
+        :rtype: None
+
+        Inicializa un diccionario con una referencia a todos los botones de la vista
+
+        """
         Clientes.botones = {
             "btn_grabar": var.ui.btn_cli_grabar,
             "btn_modificar": var.ui.btn_cli_modificar,
@@ -42,6 +61,16 @@ class Clientes:
         }
 
     def inicializar_valores():
+        """
+
+        :param None: None
+        :type None: None
+        :return: None
+        :rtype: None
+
+        Guarda en la correspondiente variable de clase el valor del un campo de la vista
+
+        """
         Clientes._dni = var.ui.txt_cli_dni.text()
         Clientes._fecha_alta = var.ui.txt_cli_alta.text()
         Clientes._apellido = var.ui.txt_cli_apellido.text()
@@ -54,6 +83,16 @@ class Clientes:
         Clientes._fecha_baja = var.ui.txt_cli_baja.text()
 
     def alta_cliente(self):
+        """
+
+        :param None: None
+        :type None: None
+        :return: None
+        :rtype: None
+
+        A partir de los valores introducidos crea un cliente y lo guarda en la base de datos
+
+        """
         Clientes.inicializar_campos()
         response = Clientes.check_if_cliente_valid_for_create()
         if not response["valid"]:
@@ -74,6 +113,16 @@ class Clientes:
             print("error alta cliente", error)
 
     def modificar_cliente(self):
+        """
+
+        :param None: None
+        :type None: None
+        :return: None
+        :rtype: None
+
+        A partir de los valores de la vista modifica un cliente y guarda los cambios en la base de datos
+
+        """
         Clientes.inicializar_campos()
         response = Clientes.check_if_cliente_valid_for_edit()
         if not response["valid"]:
@@ -91,6 +140,16 @@ class Clientes:
             print("error modificar_cliente", error)
 
     def baja_cliente(self):
+        """
+
+        :param None: None
+        :type None: None
+        :return: None
+        :rtype: None
+
+        A partir de los valores de la vista da de baja un cliente de la base de datos
+
+        """
         Clientes.inicializar_campos()
         response = Clientes.check_if_cliente_valid_for_delete()
         if not response["valid"]:
@@ -113,6 +172,16 @@ class Clientes:
             print("error baja_cliente", error)
 
     def cargar_cliente():
+        """
+
+        :param None: None
+        :type None: None
+        :return: None
+        :rtype: None
+
+        Obtiene un cliente de la tabla de clientes en la vista y carga sus datos
+
+        """
         Clientes.inicializar_campos()
         try:
             fila = var.ui.tab_cli.selectedItems()
@@ -124,6 +193,16 @@ class Clientes:
             print("error cargar_cliente", error)
 
     def populate_fields(cliente):
+        """
+
+        :param cliente: cliente cuyos datos de mostrarán en la vista
+        :type cliente: dict
+        :return: None
+        :rtype: None
+
+        Carga en la vista los datos del cliente seleccionado
+
+        """
         for key in cliente:
             if key == "provincia" or key == "municipio":
                 Clientes.campos[key].setCurrentText(cliente[key])
@@ -132,6 +211,16 @@ class Clientes:
         eventos.Eventos.observar_fecha_baja(Clientes.campos["fecha_baja"])
 
     def buscar_cliente():
+        """
+
+        :param None: None
+        :type None: None
+        :return: None
+        :rtype: None
+
+        Filtra clientes de la base de datos según los valores de campos en la vista
+
+        """
         Clientes.inicializar_campos()
         try:
             dni = Clientes.campos["dni"].text()
@@ -146,6 +235,17 @@ class Clientes:
             print("Error al buscar cliente", error)
 
     def check_existe_cli(dni):
+        """
+
+        :param dni: dni a comprobar si existe
+        :type dni: str
+        :return: True o False
+        :rtype: bool
+
+        A partir de un dni comprueba si el cliente existe en la base de datos
+        Devuelve True si en la base de datos existe en cliente con el dni que le pasamos por parámetro, en caso contrario False
+
+        """
         cliente = var.clase_conexion.get_cliente(dni)
         if (cliente["dni"] == ""):
             return False
@@ -153,6 +253,16 @@ class Clientes:
             return True
         
     def common_checks(response):
+        """
+
+        :param response: response para ir construyéndola a medida que se realizan los checks
+        :type response: dict
+        :return: True o False
+        :rtype: bool
+
+        Realiza comprobaciones en los valores de los campos de la vista que hay que realizar tanta para crear, editar y dar de baja clientes
+
+        """
         if (not Clientes._dni.strip() or not Clientes._apellido.strip() or not Clientes._direccion.strip() or not Clientes._fecha_alta.strip()
         or not Clientes._nombre.strip() or not Clientes._movil.strip() or not Clientes._provincia.strip() or not Clientes._municipio.strip()):
             response["valid"] = False
@@ -169,6 +279,17 @@ class Clientes:
 
 
     def check_if_cliente_valid_for_create():
+        """
+
+        :param None: None
+        :type None: None
+        :return: response
+        :rtype: dict
+
+        Realiza comprobaciones en los valores de los campos de la vista para crear un usuario
+        Devuelve un dict con una flag para indicar que todos los checks se pasarón y con un str con mensajes para el usuario
+
+        """
         response = {
             "valid": True,
             "messages": []
@@ -190,6 +311,17 @@ class Clientes:
         return response
     
     def check_if_cliente_valid_for_edit():
+        """
+
+        :param None: None
+        :type None: None
+        :return: response
+        :rtype: dict
+
+        Realiza comprobaciones en los valores de los campos de la vista para editar un usuario
+        Devuelve un dict con una flag para indicar que todos los checks se pasarón y con un str con mensajes para el usuario
+
+        """
         response = {
             "valid": True,
             "messages": []
@@ -207,6 +339,17 @@ class Clientes:
         return response
 
     def check_if_cliente_valid_for_delete():
+        """
+
+        :param None: None
+        :type None: None
+        :return: response
+        :rtype: dict
+
+        Realiza comprobaciones en los valores de los campos de la vista para dar de baja un usuario
+        Devuelve un dict con una flag para indicar que todos los checks se pasarón y con un str con mensajes para el usuario
+
+        """
         response = {
             "valid": True,
             "messages": []

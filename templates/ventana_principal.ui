@@ -3812,7 +3812,7 @@
         <property name="frameShadow">
          <enum>QFrame::Sunken</enum>
         </property>
-        <widget class="QTableWidget" name="tableWidget">
+        <widget class="QTableWidget" name="tab_fac">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -3821,6 +3821,9 @@
            <height>471</height>
           </rect>
          </property>
+         <attribute name="horizontalHeaderDefaultSectionSize">
+          <number>79</number>
+         </attribute>
          <column>
           <property name="text">
            <string>Factura</string>
@@ -3833,7 +3836,7 @@
          </column>
          <column>
           <property name="text">
-           <string>FECHA</string>
+           <string>Fecha</string>
           </property>
          </column>
          <column>

@@ -12,6 +12,7 @@ import shutil
 
 from reportlab.lib.testutils import setOutDir
 
+import facturas
 import var
 import clientes
 import propiedades
@@ -617,6 +618,13 @@ class Eventos:
                 else:
                     value.setText("")
             var.state_manager.change_state("last_vendedor_function", var.clase_conexion.listar_vendedores)
+
+        if var.ui.panel_principal.currentIndex() == 3:
+            facturas.Facturas.inicializar_campos()
+            objetos_panel_fac = facturas.Facturas.campos
+
+            for key, value in objetos_panel_fac.items():
+                value.setText("")
 
     def abrir_dlg_propiedades_tipo():
         try:

@@ -41,6 +41,15 @@ QHeaderView::section {
     border: 1px solid black;
 }
 
+QTableWidget#tab_fac {
+
+}
+
+QTableWidget#tab_fac QHeaderView::section {
+    font-size: 12px;
+    padding: 0px;
+}
+
 QToolBar {
     background-color: #eaeaea;
 }
