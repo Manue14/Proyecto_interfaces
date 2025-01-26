@@ -729,3 +729,62 @@ class Conexion:
                 return -1
         except Exception as error:
             print("error alta_factura", error)
+
+    def listar_facturas():
+        """
+
+        :param None: None
+        :type None: None
+        :return: listado de facturas existentes en la base de datos
+        :rtype: list
+
+        Método que devuelve un listado de las facturas existentes en la base de datos
+
+        """
+        try:
+            facturas = []
+            factura = mapper.Mapper.initialize_factura()
+            keys = list(factura.keys())
+
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM facturas ORDER BY id ASC;")
+
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        factura[keys[i]] = str(query.value(i))
+                    facturas.append(factura.copy())
+            return facturas
+        except sqlite3.IntegrityError:
+            return []
+        except Exception as error:
+            print("error listado facturas", error)
+            return []
+        
+    def get_factura(id):
+        """
+
+        :param id: ID de la factura a obtener desde la base de datos
+        :type codigo: int
+        :return: factura correspondiente al ID pasado por parámetro
+        :rtype: dict
+
+        Método que devuelve desde la base de datos una factura a partir de su ID
+
+        """
+        try:
+            factura = mapper.Mapper.initialize_factura()
+            keys = list(factura.keys())
+
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM facturas WHERE id = :id;")
+
+            query.bindValue(":id", id)
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        factura[keys[i]] = str(query.value(i))
+                return factura
+        except Exception as error:
+            print("error datos un vendedor", error)
+            return {}

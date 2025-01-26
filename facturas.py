@@ -4,6 +4,7 @@ import mapper
 import var
 import conexion
 import eventos
+import clientes
 
 class Facturas:
     campos = {}
@@ -39,15 +40,21 @@ class Facturas:
         }
 
     @staticmethod
+    def populate_fields(factura):
+        Facturas.campos["numero"].setText(factura["id"])
+        Facturas.campos["fecha_registro"].setText(factura["fecha_registro"])
+
+        cliente = conexion.Conexion.get_cliente(factura["dni_cliente"])
+        Facturas.populate_cliente_fields(cliente)
+
+    @staticmethod
     def populate_cliente_fields(cliente):
-        Facturas.inicializar_campos()
         Facturas.campos["dni_cliente"].setText(cliente["dni"])
         Facturas.campos["apellidos_cliente"].setText(cliente["apellido"])
         Facturas.campos["nombre_cliente"].setText(cliente["nombre"])
 
     @staticmethod
     def populate_propiedad_fields(propiedad):
-        Facturas.inicializar_campos()
         Facturas.campos["codigo_propiedad"].setText(propiedad["codigo"])
         Facturas.campos["tipo_propiedad"].setText(propiedad["tipo"])
         Facturas.campos["precio_propiedad"].setText("34")
@@ -56,8 +63,28 @@ class Facturas:
 
     @staticmethod
     def populate_vendedor_fields(vendedor):
-        Facturas.inicializar_campos()
         Facturas.campos["id_vendedor"].setText(vendedor["codigo"])
+
+    @staticmethod
+    def cargar_factura():
+        """
+
+        :param None: None
+        :type None: None
+        :return: None
+        :rtype: None
+
+        Obtiene una factura de la tabla de facturas en la vista y carga sus datos
+
+        """
+        Facturas.inicializar_campos()
+        try:
+            fila = var.ui.tab_fac.selectedItems()
+            datos = [dato.text() for dato in fila]
+            factura = conexion.Conexion.get_factura(str(datos[0]))
+            Facturas.populate_fields(factura)
+        except Exception as error:
+            print("error cargar_factura", error)
 
     @staticmethod
     def alta_factura():
@@ -70,10 +97,12 @@ class Facturas:
             factura = mapper.Mapper.map_factura(Facturas.campos)
             if factura["fecha_registro"].strip() == "":
                 factura["fecha_registro"] = datetime.strftime(datetime.now(), '%d/%m/%Y')
-            print(factura)
-            if (conexion.Conexion.alta_factura(factura)):
+
+            last_inserted_id = conexion.Conexion.alta_factura(factura)
+            if (last_inserted_id != -1):
                 eventos.Eventos.mensaje_exito("Aviso", "Alta factura en la base de datos")
-                #var.state_manager.update_tabla_facturas()
+                var.state_manager.update_tabla_facturas()
+                Facturas.populate_fields(conexion.Conexion.get_factura(last_inserted_id))
             else:
                 eventos.Eventos.mensaje_error("Aviso", "La factura ya existe")
         except Exception as error:

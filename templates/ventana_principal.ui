@@ -3682,7 +3682,7 @@
          <rect>
           <x>20</x>
           <y>20</y>
-          <width>341</width>
+          <width>391</width>
           <height>251</height>
          </rect>
         </property>
@@ -3697,7 +3697,7 @@
           <rect>
            <x>29</x>
            <y>29</y>
-           <width>281</width>
+           <width>341</width>
            <height>191</height>
           </rect>
          </property>
@@ -3797,61 +3797,12 @@
          </layout>
         </widget>
        </widget>
-       <widget class="QFrame" name="frame_2">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>300</y>
-          <width>341</width>
-          <height>491</height>
-         </rect>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Sunken</enum>
-        </property>
-        <widget class="QTableWidget" name="tab_fac">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>10</y>
-           <width>321</width>
-           <height>471</height>
-          </rect>
-         </property>
-         <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>79</number>
-         </attribute>
-         <column>
-          <property name="text">
-           <string>Factura</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>DNI</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Fecha</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Gestión</string>
-          </property>
-         </column>
-        </widget>
-       </widget>
        <widget class="QFrame" name="frame_3">
         <property name="geometry">
          <rect>
-          <x>400</x>
+          <x>450</x>
           <y>20</y>
-          <width>1351</width>
+          <width>1301</width>
           <height>251</height>
          </rect>
         </property>
@@ -3895,7 +3846,6 @@
             <property name="font">
              <font>
               <pointsize>12</pointsize>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -3944,7 +3894,7 @@
           <rect>
            <x>10</x>
            <y>100</y>
-           <width>1331</width>
+           <width>1221</width>
            <height>141</height>
           </rect>
          </property>
@@ -4012,7 +3962,6 @@
               <property name="font">
                <font>
                 <pointsize>12</pointsize>
-                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
@@ -4132,7 +4081,6 @@
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
-                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
@@ -4193,9 +4141,9 @@
        <widget class="QFrame" name="frame_4">
         <property name="geometry">
          <rect>
-          <x>400</x>
+          <x>450</x>
           <y>300</y>
-          <width>1351</width>
+          <width>1301</width>
           <height>371</height>
          </rect>
         </property>
@@ -4205,6 +4153,45 @@
         <property name="frameShadow">
          <enum>QFrame::Sunken</enum>
         </property>
+       </widget>
+       <widget class="QTableWidget" name="tab_fac">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>290</y>
+          <width>391</width>
+          <height>481</height>
+         </rect>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>79</number>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>Factura</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>DNI</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Fecha</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Gestión</string>
+         </property>
+        </column>
        </widget>
       </widget>
      </widget>
@@ -4217,7 +4204,7 @@
      <x>0</x>
      <y>0</y>
      <width>1796</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_archivo">

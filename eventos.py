@@ -384,6 +384,15 @@ class Eventos:
             Eventos.show_ven_on_table(vendedor, index)
             index += 1
 
+    def cargar_tabla_facturas():
+        index = 0
+        var.ui.tab_fac.verticalHeader().setVisible(False)
+        facturas = var.state_manager.state["factura_query_object"]
+        for i in range(0, len(facturas)):
+            factura = facturas[i]
+            Eventos.show_fac_on_table(factura, index)
+            index += 1
+
     '''
     @staticmethod
     def cargar_tabla_facturas():
@@ -485,6 +494,17 @@ class Eventos:
         var.ui.tab_ven.item(index, 2)
         var.ui.tab_ven.item(index, 3)
 
+    def show_fac_on_table(factura, index):
+        var.ui.tab_fac.setRowCount(index + 1)
+
+        var.ui.tab_fac.setItem(index, 0, QtWidgets.QTableWidgetItem(factura["id"]))
+        var.ui.tab_fac.setItem(index, 1, QtWidgets.QTableWidgetItem(factura["dni_cliente"]))
+        var.ui.tab_fac.setItem(index, 2, QtWidgets.QTableWidgetItem(factura["fecha_registro"]))
+
+        var.ui.tab_fac.item(index, 0)
+        var.ui.tab_fac.item(index, 1)
+        var.ui.tab_fac.item(index, 2)
+
     def resize_cli_tab(self):
         try:
             header = var.ui.tab_cli.horizontalHeader()
@@ -529,6 +549,21 @@ class Eventos:
                 header_items.setFont(font)
         except Exception as error:
             print("Error en resize tabla vendedores: " + error)
+
+    def resize_fac_tab(self):
+        try:
+            header = var.ui.tab_fac.horizontalHeader()
+            for i in range(header.count()):
+                if (i == 1 or i == 2):
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
+                else:
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                header_items = var.ui.tab_fac.horizontalHeaderItem(i)
+                font = header_items.font()
+                font.setBold(True)
+                header_items.setFont(font)
+        except Exception as error:
+            print("Error en resize tabla facturas: " + error)
 
     def crear_backup(self):
         try:
