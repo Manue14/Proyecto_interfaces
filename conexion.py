@@ -786,5 +786,20 @@ class Conexion:
                         factura[keys[i]] = str(query.value(i))
                 return factura
         except Exception as error:
-            print("error datos un vendedor", error)
+            print("error datos una factura", error)
             return {}
+
+    @staticmethod
+    def eliminar_factura(factura):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("DELETE FROM facturas WHERE id = :id;")
+
+            query.bindValue(":id", str(factura["id"]))
+
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as error:
+            print("Error al eliminar factura", error)

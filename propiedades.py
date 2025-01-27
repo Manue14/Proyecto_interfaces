@@ -6,7 +6,7 @@ import var
 import eventos
 import conexion
 import mapper
-from facturas import Facturas
+import facturas
 
 
 class Propiedades():
@@ -163,7 +163,7 @@ class Propiedades():
             codigo = var.ui.tab_pro.selectedItems()[0].text()
             propiedad = var.clase_conexion.get_propiedad(codigo)
             Propiedades.populate_fields(propiedad)
-            Facturas.populate_propiedad_fields(propiedad)
+            facturas.Facturas.populate_propiedad_fields(propiedad)
         except Exception as error:
             print("error al cargar el cliente", error)
 

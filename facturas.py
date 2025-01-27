@@ -109,6 +109,22 @@ class Facturas:
             print("factura", error)
 
     @staticmethod
+    def eliminar_factura(id_fac):
+        try:
+            factura = conexion.Conexion.get_factura(id_fac)
+            if not factura["id"]:
+                eventos.Eventos.mensaje_error("Aviso", "La factura no existe")
+            else:
+                if conexion.Conexion.eliminar_factura(factura):
+                    eventos.Eventos.mensaje_exito("Aviso", "Factura eliminada con éxito")
+                    var.state_manager.update_tabla_facturas()
+                    eventos.Eventos.limpiar_panel()
+                else:
+                    eventos.Eventos.mensaje_error("Aviso", "No se pudo eliminar la factura")
+        except Exception as error:
+            print("Error al eliminar factura", error)
+
+    @staticmethod
     def check_if_factura_valid_for_create():
         response = {
             "valid": True,

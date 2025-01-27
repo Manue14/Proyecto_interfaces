@@ -96,6 +96,17 @@ QPushButton#btn_cli_siguiente:disabled, QPushButton#btn_cli_anterior:disabled, Q
     background-color: #c7d2fe /*Indigo 200*/
 }
 
+*[qssClass="delete_button"] {
+    background-color: #ef4444; /*Red 500*/
+    border: none;
+	border-radius: 10px;
+    color: white;
+}
+
+*[qssClass="delete_button"]:hover {
+    background-color: #fca5a5; /*Red 300*/
+}
+
 /* ---- Estilos CheckBoxes ---- */
 QCheckBox#chk_pro_alquiler::indicator:unchecked, QCheckBox#chk_pro_venta::indicator:unchecked, QCheckBox#chk_pro_intercambio::indicator:unchecked,
 QCheckBox#chk_cli_historico::indicator:unchecked, QCheckBox#chk_pro_historico::indicator:unchecked, QCheckBox#chk_ven_historico::indicator:unchecked {

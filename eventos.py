@@ -5,11 +5,14 @@ import time
 import re
 from datetime import datetime
 import os
-from PyQt6 import QtWidgets, QtGui
+from PyQt6 import QtCore, QtGui, QtWidgets
 import locale
 import zipfile
 import shutil
 
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QIcon
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton
 from reportlab.lib.testutils import setOutDir
 
 import facturas
@@ -393,42 +396,6 @@ class Eventos:
             Eventos.show_fac_on_table(factura, index)
             index += 1
 
-    '''
-    @staticmethod
-    def cargar_tabla_facturas():
-        try:
-            listado = conexion.Conexion.listadoFacturas()
-            var.ui.tablaFacturas.setRowCount(len(listado))
-            index = 0
-            for registro in listado:
-                container = QWidget()
-                layout = QVBoxLayout()
-                var.botondel = QPushButton()
-                var.botondel.setFixedSize(30, 20)
-                var.botondel.setIcon(QIcon("./img/papelera.ico"))
-                var.botondel.setStyleSheet("background-color: #efefef;")
-                var.botondel.clicked.connect(Facturas.deleteFactura)
-                layout.addWidget(var.botondel)
-                layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-                layout.setContentsMargins(0, 0, 0, 0)
-                layout.setSpacing(0)
-                container.setLayout(layout)
-                var.ui.tablaFacturas.setItem(index, 0, QTableWidgetItem(str(registro[0])))
-                var.ui.tablaFacturas.setItem(index, 1, QTableWidgetItem(registro[1]))
-                var.ui.tablaFacturas.setItem(index, 2, QTableWidgetItem(registro[2]))
-                var.ui.tablaFacturas.setCellWidget(index, 3, container)
-
-                var.ui.tablaFacturas.item(index, 0).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-                var.ui.tablaFacturas.item(index, 1).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-                var.ui.tablaFacturas.item(index, 2).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-
-                index += 1
-            eventos.Eventos.resizeTablaFacturas()
-        except Exception as e:
-            print("Error al cargar la tabla de facturas", e)
-        
-        '''
-
     def show_cli_on_table(cliente, index):
         var.ui.tab_cli.setRowCount(index + 1)
         var.ui.tab_cli.setItem(index, 0, QtWidgets.QTableWidgetItem(cliente["dni"]))
@@ -504,6 +471,24 @@ class Eventos:
         var.ui.tab_fac.item(index, 0)
         var.ui.tab_fac.item(index, 1)
         var.ui.tab_fac.item(index, 2)
+
+        #Add button to table
+        container = QWidget()
+        layout = QVBoxLayout()
+        delete_button = QPushButton()
+        delete_button.setFixedSize(30, 20)
+        delete_button.setIcon(QIcon("./img/papelera.png"))
+        delete_button.setProperty("qssClass", "delete_button")
+        styles.reload_style(delete_button)
+        #delete_button.setStyleSheet("background-color: #efefef;")
+        delete_button.clicked.connect(lambda: facturas.Facturas.eliminar_factura(factura["id"]))
+        layout.addWidget(delete_button)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        container.setLayout(layout)
+
+        var.ui.tab_fac.setCellWidget(index, 3, container)
 
     def resize_cli_tab(self):
         try:
