@@ -109,6 +109,7 @@ class Main(QtWidgets.QMainWindow):
 
         var.ui.btn_fac_alta.clicked.connect(lambda: eventos.Eventos.abrir_calendar(0))
         var.ui.btn_fac_grabar.clicked.connect(facturas.Facturas.alta_factura)
+        var.ui.btn_fac_ven_grabar.clicked.connect(facturas.Facturas.alta_venta)
 
         var.ui.btn_cli_anterior.clicked.connect(eventos.Eventos.retroceder_pagina_cliente)
         var.ui.btn_cli_siguiente.clicked.connect(eventos.Eventos.avanzar_pagina_cliente)

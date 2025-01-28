@@ -761,7 +761,7 @@ class Conexion:
             print("error listado facturas", error)
             return []
         
-    def get_factura(id):
+    def get_factura(factura_id):
         """
 
         :param id: ID de la factura a obtener desde la base de datos
@@ -779,7 +779,7 @@ class Conexion:
             query = QtSql.QSqlQuery()
             query.prepare("SELECT * FROM facturas WHERE id = :id;")
 
-            query.bindValue(":id", id)
+            query.bindValue(":id", factura_id)
             if query.exec():
                 while query.next():
                     for i in range(query.record().count()):
@@ -803,3 +803,39 @@ class Conexion:
                 return False
         except Exception as error:
             print("Error al eliminar factura", error)
+
+    @staticmethod
+    def alta_venta(venta):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("INSERT INTO ventas (facventa, codprop, codagente, precioventa) "
+                          "VALUES (:id_factura, :codigo_propiedad, :codigo_vendedor, :precio);")
+            mapper.Mapper.bind_venta_create_query(query, venta)
+            if query.exec():
+                return query.lastInsertId()
+            else:
+                return -1
+        except Exception as error:
+            print("Error al dar de alta la venta", error)
+
+    @staticmethod
+    def listar_ventas():
+        pass
+
+    @staticmethod
+    def get_venta(venta_id):
+        try:
+            venta = mapper.Mapper.initialize_venta()
+            keys = list(venta.keys())
+
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM ventas WHERE idventa = :venta_id;")
+
+            query.bindValue(":venta_id", venta_id)
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        venta[keys[i]] = str(query.value(i))
+                return venta
+        except Exception as error:
+            print("Error al obtener venta desde la base de datos", error)

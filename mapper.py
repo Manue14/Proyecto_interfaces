@@ -243,3 +243,27 @@ class Mapper:
     def bind_factura_create_query(query, factura):
         query.bindValue(":fechafac", factura["fecha_registro"])
         query.bindValue(":dnicli", factura["dni_cliente"])
+
+    @staticmethod
+    def initialize_venta():
+        venta = {
+            "id": "",
+            "id_factura": "",
+            "codigo_propiedad": "",
+            "codigo_vendedor": "",
+            "precio": ""
+        }
+        return venta
+
+    @staticmethod
+    def map_venta(campos):
+        venta = {"id_factura": campos["numero"].text(), "codigo_propiedad": campos["codigo_propiedad"].text(),
+                 "codigo_vendedor": campos["id_vendedor"].text(), "precio": campos["precio_propiedad"].text()}
+        return venta
+
+    @staticmethod
+    def bind_venta_create_query(query, venta):
+        query.bindValue(":id_factura", int(venta["id_factura"]))
+        query.bindValue(":codigo_propiedad", int(venta["codigo_propiedad"]))
+        query.bindValue(":codigo_vendedor", int(venta["codigo_vendedor"]))
+        query.bindValue(":precio", float(venta["precio"]))

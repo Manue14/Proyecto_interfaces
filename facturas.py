@@ -9,7 +9,11 @@ import clientes
 class Facturas:
     campos = {}
     botones = {}
-    _numero, _fecha_registro, _dni_cliente = "", "", ""
+    _numero, _fecha_registro,  = "", ""
+    _dni_cliente, _apellidos_cliente, _nombre_cliente = "", "", ""
+    (_codigo_propiedad, _tipo_propiedad, _precio_propiedad,
+     _direccion_propiedad, _localidad_propiedad) = "", "", "", "", ""
+    _id_vendedor = ""
 
     @staticmethod
     def inicializar_campos():
@@ -32,6 +36,14 @@ class Facturas:
         Facturas._numero = Facturas.campos["numero"].text()
         Facturas._fecha_registro = Facturas.campos["fecha_registro"].text()
         Facturas._dni_cliente = Facturas.campos["dni_cliente"].text()
+        Facturas._apellidos_cliente = Facturas.campos["apellidos_cliente"].text()
+        Facturas._nombre_cliente = Facturas.campos["nombre_cliente"].text()
+        Facturas._codigo_propiedad = Facturas.campos["codigo_propiedad"].text()
+        Facturas._tipo_propiedad = Facturas.campos["tipo_propiedad"].text()
+        Facturas._precio_propiedad = Facturas.campos["precio_propiedad"].text()
+        Facturas._direccion_propiedad = Facturas.campos["direccion_propiedad"].text()
+        Facturas._localidad_propiedad = Facturas.campos["localidad_propiedad"].text()
+        Facturas._id_vendedor = Facturas.campos["id_vendedor"].text()
 
     def inicializar_botones(self):
         Facturas.botones = {
@@ -57,7 +69,7 @@ class Facturas:
     def populate_propiedad_fields(propiedad):
         Facturas.campos["codigo_propiedad"].setText(propiedad["codigo"])
         Facturas.campos["tipo_propiedad"].setText(propiedad["tipo"])
-        Facturas.campos["precio_propiedad"].setText("34")
+        Facturas.campos["precio_propiedad"].setText(propiedad["precio_venta"])
         Facturas.campos["direccion_propiedad"].setText(propiedad["direccion"])
         Facturas.campos["localidad_propiedad"].setText(propiedad["municipio"])
 
@@ -125,6 +137,25 @@ class Facturas:
             print("Error al eliminar factura", error)
 
     @staticmethod
+    def alta_venta():
+        response = Facturas.check_if_venta_valid_for_create()
+        if not response["valid"]:
+            eventos.Eventos.mensaje_error("Aviso", response["messages"])
+            return
+
+        try:
+            venta = mapper.Mapper.map_venta(Facturas.campos)
+            last_inserted_id = conexion.Conexion.alta_venta(venta)
+            if (last_inserted_id != -1):
+                eventos.Eventos.mensaje_exito("Aviso", "Alta venta en la base de datos")
+                #var.state_manager.update_tabla_ventas()
+                #Facturas.populate_fields(conexion.Conexion.get_venta(last_inserted_id))
+            else:
+                eventos.Eventos.mensaje_error("Aviso", "La venta ya existe")
+        except Exception as error:
+            print("Error al dar de alta la venta", error)
+
+    @staticmethod
     def check_if_factura_valid_for_create():
         response = {
             "valid": True,
@@ -153,5 +184,33 @@ class Facturas:
         else:
             response["valid"] = False
             response["messages"].append("Una factura necesita el DNI del cliente asociado")
+
+        return response
+
+    @staticmethod
+    def check_if_venta_valid_for_create():
+        response = {
+            "valid": True,
+            "messages": []
+        }
+
+        Facturas.inicializar_campos()
+        Facturas.inicializar_valores()
+
+        if not Facturas._numero:
+            response["valid"] = False
+            response["messages"].append("Para registrar una venta es necesario seleccionar una factura")
+
+        if not Facturas._codigo_propiedad:
+            response["valid"] = False
+            response["messages"].append("Para registrar una venta es necesario seleccionar una propiedad")
+
+        if not Facturas._id_vendedor:
+            response["valid"] = False
+            response["messages"].append("Para registrar una venta es necesario seleccionar un vendedor")
+
+        if not Facturas._precio_propiedad:
+            response["valid"] = False
+            response["messages"].append("Es necesario establecer un precio para la venta de la propiedad")
 
         return response

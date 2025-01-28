@@ -3846,6 +3846,7 @@
             <property name="font">
              <font>
               <pointsize>12</pointsize>
+              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -3962,6 +3963,7 @@
               <property name="font">
                <font>
                 <pointsize>12</pointsize>
+                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
@@ -4081,6 +4083,7 @@
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
+                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
@@ -4138,22 +4141,6 @@
          </layout>
         </widget>
        </widget>
-       <widget class="QFrame" name="frame_4">
-        <property name="geometry">
-         <rect>
-          <x>450</x>
-          <y>300</y>
-          <width>1301</width>
-          <height>371</height>
-         </rect>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Sunken</enum>
-        </property>
-       </widget>
        <widget class="QTableWidget" name="tab_fac">
         <property name="geometry">
          <rect>
@@ -4193,6 +4180,46 @@
          </property>
         </column>
        </widget>
+       <widget class="QTableWidget" name="tab_fac_ven">
+        <property name="geometry">
+         <rect>
+          <x>445</x>
+          <y>291</y>
+          <width>1311</width>
+          <height>361</height>
+         </rect>
+        </property>
+        <column>
+         <property name="text">
+          <string>New Column</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>IdPropiedad</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Tipo</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Dirección</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Localidad</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Precio</string>
+         </property>
+        </column>
+       </widget>
       </widget>
      </widget>
     </item>
@@ -4204,7 +4231,7 @@
      <x>0</x>
      <y>0</y>
      <width>1796</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_archivo">
