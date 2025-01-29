@@ -791,6 +791,17 @@ class Conexion:
 
     @staticmethod
     def eliminar_factura(factura):
+        """
+
+        :param factura: factura a borrar en la base de datos
+        :type factura: dict
+        :return: True o False
+        :rtype: bool
+
+        Método que borra una factura de la base de datos
+        Devuelve True si la factura de borró con éxito y False en caso contrario
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("DELETE FROM facturas WHERE id = :id;")
