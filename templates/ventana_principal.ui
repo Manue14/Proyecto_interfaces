@@ -3846,7 +3846,6 @@
             <property name="font">
              <font>
               <pointsize>12</pointsize>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -3963,7 +3962,6 @@
               <property name="font">
                <font>
                 <pointsize>12</pointsize>
-                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
@@ -4083,7 +4081,6 @@
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
-                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
@@ -4239,42 +4236,42 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_41">
            <item>
-            <widget class="QLabel" name="label_52">
+            <widget class="QLabel" name="lbl_fac_subtotal">
              <property name="text">
               <string>Subtotal:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit"/>
+            <widget class="QLineEdit" name="txt_fac_subtotal"/>
            </item>
           </layout>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_48">
            <item>
-            <widget class="QLabel" name="label_53">
+            <widget class="QLabel" name="lbl_fac_impuestos">
              <property name="text">
               <string>Impuestos:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit_2"/>
+            <widget class="QLineEdit" name="txt_fac_impuestos"/>
            </item>
           </layout>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_51">
            <item>
-            <widget class="QLabel" name="label_54">
+            <widget class="QLabel" name="lbl_fac_total">
              <property name="text">
               <string>Total:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit_3"/>
+            <widget class="QLineEdit" name="txt_fac_total"/>
            </item>
           </layout>
          </item>
@@ -4291,7 +4288,7 @@
      <x>0</x>
      <y>0</y>
      <width>1796</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_archivo">

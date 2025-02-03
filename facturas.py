@@ -15,6 +15,8 @@ class Facturas:
      _direccion_propiedad, _localidad_propiedad) = "", "", "", "", ""
     _id_vendedor = ""
 
+    PORCENTAJE_IMPUESTO_VENTAS = 10
+
     @staticmethod
     def inicializar_campos():
         Facturas.campos = {
@@ -28,7 +30,10 @@ class Facturas:
             "precio_propiedad": var.ui.txt_fac_pro_precio,
             "direccion_propiedad": var.ui.txt_fac_pro_direccion,
             "localidad_propiedad": var.ui.txt_fac_pro_localidad,
-            "id_vendedor": var.ui.txt_fac_ven_id
+            "id_vendedor": var.ui.txt_fac_ven_id,
+            "subtotal": var.ui.txt_fac_subtotal,
+            "impuestos": var.ui.txt_fac_impuestos,
+            "total": var.ui.txt_fac_total
         }
 
     @staticmethod
@@ -107,6 +112,7 @@ class Facturas:
             Facturas.populate_fields(factura)
             ventas = conexion.Conexion.listar_ventas_by_factura(str(factura["id"]))
             eventos.Eventos.cargar_tabla_facturas_ventas(ventas)
+            Facturas.calcular_factura(factura)
         except Exception as error:
             print("error cargar_factura", error)
 
@@ -120,6 +126,29 @@ class Facturas:
             Facturas.populate_venta_fields(venta)
         except Exception as error:
             print("error cargar_ventas", error)
+
+    @staticmethod
+    def calcular_factura(factura):
+        ventas = conexion.Conexion.listar_ventas_by_factura(factura["id"])
+
+        subtotal = 0
+        for venta in ventas:
+            propiedad = conexion.Conexion.get_propiedad(venta["codigo_propiedad"])
+            subtotal = subtotal + float(propiedad["precio_venta"])
+
+        impuestos = subtotal * Facturas.PORCENTAJE_IMPUESTO_VENTAS / 100
+        total = subtotal + impuestos
+
+        Facturas.campos["subtotal"].setText(Facturas.format_number(subtotal) + " €")
+        Facturas.campos["impuestos"].setText(Facturas.format_number(impuestos) + " €")
+        Facturas.campos["total"].setText(Facturas.format_number(total) + " €")
+
+    @staticmethod
+    def format_number(num):
+        num_str = "{:_.2f}".format(num)
+        num_str = num_str.replace(".", ",")
+        num_str = num_str.replace("_", ".")
+        return num_str
 
     @staticmethod
     def alta_factura():
