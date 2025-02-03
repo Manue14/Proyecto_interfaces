@@ -60,6 +60,16 @@ class Facturas:
         Facturas.populate_cliente_fields(cliente)
 
     @staticmethod
+    def populate_venta_fields(venta):
+        propiedad = conexion.Conexion.get_propiedad(venta["codigo_propiedad"])
+        Facturas.campos["codigo_propiedad"].setText(propiedad["codigo"])
+        Facturas.campos["tipo_propiedad"].setText(propiedad["tipo"])
+        Facturas.campos["precio_propiedad"].setText(propiedad["precio_venta"])
+        Facturas.campos["direccion_propiedad"].setText(propiedad["direccion"])
+        Facturas.campos["localidad_propiedad"].setText(propiedad["municipio"])
+        Facturas.campos["id_vendedor"].setText(venta["codigo_vendedor"])
+
+    @staticmethod
     def populate_cliente_fields(cliente):
         Facturas.campos["dni_cliente"].setText(cliente["dni"])
         Facturas.campos["apellidos_cliente"].setText(cliente["apellido"])
@@ -95,8 +105,21 @@ class Facturas:
             datos = [dato.text() for dato in fila]
             factura = conexion.Conexion.get_factura(str(datos[0]))
             Facturas.populate_fields(factura)
+            ventas = conexion.Conexion.listar_ventas_by_factura(str(factura["id"]))
+            eventos.Eventos.cargar_tabla_facturas_ventas(ventas)
         except Exception as error:
             print("error cargar_factura", error)
+
+    @staticmethod
+    def cargar_venta():
+        Facturas.inicializar_campos()
+        try:
+            fila = var.ui.tab_fac_ven.selectedItems()
+            datos = [dato.text() for dato in fila]
+            venta = conexion.Conexion.get_venta(str(datos[0]))
+            Facturas.populate_venta_fields(venta)
+        except Exception as error:
+            print("error cargar_ventas", error)
 
     @staticmethod
     def alta_factura():

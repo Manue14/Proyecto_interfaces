@@ -830,7 +830,26 @@ class Conexion:
             print("Error al dar de alta la venta", error)
 
     @staticmethod
-    def listar_ventas():
+    def listar_ventas_by_factura(factura_id):
+        try:
+            ventas = []
+            venta = mapper.Mapper.initialize_venta()
+            keys = list(venta.keys())
+
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM ventas WHERE facventa = :id;")
+            query.bindValue(":id", str(factura_id))
+
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        venta[keys[i]] = str(query.value(i))
+                    ventas.append(venta.copy())
+            return ventas
+        except sqlite3.IntegrityError:
+            return []
+        except Exception as error:
+            print("Error al listar ventas de factura", error)
         pass
 
     @staticmethod

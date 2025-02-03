@@ -29,7 +29,7 @@ class StateManager:
         "last_vendedor_function": conexion.Conexion.listar_vendedores,
         "last_vendedor_params": [],
         "last_factura_function": conexion.Conexion.listar_facturas,
-        "last_factura_params": []
+        "last_factura_params": [],
     }
 
     @staticmethod

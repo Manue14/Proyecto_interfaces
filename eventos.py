@@ -15,6 +15,7 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton
 from reportlab.lib.testutils import setOutDir
 
+import eventos
 import facturas
 import var
 import clientes
@@ -396,6 +397,14 @@ class Eventos:
             Eventos.show_fac_on_table(factura, index)
             index += 1
 
+    def cargar_tabla_facturas_ventas(ventas):
+        index = 0
+        var.ui.tab_fac_ven.verticalHeader().setVisible(False)
+        for i in range(0, len(ventas)):
+            venta = ventas[i]
+            Eventos.show_fac_ven_on_table(venta, index)
+            index += 1
+
     def show_cli_on_table(cliente, index):
         var.ui.tab_cli.setRowCount(index + 1)
         var.ui.tab_cli.setItem(index, 0, QtWidgets.QTableWidgetItem(cliente["dni"]))
@@ -490,6 +499,25 @@ class Eventos:
 
         var.ui.tab_fac.setCellWidget(index, 3, container)
 
+    def show_fac_ven_on_table(venta, index):
+        var.ui.tab_fac_ven.setRowCount(index + 1)
+
+        propiedad = conexion.Conexion.get_propiedad(venta["codigo_propiedad"])
+
+        var.ui.tab_fac_ven.setItem(index, 0, QtWidgets.QTableWidgetItem(venta["id"]))
+        var.ui.tab_fac_ven.setItem(index, 1, QtWidgets.QTableWidgetItem(propiedad["codigo"]))
+        var.ui.tab_fac_ven.setItem(index, 2, QtWidgets.QTableWidgetItem(propiedad["tipo"]))
+        var.ui.tab_fac_ven.setItem(index, 3, QtWidgets.QTableWidgetItem(propiedad["direccion"]))
+        var.ui.tab_fac_ven.setItem(index, 4, QtWidgets.QTableWidgetItem(propiedad["municipio"]))
+        var.ui.tab_fac_ven.setItem(index, 5, QtWidgets.QTableWidgetItem(propiedad["precio_venta"]))
+
+        var.ui.tab_fac_ven.item(index, 0)
+        var.ui.tab_fac_ven.item(index, 1)
+        var.ui.tab_fac_ven.item(index, 2)
+        var.ui.tab_fac_ven.item(index, 3)
+        var.ui.tab_fac_ven.item(index, 4)
+        var.ui.tab_fac_ven.item(index, 5)
+
     def resize_cli_tab(self):
         try:
             header = var.ui.tab_cli.horizontalHeader()
@@ -549,6 +577,21 @@ class Eventos:
                 header_items.setFont(font)
         except Exception as error:
             print("Error en resize tabla facturas: " + error)
+
+    def resize_fac_ven_tab(self):
+        try:
+            header = var.ui.tab_fac_ven.horizontalHeader()
+            for i in range(header.count()):
+                if (i == 3 or i == 4):
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
+                else:
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                header_items = var.ui.tab_fac_ven.horizontalHeaderItem(i)
+                font = header_items.font()
+                font.setBold(True)
+                header_items.setFont(font)
+        except Exception as error:
+            print("Error en resize tabla ventas factura: " + error)
 
     def crear_backup(self):
         try:
@@ -640,6 +683,7 @@ class Eventos:
             var.state_manager.change_state("last_vendedor_function", var.clase_conexion.listar_vendedores)
 
         if var.ui.panel_principal.currentIndex() == 3:
+            var.ui.tab_fac_ven.setRowCount(0)
             facturas.Facturas.inicializar_campos()
             objetos_panel_fac = facturas.Facturas.campos
 
