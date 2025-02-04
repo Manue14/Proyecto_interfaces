@@ -803,9 +803,13 @@ class Conexion:
 
         """
         try:
+            ventas = Conexion.listar_ventas_by_factura(factura["id"])
+            for venta in ventas:
+                if not Conexion.eliminar_venta(venta):
+                    raise Exception("No se pudieron elminar todas las ventas asociadas a la factura")
+
             query = QtSql.QSqlQuery()
             query.prepare("DELETE FROM facturas WHERE id = :id;")
-
             query.bindValue(":id", str(factura["id"]))
 
             if query.exec():
@@ -869,3 +873,18 @@ class Conexion:
                 return venta
         except Exception as error:
             print("Error al obtener venta desde la base de datos", error)
+
+    @staticmethod
+    def eliminar_venta(venta):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("DELETE FROM ventas WHERE idventa = :id;")
+            query.bindValue(":id", str(venta["id"]))
+
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as error:
+            print("Error al eliminar venta", error)
+            return False

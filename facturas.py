@@ -82,11 +82,23 @@ class Facturas:
 
     @staticmethod
     def populate_propiedad_fields(propiedad):
+        if propiedad["fecha_baja"] != "":
+            Facturas.campos["codigo_propiedad"].setText("")
+            Facturas.campos["tipo_propiedad"].setText("")
+            Facturas.campos["direccion_propiedad"].setText("")
+            Facturas.campos["localidad_propiedad"].setText("")
+            Facturas.campos["precio_propiedad"].setText("")
+            return
+
         Facturas.campos["codigo_propiedad"].setText(propiedad["codigo"])
         Facturas.campos["tipo_propiedad"].setText(propiedad["tipo"])
-        Facturas.campos["precio_propiedad"].setText(propiedad["precio_venta"])
         Facturas.campos["direccion_propiedad"].setText(propiedad["direccion"])
         Facturas.campos["localidad_propiedad"].setText(propiedad["municipio"])
+
+        if "Venta" not in propiedad["operaciones"]:
+            Facturas.campos["precio_propiedad"].setText("Propiedad no en venta")
+        else:
+            Facturas.campos["precio_propiedad"].setText(propiedad["precio_venta"])
 
     @staticmethod
     def populate_vendedor_fields(vendedor):
@@ -198,10 +210,19 @@ class Facturas:
         try:
             venta = mapper.Mapper.map_venta(Facturas.campos)
             last_inserted_id = conexion.Conexion.alta_venta(venta)
-            if (last_inserted_id != -1):
+            if last_inserted_id != -1:
                 eventos.Eventos.mensaje_exito("Aviso", "Alta venta en la base de datos")
-                #var.state_manager.update_tabla_ventas()
-                #Facturas.populate_fields(conexion.Conexion.get_venta(last_inserted_id))
+                Facturas.populate_venta_fields(conexion.Conexion.get_venta(last_inserted_id))
+                factura = conexion.Conexion.get_factura(Facturas._numero)
+                eventos.Eventos.cargar_tabla_facturas_ventas(conexion.Conexion.listar_ventas_by_factura(factura["id"]))
+                Facturas.calcular_factura(factura)
+
+                propiedad = conexion.Conexion.get_propiedad(venta["codigo_propiedad"])
+                propiedad["estado"] = "Vendido"
+                propiedad["fecha_baja"] = datetime.strftime(datetime.now(), '%d/%m/%Y')
+                conexion.Conexion.modificar_propiedad(propiedad)
+                var.state_manager.update_tabla_propiedades()
+                eventos.Eventos.limpiar_panel_propiedades()
             else:
                 eventos.Eventos.mensaje_error("Aviso", "La venta ya existe")
         except Exception as error:
@@ -263,6 +284,12 @@ class Facturas:
 
         if not Facturas._precio_propiedad:
             response["valid"] = False
-            response["messages"].append("Es necesario establecer un precio para la venta de la propiedad")
+            response["messages"].append("Es necesario un precio válido para la propiedad")
+
+        try:
+            float(Facturas._precio_propiedad)
+        except ValueError:
+            response["valid"] = False
+            response["messages"].append("Es necesario un precio válido para la propiedad")
 
         return response

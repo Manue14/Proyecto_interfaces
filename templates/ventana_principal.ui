@@ -3712,7 +3712,7 @@
           <item row="1" column="1">
            <widget class="QLineEdit" name="txt_fac_alta">
             <property name="readOnly">
-             <bool>false</bool>
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -3724,7 +3724,11 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QLineEdit" name="txt_fac_cli_dni"/>
+           <widget class="QLineEdit" name="txt_fac_cli_dni">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
           <item row="1" column="2">
            <widget class="QPushButton" name="btn_fac_alta">
@@ -3846,6 +3850,7 @@
             <property name="font">
              <font>
               <pointsize>12</pointsize>
+              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -3869,10 +3874,18 @@
            </widget>
           </item>
           <item row="1" column="4">
-           <widget class="QLineEdit" name="txt_fac_cli_nombre"/>
+           <widget class="QLineEdit" name="txt_fac_cli_nombre">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QLineEdit" name="txt_fac_cli_apellidos"/>
+           <widget class="QLineEdit" name="txt_fac_cli_apellidos">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
           <item row="1" column="2">
            <spacer name="horizontalSpacer_43">
@@ -3922,10 +3935,17 @@
                 <height>16777215</height>
                </size>
               </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
             <item row="2" column="1" colspan="4">
-             <widget class="QLineEdit" name="txt_fac_pro_direccion"/>
+             <widget class="QLineEdit" name="txt_fac_pro_direccion">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
             <item row="1" column="1">
              <widget class="QLineEdit" name="txt_fac_pro_codigo">
@@ -3934,6 +3954,9 @@
                 <width>90</width>
                 <height>16777215</height>
                </size>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -3945,6 +3968,9 @@
                 <height>16777215</height>
                </size>
               </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
             <item row="1" column="4">
@@ -3955,6 +3981,9 @@
                 <height>16777215</height>
                </size>
               </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
              </widget>
             </item>
             <item row="0" column="0" colspan="2">
@@ -3962,6 +3991,7 @@
               <property name="font">
                <font>
                 <pointsize>12</pointsize>
+                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
@@ -4081,6 +4111,7 @@
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
+                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
@@ -4096,6 +4127,9 @@
                   <width>100</width>
                   <height>16777215</height>
                  </size>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
@@ -4243,7 +4277,11 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="txt_fac_subtotal"/>
+            <widget class="QLineEdit" name="txt_fac_subtotal">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -4257,7 +4295,11 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="txt_fac_impuestos"/>
+            <widget class="QLineEdit" name="txt_fac_impuestos">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -4271,7 +4313,11 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="txt_fac_total"/>
+            <widget class="QLineEdit" name="txt_fac_total">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -4288,7 +4334,7 @@
      <x>0</x>
      <y>0</y>
      <width>1796</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_archivo">

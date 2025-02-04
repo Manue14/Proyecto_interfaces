@@ -235,7 +235,7 @@ class Mapper:
 
     @staticmethod
     def map_factura(campos):
-        factura = {"numero": campos["numero"].text(), "fecha_registro": campos["fecha_registro"].text(),
+        factura = {"id": campos["numero"].text(), "fecha_registro": campos["fecha_registro"].text(),
                    "dni_cliente": campos["dni_cliente"].text()}
         return factura
 

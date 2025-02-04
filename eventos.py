@@ -389,15 +389,24 @@ class Eventos:
             index += 1
 
     def cargar_tabla_facturas():
+        facturas = var.state_manager.state["factura_query_object"]
+
+        if not facturas:
+            var.ui.tab_fac.setRowCount(0)
+            return
+
         index = 0
         var.ui.tab_fac.verticalHeader().setVisible(False)
-        facturas = var.state_manager.state["factura_query_object"]
         for i in range(0, len(facturas)):
             factura = facturas[i]
             Eventos.show_fac_on_table(factura, index)
             index += 1
 
     def cargar_tabla_facturas_ventas(ventas):
+        if not ventas:
+            var.ui.tab_fac_ven.setRowCount(0)
+            return
+
         index = 0
         var.ui.tab_fac_ven.verticalHeader().setVisible(False)
         for i in range(0, len(ventas)):
@@ -628,6 +637,7 @@ class Eventos:
         except Exception as error:
             print("error en restaurar backup: ", error)
 
+    @staticmethod
     def limpiar_panel():
         if var.ui.panel_principal.currentIndex() == 0:
             clientes.Clientes.inicializar_campos()
@@ -643,33 +653,7 @@ class Eventos:
             var.state_manager.change_state("last_cliente_function", var.clase_conexion.listar_clientes)
 
         if var.ui.panel_principal.currentIndex() == 1:
-            propiedades.Propiedades.inicializar_campos()
-            objetos_panel_pro = propiedades.Propiedades.campos
-
-            for key, value in objetos_panel_pro.items():
-                if key == "provincia":
-                    Eventos.cargar_provincias(value)
-                elif key == "municipio":
-                    pass
-                elif (key == "tipo" or key == "check_alquiler" or key == "check_venta" or key == "check_intercambio"
-                or key == "radio_disponible" or key == "radio_alquilado" or key == "radio_vendido"):
-                    if key == "check_alquiler" or key == "check_venta" or key == "check_intercambio":
-                        value.setChecked(False)
-                    if key == "radio_disponible":
-                        value.setChecked(True)
-                    if key == "radio_alquilado" or key == "radio_vendido":
-                        value.setChecked(False)
-                elif (key == "banos" or key == "habitaciones"):
-                    value.setValue(0)
-                else:
-                    value.setText("")
-            
-            Eventos.cargar_propiedad_tipos(propiedades.Propiedades.campos["tipo"])
-            var.state_manager.change_state("last_propiedad_function", var.clase_conexion.listar_propiedades)
-            var.state_manager.change_state("precio_alquiler_propiedad", False)
-            var.state_manager.change_state("precio_venta_propiedad", False)
-            var.state_manager.change_state("check_alquiler_propiedad", False)
-            var.state_manager.change_state("check_venta_propiedad", False)
+            Eventos.limpiar_panel_propiedades()
 
         if var.ui.panel_principal.currentIndex() == 2:
             vendedores.Vendedores.inicializar_campos()
@@ -689,6 +673,36 @@ class Eventos:
 
             for key, value in objetos_panel_fac.items():
                 value.setText("")
+
+    @staticmethod
+    def limpiar_panel_propiedades():
+        propiedades.Propiedades.inicializar_campos()
+        objetos_panel_pro = propiedades.Propiedades.campos
+
+        for key, value in objetos_panel_pro.items():
+            if key == "provincia":
+                Eventos.cargar_provincias(value)
+            elif key == "municipio":
+                pass
+            elif (key == "tipo" or key == "check_alquiler" or key == "check_venta" or key == "check_intercambio"
+                  or key == "radio_disponible" or key == "radio_alquilado" or key == "radio_vendido"):
+                if key == "check_alquiler" or key == "check_venta" or key == "check_intercambio":
+                    value.setChecked(False)
+                if key == "radio_disponible":
+                    value.setChecked(True)
+                if key == "radio_alquilado" or key == "radio_vendido":
+                    value.setChecked(False)
+            elif (key == "banos" or key == "habitaciones"):
+                value.setValue(0)
+            else:
+                value.setText("")
+
+        Eventos.cargar_propiedad_tipos(propiedades.Propiedades.campos["tipo"])
+        var.state_manager.change_state("last_propiedad_function", var.clase_conexion.listar_propiedades)
+        var.state_manager.change_state("precio_alquiler_propiedad", False)
+        var.state_manager.change_state("precio_venta_propiedad", False)
+        var.state_manager.change_state("check_alquiler_propiedad", False)
+        var.state_manager.change_state("check_venta_propiedad", False)
 
     def abrir_dlg_propiedades_tipo():
         try:
