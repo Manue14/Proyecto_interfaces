@@ -1,6 +1,10 @@
 from datetime import datetime
 
+from PyQt6.QtCore import Qt
+from PyQt6.uic.properties import QtCore
+
 import mapper
+import styles
 import var
 import conexion
 import eventos
@@ -76,6 +80,12 @@ class Facturas:
 
     @staticmethod
     def populate_cliente_fields(cliente):
+        if cliente["fecha_baja"] != "":
+            Facturas.campos["dni_cliente"].setText("")
+            Facturas.campos["apellidos_cliente"].setText("")
+            Facturas.campos["nombre_cliente"].setText("")
+            return
+
         Facturas.campos["dni_cliente"].setText(cliente["dni"])
         Facturas.campos["apellidos_cliente"].setText(cliente["apellido"])
         Facturas.campos["nombre_cliente"].setText(cliente["nombre"])
@@ -88,6 +98,9 @@ class Facturas:
             Facturas.campos["direccion_propiedad"].setText("")
             Facturas.campos["localidad_propiedad"].setText("")
             Facturas.campos["precio_propiedad"].setText("")
+
+            Facturas.campos["precio_propiedad"].setAlignment(Qt.AlignmentFlag.AlignRight)
+            eventos.Eventos.observar_non_editable(Facturas.campos["precio_propiedad"], True)
             return
 
         Facturas.campos["codigo_propiedad"].setText(propiedad["codigo"])
@@ -97,11 +110,19 @@ class Facturas:
 
         if "Venta" not in propiedad["operaciones"]:
             Facturas.campos["precio_propiedad"].setText("Propiedad no en venta")
+            Facturas.campos["precio_propiedad"].setAlignment(Qt.AlignmentFlag.AlignCenter)
+            eventos.Eventos.observar_non_editable(Facturas.campos["precio_propiedad"], False)
         else:
             Facturas.campos["precio_propiedad"].setText(propiedad["precio_venta"])
+            Facturas.campos["precio_propiedad"].setAlignment(Qt.AlignmentFlag.AlignRight)
+            eventos.Eventos.observar_non_editable(Facturas.campos["precio_propiedad"], True)
 
     @staticmethod
     def populate_vendedor_fields(vendedor):
+        if vendedor["fecha_baja"] != "":
+            Facturas.campos["id_vendedor"].setText("")
+            return
+
         Facturas.campos["id_vendedor"].setText(vendedor["codigo"])
 
     @staticmethod

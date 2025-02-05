@@ -217,6 +217,13 @@ class Eventos:
                 var.state_manager.change_state("check_venta_propiedad", widget.isChecked())
         except Exception as error:
             print("Error al observar el checkbox", error)
+
+    @staticmethod
+    def observar_non_editable(widget, valid):
+        if not valid:
+            styles.set_style(widget, "non_editable_general_label_error")
+        else:
+            styles.set_style(widget, "non_editable_general_label")
     
         
     def validar_dni(dni):

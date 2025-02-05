@@ -170,6 +170,29 @@ QRadioButton#rbt_pro_alquilado::indicator:disabled, QRadioButton#rbt_pro_vendido
     border-bottom: 2px solid #dc2626 /*Red 600*/
 }
 
+/* --- Estilos Campos No Editables ---- */
+*[qssClass="non_editable_general_label"] {
+    background-color: #eef2ff; /*Indigo 50*/
+    border: 1px solid #a5b4fc; /*Indigo 300*/
+    border-radius: 2px;
+    border-style: solid;
+}
+
+*[qssClass="non_editable_general_label"]:hover {
+    background-color: #e0e7ff; /*Indigo 100*/
+}
+
+*[qssClass="non_editable_general_label_error"] {
+    background-color: #fef2f2; /*Red 50*/
+    border: 1px solid #fca5a5; /*Red 300*/
+    border-radius: 2px;
+    border-style: solid;
+}
+
+*[qssClass="non_editable_general_label_error"]:hover {
+    background-color: #fee2e2; /*Red 100*/
+}
+
 /* ---- Estilos ComboBoxes ---- */
 *[qssClass="general_combobox"] {
     border-left: 3px solid #a5b4fc; /*Indigo 300*/
