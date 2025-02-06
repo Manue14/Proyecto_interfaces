@@ -11,6 +11,7 @@ import facturas
 
 class Propiedades():
     campos = {}
+    botones = {}
     _codigo, _fecha_alta, _fecha_baja, _direccion, _provincia, _municipio = "", "", "" , "", "", ""
     _postal, _tipo, _habitaciones, _banos, _superficie = "", "", "", "", ""
     _precio_alquiler, _precio_venta, _descripcion, _propietario, _movil = "", "", "", "", ""
@@ -41,6 +42,16 @@ class Propiedades():
             "radio_vendido": var.ui.rbt_pro_vendido,
             "propietario": var.ui.txt_pro_propietario,
             "movil": var.ui.txt_pro_movil
+        }
+
+    @staticmethod
+    def inicializar_botones():
+        Propiedades.botones = {
+            "btn_grabar": var.ui.btn_pro_grabar,
+            "btn_modificar": var.ui.btn_pro_modificar,
+            "btn_eliminar": var.ui.btn_pro_eliminar,
+            "btn_anterior": var.ui.btn_pro_anterior,
+            "btn_siguiente": var.ui.btn_pro_siguiente
         }
 
     def inicializar_valores():

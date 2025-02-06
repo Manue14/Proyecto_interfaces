@@ -55,9 +55,8 @@ class Clientes:
             "btn_grabar": var.ui.btn_cli_grabar,
             "btn_modificar": var.ui.btn_cli_modificar,
             "btn_eliminar": var.ui.btn_cli_eliminar,
-            "btn_alta": var.ui.btn_cli_alta,
-            "btn_baja": var.ui.btn_cli_baja,
-            "btn_buscar": var.ui.btn_cli_buscar
+            "btn_anterior": var.ui.btn_cli_anterior,
+            "btn_siguiente": var.ui.btn_cli_siguiente
         }
 
     def inicializar_valores():

@@ -55,45 +55,59 @@ QToolBar {
 }
 
 /* ---- Estilos PushButtons ---- */
-QPushButton#btn_cli_grabar, QPushButton#btn_cli_modificar, QPushButton#btn_pro_grabar, QPushButton#btn_pro_modificar,
-QPushButton#btn_cli_eliminar, QPushButton#btn_pro_eliminar, QPushButton#btn_ven_grabar, QPushButton#btn_ven_modificar,
+*[qssClass="general_button"], QPushButton#btn_pro_tipo_alta {
+    border: none;
+	border-radius: 10px;
+    color: white;
+    background-color: #6366f1; /*Indigo 500*/
+}
+
+*[qssClass="general_button"]:hover, QPushButton#btn_pro_tipo_alta:hover {
+    background-color: #a5b4fc; /*Indigo 300*/
+}
+
+*[qssClass="general_button"]:disabled, QPushButton#btn_pro_tipo_alta:disabled {
+    background-color: #c7d2fe /*Indigo 200*/
+}
+
+*[qssClass="danger_button"], QPushButton#btn_pro_tipo_eliminar {
+    border: none;
+	border-radius: 10px;
+    color: white;
+    background-color: #ef4444; /*Red 500*/
+}
+
+*[qssClass="danger_button"]:hover, QPushButton#btn_pro_tipo_eliminar:hover {
+    background-color: #fca5a5; /*Red 300*/
+}
+
+QPushButton#btn_ven_grabar, QPushButton#btn_ven_modificar,
 QPushButton#btn_ven_eliminar,
 QPushButton#btn_fac_grabar, QPushButton#btn_fac_ven_grabar,
-QPushButton#btn_cli_siguiente, QPushButton#btn_cli_anterior, QPushButton#btn_pro_siguiente, QPushButton#btn_pro_anterior,
-QPushButton#btn_cerrar_about, QPushButton#btn_pro_tipo_alta, QPushButton#btn_pro_tipo_eliminar {
+QPushButton#btn_cerrar_about {
 	border: none;
 	border-radius: 10px;
     color: white;
 }
 
-QPushButton#btn_cli_grabar, QPushButton#btn_cli_modificar, QPushButton#btn_pro_grabar, QPushButton#btn_pro_modificar,
 QPushButton#btn_ven_grabar, QPushButton#btn_ven_modificar,
 QPushButton#btn_fac_grabar, QPushButton#btn_fac_ven_grabar,
-QPushButton#btn_cli_siguiente, QPushButton#btn_cli_anterior, QPushButton#btn_pro_siguiente, QPushButton#btn_pro_anterior,
-QPushButton#btn_pro_tipo_alta {
+{
 	background-color: #6366f1; /*Indigo 500*/
 }
 
-QPushButton#btn_cli_grabar:hover, QPushButton#btn_cli_modificar:hover, QPushButton#btn_pro_grabar:hover, QPushButton#btn_pro_modificar:hover,
 QPushButton#btn_ven_grabar:hover, QPushButton#btn_ven_modificar:hover,
-QPushButton#btn_fac_grabar:hover, QPushButton#btn_fac_ven_grabar:hover,
-QPushButton#btn_cli_siguiente:hover, QPushButton#btn_cli_anterior:hover, QPushButton#btn_pro_siguiente:hover, QPushButton#btn_pro_anterior:hover,
-QPushButton#btn_pro_tipo_alta:hover {
+QPushButton#btn_fac_grabar:hover, QPushButton#btn_fac_ven_grabar:hover {
 	background-color: #a5b4fc; /*Indigo 300*/
 }
 
-QPushButton#btn_cli_eliminar, QPushButton#btn_pro_eliminar, QPushButton#btn_pro_tipo_eliminar,
 QPushButton#btn_ven_eliminar, QPushButton#btn_cerrar_about {
 	background-color: #ef4444; /*Red 500*/
 }
 
-QPushButton#btn_cli_eliminar:hover, QPushButton#btn_pro_eliminar:hover, QPushButton#btn_pro_tipo_eliminar:hover, QPushButton#btn_ven_eliminar:hover,
+QPushButton#btn_ven_eliminar:hover,
 QPushButton#btn_cerrar_about:hover {
 	background-color: #fca5a5; /*Red 300*/
-}
-
-QPushButton#btn_cli_siguiente:disabled, QPushButton#btn_cli_anterior:disabled, QPushButton#btn_pro_siguiente:disabled, QPushButton#btn_pro_anterior:disabled {
-    background-color: #c7d2fe /*Indigo 200*/
 }
 
 *[qssClass="delete_button"] {

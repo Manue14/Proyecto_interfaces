@@ -1,5 +1,3 @@
-import conexion
-import eventos
 import facturas
 import styles
 import vendedores
@@ -18,16 +16,16 @@ class Main(QtWidgets.QMainWindow):
         super(Main, self).__init__()
         var.ui = Ui_VentanaPrincipal()
         var.ui.setupUi(self)
-        var.clase_conexion = conexion.Conexion
-        #var.clase_conexion = conexion_server.ConexionServer
-        var.clase_conexion.db_conexion()
-        var.state_manager = state_manager.StateManager()
-        var.state_manager.initialize_state()
         var.ui_calendar = Calendar()
         var.dlg_abrir = FileDialogAbrir()
         var.dlg_gestion_propiedad_tipo = DlgGestionPropiedadTipo()
         var.dlg_about = DlgAbout()
         var.dlg_buscar_propiedad = DlgBuscarPropiedad()
+        var.clase_conexion = conexion.Conexion
+        #var.clase_conexion = conexion_server.ConexionServer
+        var.clase_conexion.db_conexion()
+        var.state_manager = state_manager.StateManager()
+        var.state_manager.initialize_state()
         self.setStyleSheet(styles.load_stylesheet())
         styles.initialize_styles()
         #conexionserver.ConexionServer.crear_conexion(self)
