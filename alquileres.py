@@ -2,6 +2,7 @@ import var
 
 class Alquiler:
     campos = {}
+    botones = {}
     _numero, _fecha_registro, _dni_cliente = "", "", ""
     _id_contrato, _id_propiedad, _mensualidad_fecha_inicio, _mensualidad_fecha_fin = "", "", "", ""
 
@@ -26,3 +27,10 @@ class Alquiler:
         Alquiler._id_propiedad = Alquiler.campos["id_propiedad"].text()
         Alquiler._mensualidad_fecha_inicio = Alquiler.campos["mensualidad_fecha_inicio"].text()
         Alquiler._mensualidad_fecha_fin = Alquiler.campos["mensualidad_fecha_fin"].text()
+
+    @staticmethod
+    def inicializar_botones():
+        Alquiler.botones = {
+            "btn_grabar": var.ui.btn_alq_grabar,
+            "btn_cargar_mensualidades": var.ui.btn_alq_cargar_mensualidades
+        }

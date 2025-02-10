@@ -306,6 +306,18 @@ class Eventos:
                 var.ui.txt_fac_alta.setText(str(data))
                 Eventos.observar_fecha_alta(var.ui.txt_fac_alta)
 
+            elif var.ui.panel_principal.currentIndex() == 4 and var.btn == 0:
+                var.ui.txt_alq_mensualidad_inicio.setText(str(data))
+                Eventos.observar_fecha_alta(var.ui.txt_alq_mensualidad_inicio)
+
+            elif var.ui.panel_principal.currentIndex() == 4 and var.btn == 1:
+                var.ui.txt_alq_mensualidad_fin.setText(str(data))
+                Eventos.observar_fecha_alta(var.ui.txt_alq_mensualidad_fin)
+
+            elif var.ui.panel_principal.currentIndex() == 4 and var.btn == 2:
+                var.ui.txt_alq_alta.setText(str(data))
+                Eventos.observar_fecha_alta(var.ui.txt_alq_alta)
+
             time.sleep(0.5)
             var.ui_calendar.hide()
             return data

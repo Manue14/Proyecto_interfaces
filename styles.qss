@@ -81,31 +81,18 @@ QToolBar {
     background-color: #fca5a5; /*Red 300*/
 }
 
-QPushButton#btn_ven_grabar, QPushButton#btn_ven_modificar,
-QPushButton#btn_ven_eliminar,
-QPushButton#btn_fac_grabar, QPushButton#btn_fac_ven_grabar,
 QPushButton#btn_cerrar_about {
 	border: none;
 	border-radius: 10px;
     color: white;
 }
 
-QPushButton#btn_ven_grabar, QPushButton#btn_ven_modificar,
-QPushButton#btn_fac_grabar, QPushButton#btn_fac_ven_grabar,
-{
-	background-color: #6366f1; /*Indigo 500*/
-}
 
-QPushButton#btn_ven_grabar:hover, QPushButton#btn_ven_modificar:hover,
-QPushButton#btn_fac_grabar:hover, QPushButton#btn_fac_ven_grabar:hover {
-	background-color: #a5b4fc; /*Indigo 300*/
-}
 
-QPushButton#btn_ven_eliminar, QPushButton#btn_cerrar_about {
+QPushButton#btn_cerrar_about {
 	background-color: #ef4444; /*Red 500*/
 }
 
-QPushButton#btn_ven_eliminar:hover,
 QPushButton#btn_cerrar_about:hover {
 	background-color: #fca5a5; /*Red 300*/
 }
@@ -165,7 +152,7 @@ QRadioButton#rbt_pro_alquilado::indicator:disabled, QRadioButton#rbt_pro_vendido
 
 *[qssClass="general_label"]:focus {
     background-color: #c7d2fe; /*Indigo 200*/
-    border-bottom: 2px solid #4f46e5 /*Indigo 600*/
+    border-bottom: 2px solid #4f46e5; /*Indigo 600*/
 }
 
 *[qssClass="general_label_error"] {
@@ -181,7 +168,7 @@ QRadioButton#rbt_pro_alquilado::indicator:disabled, QRadioButton#rbt_pro_vendido
 
 *[qssClass="general_label_error"]:focus {
     background-color: #fecaca; /*Red 200*/
-    border-bottom: 2px solid #dc2626 /*Red 600*/
+    border-bottom: 2px solid #dc2626; /*Red 600*/
 }
 
 /* --- Estilos Campos No Editables ---- */

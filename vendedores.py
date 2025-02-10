@@ -28,9 +28,7 @@ class Vendedores:
         Vendedores.botones = {
             "btn_grabar": var.ui.btn_ven_grabar,
             "btn_modificar": var.ui.btn_ven_modificar,
-            "btn_eliminar": var.ui.btn_ven_eliminar,
-            "btn_alta": var.ui.btn_ven_alta,
-            "btn_baja": var.ui.btn_ven_baja
+            "btn_eliminar": var.ui.btn_ven_eliminar
         }
 
     def inicializar_valores():

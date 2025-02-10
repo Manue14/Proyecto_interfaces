@@ -49,7 +49,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="pestana_clientes">
        <attribute name="title">
@@ -3698,143 +3698,174 @@
         <property name="frameShadow">
          <enum>QFrame::Sunken</enum>
         </property>
-        <widget class="QWidget" name="gridLayoutWidget">
+        <widget class="QWidget" name="verticalLayoutWidget_4">
          <property name="geometry">
           <rect>
-           <x>29</x>
-           <y>29</y>
-           <width>331</width>
-           <height>191</height>
+           <x>27</x>
+           <y>27</y>
+           <width>341</width>
+           <height>201</height>
           </rect>
          </property>
-         <layout class="QGridLayout" name="gridLayout_8">
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="txt_fac_numero">
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="txt_fac_alta">
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_32">
-            <property name="text">
-             <string>Fecha Factura:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="txt_fac_cli_dni">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QPushButton" name="btn_fac_alta">
+         <layout class="QVBoxLayout" name="verticalLayout_8">
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="label_61">
             <property name="maximumSize">
              <size>
-              <width>35</width>
-              <height>16777215</height>
+              <width>16777215</width>
+              <height>20</height>
              </size>
             </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: transparent; border: none;</string>
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
             </property>
             <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>../img/calendar.png</normaloff>../img/calendar.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>30</width>
-              <height>30</height>
-             </size>
+             <string>Facturas</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="1" alignment="Qt::AlignHCenter">
-           <widget class="QPushButton" name="btn_fac_grabar">
-            <property name="minimumSize">
-             <size>
-              <width>85</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>85</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Grabar Factura</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_31">
-            <property name="maximumSize">
-             <size>
-              <width>70</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Nº Factura:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_33">
-            <property name="text">
-             <string>DNI Cliente:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QPushButton" name="btn_fac_cli_buscar">
-            <property name="maximumSize">
-             <size>
-              <width>30</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: transparent; border: none;</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>../img/search-icon.png</normaloff>../img/search-icon.png</iconset>
-            </property>
-           </widget>
+          <item>
+           <layout class="QGridLayout" name="gridLayout_8">
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_32">
+              <property name="text">
+               <string>Fecha Factura:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="txt_fac_numero">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="txt_fac_alta">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_31">
+              <property name="maximumSize">
+               <size>
+                <width>70</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Nº Factura:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_33">
+              <property name="text">
+               <string>DNI Cliente:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="txt_fac_cli_dni">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1" alignment="Qt::AlignHCenter">
+             <widget class="QPushButton" name="btn_fac_grabar">
+              <property name="minimumSize">
+               <size>
+                <width>85</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>85</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Grabar Factura</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QPushButton" name="btn_fac_alta">
+              <property name="maximumSize">
+               <size>
+                <width>35</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: transparent; border: none;</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../img/calendar.png</normaloff>../img/calendar.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QPushButton" name="btn_fac_cli_buscar">
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: transparent; border: none;</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../img/search-icon.png</normaloff>../img/search-icon.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QPushButton" name="btn_fac_informes">
+              <property name="text">
+               <string>Informes</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -4379,19 +4410,6 @@
          </item>
         </layout>
        </widget>
-       <widget class="QPushButton" name="btn_fac_informes">
-        <property name="geometry">
-         <rect>
-          <x>600</x>
-          <y>680</y>
-          <width>51</width>
-          <height>23</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Informes</string>
-        </property>
-       </widget>
       </widget>
       <widget class="QWidget" name="pestana_alquileres">
        <attribute name="title">
@@ -4412,152 +4430,176 @@
         <property name="frameShadow">
          <enum>QFrame::Sunken</enum>
         </property>
-        <widget class="QWidget" name="gridLayoutWidget_3">
+        <widget class="QWidget" name="verticalLayoutWidget_3">
          <property name="geometry">
           <rect>
-           <x>29</x>
-           <y>29</y>
-           <width>331</width>
-           <height>191</height>
+           <x>24</x>
+           <y>26</y>
+           <width>341</width>
+           <height>201</height>
           </rect>
          </property>
-         <layout class="QGridLayout" name="gridLayout_11">
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="txt_alq_numero">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="txt_alq_alta">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_52">
-            <property name="text">
-             <string>Fecha Contrato:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="txt_alq_cli_dni">
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-            <property name="readOnly">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QPushButton" name="btn_alq_alta">
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="label_60">
             <property name="maximumSize">
              <size>
-              <width>35</width>
-              <height>16777215</height>
+              <width>16777215</width>
+              <height>20</height>
              </size>
             </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: transparent; border: none;</string>
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
             </property>
             <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>../img/calendar.png</normaloff>../img/calendar.png</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>30</width>
-              <height>30</height>
-             </size>
+             <string>Contratos</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="1" alignment="Qt::AlignHCenter">
-           <widget class="QPushButton" name="btn_alq_grabar">
-            <property name="minimumSize">
-             <size>
-              <width>85</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>85</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Alta Contrato</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_53">
-            <property name="minimumSize">
-             <size>
-              <width>120</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>120</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Nº Contrato Alquiler:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_54">
-            <property name="text">
-             <string>DNI Cliente:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QPushButton" name="btn_alq_cli_buscar">
-            <property name="maximumSize">
-             <size>
-              <width>30</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: transparent; border: none;</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>../img/search-icon.png</normaloff>../img/search-icon.png</iconset>
-            </property>
-           </widget>
+          <item>
+           <layout class="QGridLayout" name="gridLayout_11">
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="txt_alq_numero">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="txt_alq_alta">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_53">
+              <property name="minimumSize">
+               <size>
+                <width>120</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>120</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Nº Contrato Alquiler:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QPushButton" name="btn_alq_alta">
+              <property name="maximumSize">
+               <size>
+                <width>35</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: transparent; border: none;</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../img/calendar.png</normaloff>../img/calendar.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_52">
+              <property name="text">
+               <string>Fecha Contrato:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1" alignment="Qt::AlignHCenter">
+             <widget class="QPushButton" name="btn_alq_grabar">
+              <property name="minimumSize">
+               <size>
+                <width>85</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>85</width>
+                <height>25</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Alta Contrato</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="txt_alq_cli_dni">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_54">
+              <property name="text">
+               <string>DNI Cliente:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QPushButton" name="btn_alq_cli_buscar">
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">background-color: transparent; border: none;</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../img/search-icon.png</normaloff>../img/search-icon.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -4597,34 +4639,43 @@
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout_13">
-          <item row="0" column="0">
-           <spacer name="horizontalSpacer_44">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+          <item row="1" column="1" alignment="Qt::AlignHCenter">
+           <widget class="QPushButton" name="btn_alq_cargar_mensualidades">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
-            <property name="sizeHint" stdset="0">
+            <property name="minimumSize">
              <size>
-              <width>40</width>
-              <height>20</height>
+              <width>130</width>
+              <height>25</height>
              </size>
             </property>
-           </spacer>
-          </item>
-          <item row="0" column="2">
-           <spacer name="horizontalSpacer_45">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+            <property name="text">
+             <string>Cargar Mensualidades</string>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
+           </widget>
           </item>
           <item row="0" column="1">
            <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <spacer name="verticalSpacer_20">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>15</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_53">
               <item>
@@ -4642,8 +4693,15 @@
               </item>
               <item alignment="Qt::AlignHCenter">
                <widget class="QLabel" name="label_58">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
                 <property name="text">
-                 <string>Mensualidad</string>
+                 <string>Mensualidades</string>
                 </property>
                </widget>
               </item>
@@ -4670,8 +4728,24 @@
              </layout>
             </item>
             <item>
+             <spacer name="verticalSpacer_19">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
              <layout class="QGridLayout" name="gridLayout_12">
-              <item row="1" column="2">
+              <item row="1" column="3">
                <widget class="QPushButton" name="btn_alq_contrato_alta">
                 <property name="maximumSize">
                  <size>
@@ -4697,14 +4771,14 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="0">
+              <item row="0" column="1">
                <widget class="QLabel" name="label_55">
                 <property name="text">
                  <string>Contrato:</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
+              <item row="0" column="2">
                <widget class="QLineEdit" name="txt_alq_contrato_id">
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -4714,14 +4788,24 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="0">
+              <item row="1" column="1">
                <widget class="QLabel" name="label_56">
                 <property name="text">
                  <string>Fecha Inicio:</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="5">
+              <item row="1" column="6">
+               <widget class="QLineEdit" name="txt_alq_mensualidad_fin">
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="6">
                <widget class="QLineEdit" name="txt_alq_propiedad_id">
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -4731,21 +4815,7 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="4">
-               <widget class="QLabel" name="label_59">
-                <property name="text">
-                 <string>Propiedad</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="4">
-               <widget class="QLabel" name="label_57">
-                <property name="text">
-                 <string>Fecha Fin:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
+              <item row="1" column="2">
                <widget class="QLineEdit" name="txt_alq_mensualidad_inicio">
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -4756,16 +4826,20 @@
                </widget>
               </item>
               <item row="1" column="5">
-               <widget class="QLineEdit" name="txt_alq_mensualidad_fin">
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="readOnly">
-                 <bool>true</bool>
+               <widget class="QLabel" name="label_57">
+                <property name="text">
+                 <string>Fecha Fin:</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="6">
+              <item row="0" column="5">
+               <widget class="QLabel" name="label_59">
+                <property name="text">
+                 <string>Propiedad</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="7">
                <widget class="QPushButton" name="btn_alq_contrato_baja">
                 <property name="maximumSize">
                  <size>
@@ -4791,7 +4865,7 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="3">
+              <item row="1" column="4">
                <spacer name="horizontalSpacer_48">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
@@ -4806,17 +4880,52 @@
               </item>
              </layout>
             </item>
-            <item alignment="Qt::AlignHCenter">
-             <widget class="QPushButton" name="btn_alq_cargar_mensualidades">
-              <property name="text">
-               <string>Cargar Mensualidades</string>
+            <item>
+             <spacer name="verticalSpacer_18">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
               </property>
-             </widget>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </item>
-          <item row="1" column="0" colspan="3">
+          <item row="2" column="0" colspan="3">
            <widget class="QTableView" name="tab_alq_mensualidades"/>
+          </item>
+          <item row="0" column="2">
+           <spacer name="horizontalSpacer_45">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="0">
+           <spacer name="horizontalSpacer_44">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </widget>

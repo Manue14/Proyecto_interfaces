@@ -54,7 +54,8 @@ class Facturas:
         Facturas._localidad_propiedad = Facturas.campos["localidad_propiedad"].text()
         Facturas._id_vendedor = Facturas.campos["id_vendedor"].text()
 
-    def inicializar_botones(self):
+    @staticmethod
+    def inicializar_botones():
         Facturas.botones = {
             "btn_grabar": var.ui.btn_fac_grabar,
             "btn_grabar_ven": var.ui.btn_fac_ven_grabar

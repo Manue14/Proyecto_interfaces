@@ -18,8 +18,11 @@ def initialize_styles():
     propiedades.Propiedades.inicializar_campos()
     propiedades.Propiedades.inicializar_botones()
     vendedores.Vendedores.inicializar_campos()
+    vendedores.Vendedores.inicializar_botones()
     facturas.Facturas.inicializar_campos()
+    facturas.Facturas.inicializar_botones()
     alquileres.Alquiler.inicializar_campos()
+    alquileres.Alquiler.inicializar_botones()
 
     clientes.Clientes.campos["dni"].setProperty("qssClass", "general_label")
     clientes.Clientes.campos["fecha_alta"].setProperty("qssClass", "general_label")
@@ -76,6 +79,10 @@ def initialize_styles():
     vendedores.Vendedores.campos["movil"].setProperty("qssClass", "general_label")
     vendedores.Vendedores.campos["provincia"].setProperty("qssClass", "general_combobox")
 
+    vendedores.Vendedores.botones["btn_grabar"].setProperty("qssClass", "general_button")
+    vendedores.Vendedores.botones["btn_modificar"].setProperty("qssClass", "general_button")
+    vendedores.Vendedores.botones["btn_eliminar"].setProperty("qssClass", "danger_button")
+
     facturas.Facturas.campos["numero"].setProperty("qssClass", "non_editable_general_label")
     facturas.Facturas.campos["fecha_registro"].setProperty("qssClass", "non_editable_general_label")
     facturas.Facturas.campos["dni_cliente"].setProperty("qssClass", "general_label")
@@ -91,6 +98,9 @@ def initialize_styles():
     facturas.Facturas.campos["impuestos"].setProperty("qssClass", "non_editable_general_label")
     facturas.Facturas.campos["total"].setProperty("qssClass", "non_editable_general_label")
 
+    facturas.Facturas.botones["btn_grabar"].setProperty("qssClass", "general_button")
+    facturas.Facturas.botones["btn_grabar_ven"].setProperty("qssClass", "general_button")
+
     alquileres.Alquiler.campos["numero"].setProperty("qssClass", "non_editable_general_label")
     alquileres.Alquiler.campos["fecha_registro"].setProperty("qssClass", "non_editable_general_label")
     alquileres.Alquiler.campos["dni_cliente"].setProperty("qssClass", "general_label")
@@ -98,6 +108,9 @@ def initialize_styles():
     alquileres.Alquiler.campos["id_propiedad"].setProperty("qssClass", "non_editable_general_label")
     alquileres.Alquiler.campos["mensualidad_fecha_inicio"].setProperty("qssClass", "non_editable_general_label")
     alquileres.Alquiler.campos["mensualidad_fecha_fin"].setProperty("qssClass", "non_editable_general_label")
+
+    alquileres.Alquiler.botones["btn_grabar"].setProperty("qssClass", "general_button")
+    alquileres.Alquiler.botones["btn_cargar_mensualidades"].setProperty("qssClass", "general_button")
 
     for widget in clientes.Clientes.campos.values():
         reload_style(widget)
@@ -114,11 +127,20 @@ def initialize_styles():
     for widget in vendedores.Vendedores.campos.values():
         reload_style(widget)
 
+    for button in vendedores.Vendedores.botones.values():
+        reload_style(button)
+
     for widget in facturas.Facturas.campos.values():
         reload_style(widget)
 
+    for button in facturas.Facturas.botones.values():
+        reload_style(button)
+
     for widget in alquileres.Alquiler.campos.values():
         reload_style(widget)
+
+    for button in alquileres.Alquiler.botones.values():
+        reload_style(button)
 
 def set_style(widget, style):
     widget.setProperty("qssClass", style)

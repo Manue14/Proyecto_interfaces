@@ -118,6 +118,10 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btn_pro_anterior.clicked.connect(eventos.Eventos.retroceder_pagina_propiedad)
         var.ui.btn_pro_siguiente.clicked.connect(eventos.Eventos.avanzar_pagina_propiedad)
 
+        var.ui.btn_alq_contrato_alta.clicked.connect(lambda: eventos.Eventos.abrir_calendar(0))
+        var.ui.btn_alq_contrato_baja.clicked.connect(lambda: eventos.Eventos.abrir_calendar(1))
+        var.ui.btn_alq_alta.clicked.connect(lambda: eventos.Eventos.abrir_calendar(2))
+
         '''
         Zona eventos combox
         '''
