@@ -4,7 +4,7 @@ class Alquiler:
     campos = {}
     botones = {}
     _numero, _fecha_registro, _dni_cliente = "", "", ""
-    _id_contrato, _id_propiedad, _mensualidad_fecha_inicio, _mensualidad_fecha_fin = "", "", "", ""
+    _id_contrato, _id_propiedad, _fecha_inicio, _fecha_fin = "", "", "", ""
 
     @staticmethod
     def inicializar_campos():
@@ -14,8 +14,8 @@ class Alquiler:
             "dni_cliente": var.ui.txt_alq_cli_dni,
             "id_contrato": var.ui.txt_alq_contrato_id,
             "id_propiedad": var.ui.txt_alq_propiedad_id,
-            "mensualidad_fecha_inicio": var.ui.txt_alq_mensualidad_inicio,
-            "mensualidad_fecha_fin": var.ui.txt_alq_mensualidad_fin
+            "fecha_inicio": var.ui.txt_alq_inicio,
+            "fecha_fin": var.ui.txt_alq_fin
         }
 
     @staticmethod
@@ -25,8 +25,8 @@ class Alquiler:
         Alquiler._dni_cliente = Alquiler.campos["dni_cliente"].text()
         Alquiler._id_contrato = Alquiler.campos["id_contrato"].text()
         Alquiler._id_propiedad = Alquiler.campos["id_propiedad"].text()
-        Alquiler._mensualidad_fecha_inicio = Alquiler.campos["mensualidad_fecha_inicio"].text()
-        Alquiler._mensualidad_fecha_fin = Alquiler.campos["mensualidad_fecha_fin"].text()
+        Alquiler._fecha_inicio = Alquiler.campos["mensualidad_fecha_inicio"].text()
+        Alquiler._fecha_fin = Alquiler.campos["mensualidad_fecha_fin"].text()
 
     @staticmethod
     def inicializar_botones():

@@ -4462,29 +4462,10 @@
           </item>
           <item>
            <layout class="QGridLayout" name="gridLayout_11">
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="txt_alq_numero">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="txt_alq_alta">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-              <property name="readOnly">
-               <bool>true</bool>
+            <item row="3" column="0">
+             <widget class="QLabel" name="label_62">
+              <property name="text">
+               <string>Propiedad</string>
               </property>
              </widget>
             </item>
@@ -4504,6 +4485,49 @@
               </property>
               <property name="text">
                <string>Nº Contrato Alquiler:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="txt_alq_alta">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="txt_alq_numero">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_52">
+              <property name="text">
+               <string>Fecha Contrato:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="txt_alq_cli_dni">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -4533,52 +4557,6 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_52">
-              <property name="text">
-               <string>Fecha Contrato:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1" alignment="Qt::AlignHCenter">
-             <widget class="QPushButton" name="btn_alq_grabar">
-              <property name="minimumSize">
-               <size>
-                <width>85</width>
-                <height>25</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>85</width>
-                <height>25</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Alta Contrato</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="txt_alq_cli_dni">
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-              <property name="readOnly">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_54">
-              <property name="text">
-               <string>DNI Cliente:</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-              </property>
-             </widget>
-            </item>
             <item row="2" column="2">
              <widget class="QPushButton" name="btn_alq_cli_buscar">
               <property name="maximumSize">
@@ -4599,7 +4577,57 @@
               </property>
              </widget>
             </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_54">
+              <property name="text">
+               <string>DNI Cliente:</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0">
+             <widget class="QLabel" name="label_63">
+              <property name="text">
+               <string>Vendedor</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="txt_alq_pro_id">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <widget class="QLineEdit" name="txt_alq_ven_id">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
            </layout>
+          </item>
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QPushButton" name="btn_alq_grabar">
+            <property name="minimumSize">
+             <size>
+              <width>85</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>85</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Alta Contrato</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -4796,7 +4824,7 @@
                </widget>
               </item>
               <item row="1" column="6">
-               <widget class="QLineEdit" name="txt_alq_mensualidad_fin">
+               <widget class="QLineEdit" name="txt_alq_fin">
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
@@ -4816,7 +4844,7 @@
                </widget>
               </item>
               <item row="1" column="2">
-               <widget class="QLineEdit" name="txt_alq_mensualidad_inicio">
+               <widget class="QLineEdit" name="txt_alq_inicio">
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
