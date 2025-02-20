@@ -101,11 +101,13 @@ def initialize_styles():
     facturas.Facturas.botones["btn_grabar"].setProperty("qssClass", "general_button")
     facturas.Facturas.botones["btn_grabar_ven"].setProperty("qssClass", "general_button")
 
-    alquileres.Alquiler.campos["numero"].setProperty("qssClass", "non_editable_general_label")
+    alquileres.Alquiler.campos["id_contrato"].setProperty("qssClass", "non_editable_general_label")
     alquileres.Alquiler.campos["fecha_registro"].setProperty("qssClass", "non_editable_general_label")
     alquileres.Alquiler.campos["dni_cliente"].setProperty("qssClass", "general_label")
     alquileres.Alquiler.campos["id_contrato"].setProperty("qssClass", "non_editable_general_label")
     alquileres.Alquiler.campos["id_propiedad"].setProperty("qssClass", "non_editable_general_label")
+    alquileres.Alquiler.campos["id_vendedor"].setProperty("qssClass", "non_editable_general_label")
+    alquileres.Alquiler.campos["precio"].setProperty("qssClass", "non_editable_general_label")
     alquileres.Alquiler.campos["fecha_inicio"].setProperty("qssClass", "non_editable_general_label")
     alquileres.Alquiler.campos["fecha_fin"].setProperty("qssClass", "non_editable_general_label")
 

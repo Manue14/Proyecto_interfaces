@@ -4489,7 +4489,7 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="txt_alq_alta">
+             <widget class="QLineEdit" name="txt_alq_contrato_alta">
               <property name="enabled">
                <bool>true</bool>
               </property>
@@ -4502,7 +4502,7 @@
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="txt_alq_numero">
+             <widget class="QLineEdit" name="txt_alq_contrato_id">
               <property name="enabled">
                <bool>true</bool>
               </property>
@@ -4632,23 +4632,13 @@
          </layout>
         </widget>
        </widget>
-       <widget class="QTableView" name="tab_alq">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>290</y>
-          <width>391</width>
-          <height>481</height>
-         </rect>
-        </property>
-       </widget>
        <widget class="QFrame" name="frame_4">
         <property name="geometry">
          <rect>
           <x>510</x>
-          <y>40</y>
+          <y>20</y>
           <width>1171</width>
-          <height>711</height>
+          <height>751</height>
          </rect>
         </property>
         <property name="frameShape">
@@ -4663,29 +4653,10 @@
            <x>-1</x>
            <y>-1</y>
            <width>1171</width>
-           <height>711</height>
+           <height>751</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout_13">
-          <item row="1" column="1" alignment="Qt::AlignHCenter">
-           <widget class="QPushButton" name="btn_alq_cargar_mensualidades">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>130</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Cargar Mensualidades</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="1">
            <layout class="QVBoxLayout" name="verticalLayout_6">
             <item>
@@ -4772,8 +4743,72 @@
              </spacer>
             </item>
             <item>
-             <layout class="QGridLayout" name="gridLayout_12">
-              <item row="1" column="3">
+             <layout class="QHBoxLayout" name="horizontalLayout_54">
+              <item>
+               <spacer name="horizontalSpacer_49">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_55">
+                <property name="text">
+                 <string>Precio Alquiler:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="txt_alq_precio">
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_50">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_55">
+              <item>
+               <widget class="QLabel" name="label_56">
+                <property name="text">
+                 <string>Fecha Inicio:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="txt_alq_fecha_inicio">
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QPushButton" name="btn_alq_contrato_alta">
                 <property name="maximumSize">
                  <size>
@@ -4799,75 +4834,37 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
-               <widget class="QLabel" name="label_55">
-                <property name="text">
-                 <string>Contrato:</string>
+              <item>
+               <spacer name="horizontalSpacer_48">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
                 </property>
-               </widget>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
-              <item row="0" column="2">
-               <widget class="QLineEdit" name="txt_alq_contrato_id">
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLabel" name="label_56">
-                <property name="text">
-                 <string>Fecha Inicio:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="6">
-               <widget class="QLineEdit" name="txt_alq_fin">
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="6">
-               <widget class="QLineEdit" name="txt_alq_propiedad_id">
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="QLineEdit" name="txt_alq_inicio">
-                <property name="alignment">
-                 <set>Qt::AlignCenter</set>
-                </property>
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="5">
+              <item>
                <widget class="QLabel" name="label_57">
                 <property name="text">
                  <string>Fecha Fin:</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="5">
-               <widget class="QLabel" name="label_59">
-                <property name="text">
-                 <string>Propiedad</string>
+              <item>
+               <widget class="QLineEdit" name="txt_alq_fecha_fin">
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
-              <item row="1" column="7">
+              <item>
                <widget class="QPushButton" name="btn_alq_contrato_baja">
                 <property name="maximumSize">
                  <size>
@@ -4893,19 +4890,6 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="4">
-               <spacer name="horizontalSpacer_48">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
              </layout>
             </item>
             <item>
@@ -4926,8 +4910,18 @@
             </item>
            </layout>
           </item>
-          <item row="2" column="0" colspan="3">
-           <widget class="QTableView" name="tab_alq_mensualidades"/>
+          <item row="0" column="0">
+           <spacer name="horizontalSpacer_44">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item row="0" column="2">
            <spacer name="horizontalSpacer_45">
@@ -4942,21 +4936,86 @@
             </property>
            </spacer>
           </item>
-          <item row="0" column="0">
-           <spacer name="horizontalSpacer_44">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+          <item row="1" column="1" alignment="Qt::AlignHCenter">
+           <widget class="QPushButton" name="btn_alq_cargar_mensualidades">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
             </property>
-            <property name="sizeHint" stdset="0">
+            <property name="minimumSize">
              <size>
-              <width>40</width>
-              <height>20</height>
+              <width>130</width>
+              <height>25</height>
              </size>
             </property>
-           </spacer>
+            <property name="text">
+             <string>Cargar Mensualidades</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="3">
+           <widget class="QTableWidget" name="tab_alq_mensualidades">
+            <column>
+             <property name="text">
+              <string>Recibo</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>New Column</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Mensualidad</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Importe</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>New Column</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Impresión</string>
+             </property>
+            </column>
+           </widget>
           </item>
          </layout>
         </widget>
+       </widget>
+       <widget class="QTableWidget" name="tab_alq">
+        <property name="geometry">
+         <rect>
+          <x>15</x>
+          <y>291</y>
+          <width>401</width>
+          <height>481</height>
+         </rect>
+        </property>
+        <column>
+         <property name="text">
+          <string>Contrato</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>New Column</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Gestión</string>
+         </property>
+        </column>
        </widget>
       </widget>
      </widget>
