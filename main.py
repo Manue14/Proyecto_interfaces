@@ -1,3 +1,4 @@
+import alquileres
 import facturas
 import styles
 import vendedores
@@ -121,6 +122,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btn_alq_contrato_alta.clicked.connect(lambda: eventos.Eventos.abrir_calendar(0))
         var.ui.btn_alq_contrato_baja.clicked.connect(lambda: eventos.Eventos.abrir_calendar(1))
         var.ui.btn_alq_alta.clicked.connect(lambda: eventos.Eventos.abrir_calendar(2))
+        var.ui.btn_alq_cargar_mensualidades.clicked.connect(lambda: alquileres.Alquiler.calcular_mensualidades("01/01/2025", "31/03/2025"))
 
         '''
         Zona eventos combox

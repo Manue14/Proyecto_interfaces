@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from reportlab.rl_settings import eps_ttf_embed
 
@@ -10,14 +10,14 @@ import var
 class Alquiler:
     campos = {}
     botones = {}
-    _id_contrato, _fecha_registro, _dni_cliente, _id_propiedad, _id_vendedor = "", "", "", "", ""
+    _id, _fecha_registro, _dni_cliente, _id_propiedad, _id_vendedor = "", "", "", "", ""
     _precio, _fecha_inicio, _fecha_fin = "", "", ""
 
     @staticmethod
     def inicializar_campos():
         Alquiler.campos = {
-            "id_contrato": var.ui.txt_alq_contrato_id,
-            "fecha_registro": var.ui.txt_alq_contrato_alta,
+            "id": var.ui.txt_alq_id,
+            "fecha_registro": var.ui.txt_alq_alta,
             "dni_cliente": var.ui.txt_alq_cli_dni,
             "id_propiedad": var.ui.txt_alq_pro_id,
             "id_vendedor": var.ui.txt_alq_ven_id,
@@ -28,7 +28,7 @@ class Alquiler:
 
     @staticmethod
     def inicializar_valores():
-        Alquiler._id_contrato = Alquiler.campos["id_contrato"].text()
+        Alquiler._id = Alquiler.campos["id"].text()
         Alquiler._fecha_registro = Alquiler.campos["fecha_registro"].text()
         Alquiler._dni_cliente = Alquiler.campos["dni_cliente"].text()
         Alquiler._id_propiedad = Alquiler.campos["id_propiedad"].text()
@@ -45,48 +45,58 @@ class Alquiler:
         }
 
     @staticmethod
-    def alta_contrato():
-        response = Alquiler.check_if_contrato_valid_for_create()
+    def get_date_range(fecha_inicio: datetime, fecha_fin: datetime):
+        days = (fecha_fin - fecha_inicio).days
+        for day in range(days + 1):
+            yield fecha_inicio + timedelta(days=day)
+
+    @staticmethod
+    def calcular_mensualidades(fecha_inicio, fecha_fin):
+        inicio = datetime.strptime(fecha_inicio, '%d/%m/%Y')
+        fin = datetime.strptime(fecha_fin, '%d/%m/%Y')
+
+        date_range = Alquiler.get_date_range(inicio, fin)
+
+        for date in date_range:
+            print(date)
+
+    @staticmethod
+    def alta_alquiler():
+        response = Alquiler.check_if_alquiler_valid_for_create()
         if not response["valid"]:
             eventos.Eventos.mensaje_error("Aviso", response["messages"])
             return
 
         try:
-            contrato = mapper.Mapper.map_contrato(Alquiler.campos)
             alquiler = mapper.Mapper.map_alquiler(Alquiler.campos)
 
-            last_contrato_inserted_id = conexion.Conexion.alta_contrato(contrato)
-            last_alquiler_inserted_id = conexion.Conexion.alta_alquiler(alquiler)
+            last_inserted_id = conexion.Conexion.alta_alquiler(alquiler)
 
-            if last_contrato_inserted_id == -1:
-                eventos.Eventos.mensaje_error("Aviso", "El contrato ya existe")
-                return
-            if last_alquiler_inserted_id == -1:
+            if last_inserted_id == -1:
                 eventos.Eventos.mensaje_error("Aviso", "El alquiler ya existe")
                 return
 
-            eventos.Eventos.mensaje_exito("Aviso", "Alta en del contrato y su correspondiente alquiler en la base de datos")
+            eventos.Eventos.mensaje_exito("Aviso", "Alta en del contrato de alquiler en la base de datos")
 
             #Mensualidades, calcular y guardar en BD
 
-            var.state_manager.update_tabla_contratos()
+            var.state_manager.update_tabla_alquileres()
             var.state_manager.update_tabla_mensualidades()
-            Alquiler.populate_contrato_fields(conexion.Conexion.get_contrato(last_contrato_inserted_id))
-            Alquiler.populate_alquiler_fields(conexion.Conexion.get_alquiler(last_alquiler_inserted_id))
+            Alquiler.populate_fields(conexion.Conexion.get_alquiler(last_inserted_id))
         except Exception as error:
             print("Error al dar de alta el contrato", error)
 
     @staticmethod
-    def eliminar_contrato(id_contrato):
+    def eliminar_alquiler(id_alquiler):
         try:
-            contrato = conexion.Conexion.get_contrato(id_contrato)
+            contrato = conexion.Conexion.get_alquiler(id_alquiler)
             #Borrar alquiler y mensualidades relacionadas
         except Exception as error:
             print("Error al eliminar contrato", error)
 
 
     @staticmethod
-    def check_if_contrato_valid_for_create():
+    def check_if_alquiler_valid_for_create():
         response = {
             "valid": True,
             "messages": []
@@ -95,7 +105,7 @@ class Alquiler:
         Alquiler.inicializar_campos()
         Alquiler.inicializar_valores()
 
-        if Alquiler._id_contrato != "":
+        if Alquiler._id != "":
             response["valid"] = False
             response["messages"].append("Para registrar un nuevo contrato no debes introducir un código de contrato ya existente")
 

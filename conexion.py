@@ -888,3 +888,35 @@ class Conexion:
         except Exception as error:
             print("Error al eliminar venta", error)
             return False
+
+    @staticmethod
+    def alta_alquiler(alquiler):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("INSERT INTO alquileres (dni_cli, propiedad_id, agente_id, fecha_firma, fecha_inicio, fecha_fin, precio_alquiler) "
+                          "VALUES (:dni_cliente, :id_propiedad, :id_vendedor, :fecha_registro, :fecha_inicio, :fecha_fin, :precio);")
+            mapper.Mapper.bind_venta_create_query(query, alquiler)
+            if query.exec():
+                return query.lastInsertId()
+            else:
+                return -1
+        except Exception as error:
+            print("Error al dar de alta la venta", error)
+
+    @staticmethod
+    def get_alquiler(alquiler_id):
+        try:
+            alquiler = mapper.Mapper.initialize_alquiler()
+            keys = list(alquiler.keys())
+
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM alquileres WHERE id = :id;")
+
+            query.bindValue(":id", alquiler_id)
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        alquiler[keys[i]] = str(query.value(i))
+                return alquiler
+        except Exception as error:
+            print("Error al obtener venta desde la base de datos", error)
