@@ -307,12 +307,12 @@ class Eventos:
                 Eventos.observar_fecha_alta(var.ui.txt_fac_alta)
 
             elif var.ui.panel_principal.currentIndex() == 4 and var.btn == 0:
-                var.ui.txt_alq_mensualidad_inicio.setText(str(data))
-                Eventos.observar_fecha_alta(var.ui.txt_alq_mensualidad_inicio)
+                var.ui.txt_alq_fecha_inicio.setText(str(data))
+                Eventos.observar_fecha_alta(var.ui.txt_alq_fecha_inicio)
 
             elif var.ui.panel_principal.currentIndex() == 4 and var.btn == 1:
-                var.ui.txt_alq_mensualidad_fin.setText(str(data))
-                Eventos.observar_fecha_alta(var.ui.txt_alq_mensualidad_fin)
+                var.ui.txt_alq_fecha_fin.setText(str(data))
+                Eventos.observar_fecha_alta(var.ui.txt_alq_fecha_fin)
 
             elif var.ui.panel_principal.currentIndex() == 4 and var.btn == 2:
                 var.ui.txt_alq_alta.setText(str(data))
@@ -433,6 +433,32 @@ class Eventos:
             Eventos.show_fac_ven_on_table(venta, index)
             index += 1
 
+    def cargar_tabla_alquileres():
+        alquileres = var.state_manager.state["alquiler_query_object"]
+
+        if not alquileres:
+            var.ui.tab_alq.setRowCount(0)
+            return
+        
+        index = 0
+        var.ui.tab_alq.verticalHeader().setVisible(False)
+        for i in range(0, len(alquileres)):
+            alquiler = alquileres[i]
+            Eventos.show_alq_on_table(alquiler, index)
+            index += 1
+
+    def cargar_tabla_recibos(recibos):
+        if not recibos:
+            var.ui.tab_recibos.setRowCount(0)
+            return
+        
+        index = 0
+        var.ui.tab_recibos.verticalHeader().setVisible(False)
+        for i in range(0, len(recibos)):
+                recibo = recibos[i]
+                Eventos.show_recibo_on_table(recibo, index)
+                index += 1
+
     def show_cli_on_table(cliente, index):
         var.ui.tab_cli.setRowCount(index + 1)
         var.ui.tab_cli.setItem(index, 0, QtWidgets.QTableWidgetItem(cliente["dni"]))
@@ -546,6 +572,42 @@ class Eventos:
         var.ui.tab_fac_ven.item(index, 4)
         var.ui.tab_fac_ven.item(index, 5)
 
+    def show_alq_on_table(alquiler, index):
+        var.ui.tab_alq.setRowCount(index + 1)
+
+        var.ui.tab_alq.setItem(index, 0, QtWidgets.QTableWidgetItem(alquiler["id"]))
+        var.ui.tab_alq.setItem(index, 1, QtWidgets.QTableWidgetItem(alquiler["dni_cliente"]))
+
+        var.ui.tab_alq.item(index, 0)
+        var.ui.tab_alq.item(index, 1)
+
+        #Add button to table
+        container = QWidget()
+        layout = QVBoxLayout()
+        delete_button = QPushButton()
+        delete_button.setFixedSize(30, 20)
+        delete_button.setIcon(QIcon("./img/papelera.png"))
+        delete_button.setProperty("qssClass", "delete_button")
+        styles.reload_style(delete_button)
+        #delete_button.setStyleSheet("background-color: #efefef;")
+        #delete_button.clicked.connect(lambda: facturas.Facturas.eliminar_factura(factura["id"]))
+        layout.addWidget(delete_button)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        container.setLayout(layout)
+
+        var.ui.tab_fac.setCellWidget(index, 2, container)
+
+    def show_recibo_on_table(recibo, index):
+        var.ui.tab_recibos.setRowCount(index + 1)
+
+        var.ui.tab_recibos.setItem(index, 0, QtWidgets.QTableWidgetItem(recibo["id"]))
+        var.ui.tab_recibos.setItem(index, 1, QtWidgets.QTableWidgetItem(recibo["id"]))
+        var.ui.tab_recibos.setItem(index, 2, QtWidgets.QTableWidgetItem(recibo["mensualidad"]))
+        var.ui.tab_recibos.setItem(index, 3, QtWidgets.QTableWidgetItem(recibo["importe"] + " €"))
+        var.ui.tab_recibos.setItem(index, 0, QtWidgets.QTableWidgetItem(recibo["pagado"]))
+
     def resize_cli_tab(self):
         try:
             header = var.ui.tab_cli.horizontalHeader()
@@ -620,6 +682,36 @@ class Eventos:
                 header_items.setFont(font)
         except Exception as error:
             print("Error en resize tabla ventas factura: " + error)
+
+    def resize_alq_tab(self):
+        try:
+            header = var.ui.tab_alq.horizontalHeader()
+            for i in range(header.count()):
+                if (i == 1):
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
+                else:
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                header_items = var.ui.tab_alq.horizontalHeaderItem(i)
+                font = header_items.font()
+                font.setBold(True)
+                header_items.setFont(font)
+        except Exception as error:
+            print("Error en resize tabla alquileres: " + error)
+
+    def resize_recibos_tab(self):
+        try:
+            header = var.ui.tab_recibos.horizontalHeader()
+            for i in range(header.count()):
+                if (i == 2):
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
+                else:
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                header_items = var.ui.tab_recibos.horizontalHeaderItem(i)
+                font = header_items.font()
+                font.setBold(True)
+                header_items.setFont(font)
+        except Exception as error:
+            print("Error en resize tabla recibos: " + error)
 
     def crear_backup(self):
         try:

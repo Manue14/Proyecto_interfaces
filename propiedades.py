@@ -7,6 +7,7 @@ import eventos
 import conexion
 import mapper
 import facturas
+import alquileres
 
 
 class Propiedades():
@@ -175,6 +176,7 @@ class Propiedades():
             propiedad = var.clase_conexion.get_propiedad(codigo)
             Propiedades.populate_fields(propiedad)
             facturas.Facturas.populate_propiedad_fields(propiedad)
+            alquileres.Alquiler.populate_propiedad_fields(propiedad)
         except Exception as error:
             print("error al cargar el cliente", error)
 

@@ -3719,7 +3719,6 @@
             <property name="font">
              <font>
               <pointsize>12</pointsize>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -3919,7 +3918,6 @@
             <property name="font">
              <font>
               <pointsize>12</pointsize>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -4066,7 +4064,6 @@
               <property name="font">
                <font>
                 <pointsize>12</pointsize>
-                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
@@ -4186,7 +4183,6 @@
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
-                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
@@ -4436,7 +4432,7 @@
            <x>24</x>
            <y>26</y>
            <width>341</width>
-           <height>201</height>
+           <height>213</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -4451,7 +4447,6 @@
             <property name="font">
              <font>
               <pointsize>12</pointsize>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -4596,6 +4591,9 @@
             </item>
             <item row="3" column="1">
              <widget class="QLineEdit" name="txt_alq_pro_id">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
               <property name="readOnly">
                <bool>true</bool>
               </property>
@@ -4603,6 +4601,9 @@
             </item>
             <item row="4" column="1">
              <widget class="QLineEdit" name="txt_alq_ven_id">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
               <property name="readOnly">
                <bool>true</bool>
               </property>
@@ -4695,7 +4696,6 @@
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
-                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
@@ -4956,7 +4956,7 @@
            </widget>
           </item>
           <item row="2" column="0" colspan="3">
-           <widget class="QTableWidget" name="tab_alq_mensualidades">
+           <widget class="QTableWidget" name="tab_recibos">
             <column>
              <property name="text">
               <string>Recibo</string>
@@ -5001,6 +5001,12 @@
           <height>481</height>
          </rect>
         </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
         <column>
          <property name="text">
           <string>Contrato</string>
@@ -5028,7 +5034,7 @@
      <x>0</x>
      <y>0</y>
      <width>1796</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_archivo">

@@ -33,6 +33,8 @@ class Main(QtWidgets.QMainWindow):
         eventos.Eventos.cargar_tabla_clientes()
         eventos.Eventos.cargar_tabla_propiedades()
         eventos.Eventos.cargar_tabla_vendedores()
+        eventos.Eventos.cargar_tabla_facturas()
+        eventos.Eventos.cargar_tabla_alquileres()
 
         '''
         Zona de eventos de tablas
@@ -51,6 +53,11 @@ class Main(QtWidgets.QMainWindow):
 
         eventos.Eventos.resize_fac_ven_tab(self)
         var.ui.tab_fac_ven.clicked.connect(facturas.Facturas.cargar_venta)
+
+        eventos.Eventos.resize_alq_tab(self)
+        var.ui.tab_alq.clicked.connect(alquileres.Alquiler.cargar_alquiler)
+
+        eventos.Eventos.resize_recibos_tab(self)
 
         '''
         Zona de eventos del menubar
@@ -122,7 +129,8 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btn_alq_contrato_alta.clicked.connect(lambda: eventos.Eventos.abrir_calendar(0))
         var.ui.btn_alq_contrato_baja.clicked.connect(lambda: eventos.Eventos.abrir_calendar(1))
         var.ui.btn_alq_alta.clicked.connect(lambda: eventos.Eventos.abrir_calendar(2))
-        var.ui.btn_alq_cargar_mensualidades.clicked.connect(lambda: alquileres.Alquiler.calcular_mensualidades("01/01/2025", "31/03/2025"))
+        var.ui.btn_alq_grabar.clicked.connect(alquileres.Alquiler.alta_alquiler)
+        var.ui.btn_alq_cargar_mensualidades.clicked.connect(alquileres.Alquiler.aaaa)
 
         '''
         Zona eventos combox

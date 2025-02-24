@@ -2,6 +2,9 @@ from datetime import datetime, timedelta
 
 from reportlab.rl_settings import eps_ttf_embed
 
+from PyQt6.QtCore import Qt
+from PyQt6.uic.properties import QtCore
+
 import conexion
 import eventos
 import mapper
@@ -10,14 +13,14 @@ import var
 class Alquiler:
     campos = {}
     botones = {}
-    _id, _fecha_registro, _dni_cliente, _id_propiedad, _id_vendedor = "", "", "", "", ""
+    _id, _fecha_firma, _dni_cliente, _id_propiedad, _id_vendedor = "", "", "", "", ""
     _precio, _fecha_inicio, _fecha_fin = "", "", ""
 
     @staticmethod
     def inicializar_campos():
         Alquiler.campos = {
             "id": var.ui.txt_alq_id,
-            "fecha_registro": var.ui.txt_alq_alta,
+            "fecha_firma": var.ui.txt_alq_alta,
             "dni_cliente": var.ui.txt_alq_cli_dni,
             "id_propiedad": var.ui.txt_alq_pro_id,
             "id_vendedor": var.ui.txt_alq_ven_id,
@@ -29,7 +32,7 @@ class Alquiler:
     @staticmethod
     def inicializar_valores():
         Alquiler._id = Alquiler.campos["id"].text()
-        Alquiler._fecha_registro = Alquiler.campos["fecha_registro"].text()
+        Alquiler._fecha_firma = Alquiler.campos["fecha_firma"].text()
         Alquiler._dni_cliente = Alquiler.campos["dni_cliente"].text()
         Alquiler._id_propiedad = Alquiler.campos["id_propiedad"].text()
         Alquiler._id_vendedor = Alquiler.campos["id_vendedor"].text()
@@ -45,6 +48,54 @@ class Alquiler:
         }
 
     @staticmethod
+    def populate_cliente_fields(cliente):
+        if cliente["fecha_baja"] != "":
+            Alquiler.campos["dni_cliente"].setText("")
+            return
+
+        Alquiler.campos["dni_cliente"].setText(cliente["dni"])
+
+    @staticmethod
+    def populate_vendedor_fields(vendedor):
+        if vendedor["fecha_baja"] != "":
+            Alquiler.campos["id_vendedor"].setText("")
+            return
+
+        Alquiler.campos["id_vendedor"].setText(vendedor["codigo"])
+
+    @staticmethod
+    def populate_propiedad_fields(propiedad):
+        if propiedad["fecha_baja"] != "":
+            Alquiler.campos["id_propiedad"].setText("")
+            Alquiler.campos["precio"].setText("")
+
+            Alquiler.campos["precio"].setAlignment(Qt.AlignmentFlag.AlignRight)
+            eventos.Eventos.observar_non_editable(Alquiler.campos["precios"], True)
+            return
+
+        Alquiler.campos["id_propiedad"].setText(propiedad["codigo"])
+
+        if "Alquiler" not in propiedad["operaciones"]:
+            Alquiler.campos["precio"].setText("Propiedad no en alquiler")
+            Alquiler.campos["precio"].setAlignment(Qt.AlignmentFlag.AlignCenter)
+            eventos.Eventos.observar_non_editable(Alquiler.campos["precio"], False)
+        else:
+            Alquiler.campos["precio"].setText(propiedad["precio_alquiler"])
+            Alquiler.campos["precio"].setAlignment(Qt.AlignmentFlag.AlignRight)
+            eventos.Eventos.observar_non_editable(Alquiler.campos["precio"], True)
+
+    @staticmethod
+    def populate_alquiler_fields(alquiler):
+        Alquiler.campos["id"].setText(alquiler["id"])
+        Alquiler.campos["fecha_firma"].setText(alquiler["fecha_firma"])
+        Alquiler.campos["dni_cliente"].setText(alquiler["dni_cliente"])
+        Alquiler.campos["id_propiedad"].setText(alquiler["id_propiedad"])
+        Alquiler.campos["id_vendedor"].setText(alquiler["id_vendedor"])
+        Alquiler.campos["precio"].setText(alquiler["precio"])
+        Alquiler.campos["fecha_inicio"].setText(alquiler["fecha_inicio"])
+        Alquiler.campos["fecha_fin"].setText(alquiler["fecha_fin"])
+
+    @staticmethod
     def get_date_range(fecha_inicio: datetime, fecha_fin: datetime):
         days = (fecha_fin - fecha_inicio).days
         for day in range(days + 1):
@@ -57,8 +108,23 @@ class Alquiler:
 
         date_range = Alquiler.get_date_range(inicio, fin)
 
+        mensualidades_map = {}
+
         for date in date_range:
-            print(date)
+            month = date.strftime("%B")
+            year = str(date.year)
+            key = month + year
+
+            if key not in mensualidades_map.keys():
+                mensualidades_map[key] = (month + "-" + year).capitalize()
+
+        return mensualidades_map.values()
+    
+    @staticmethod
+    def aaaa():
+        mensualidades = Alquiler.calcular_mensualidades("01/01/2025", "01/11/2026")
+        for mensualidad in mensualidades:
+            print(mensualidad)
 
     @staticmethod
     def alta_alquiler():
@@ -69,22 +135,34 @@ class Alquiler:
 
         try:
             alquiler = mapper.Mapper.map_alquiler(Alquiler.campos)
+            alquiler["fecha_firma"] = Alquiler._fecha_firma
 
             last_inserted_id = conexion.Conexion.alta_alquiler(alquiler)
 
             if last_inserted_id == -1:
                 eventos.Eventos.mensaje_error("Aviso", "El alquiler ya existe")
                 return
+            
+            mensualidades = Alquiler.calcular_mensualidades(alquiler["fecha_inicio"], alquiler["fecha_fin"])
 
-            eventos.Eventos.mensaje_exito("Aviso", "Alta en del contrato de alquiler en la base de datos")
+            for mensualidad in mensualidades:
+                recibo = mapper.Mapper.initialize_recibo()
+                recibo["alquiler_id"] = last_inserted_id
+                recibo["mensualidad"] = mensualidad
+                recibo["importe"] = alquiler["precio"]
+                recibo["pagado"] = 0
+                conexion.Conexion.alta_recibo(recibo)
 
-            #Mensualidades, calcular y guardar en BD
+            eventos.Eventos.mensaje_exito("Aviso", "Alta del contrato de alquiler en la base de datos")
 
-            var.state_manager.update_tabla_alquileres()
-            var.state_manager.update_tabla_mensualidades()
-            Alquiler.populate_fields(conexion.Conexion.get_alquiler(last_inserted_id))
+            Alquiler.populate_alquiler_fields(conexion.Conexion.get_alquiler(last_inserted_id))
+            recibos = conexion.Conexion.listar_recibos_by_alquiler(last_inserted_id)
+            eventos.Eventos.cargar_tabla_recibos(recibos)
+
+            #var.state_manager.update_tabla_alquileres()
+            #var.state_manager.update_tabla_mensualidades()
         except Exception as error:
-            print("Error al dar de alta el contrato", error)
+            print("Error al dar de alta el alquiler", error)
 
     @staticmethod
     def eliminar_alquiler(id_alquiler):
@@ -92,7 +170,20 @@ class Alquiler:
             contrato = conexion.Conexion.get_alquiler(id_alquiler)
             #Borrar alquiler y mensualidades relacionadas
         except Exception as error:
-            print("Error al eliminar contrato", error)
+            print("Error al eliminar alquiler", error)
+
+    @staticmethod
+    def cargar_alquiler():
+        Alquiler.inicializar_campos()
+        try:
+            fila = var.ui.tab_alq.selectedItems()
+            datos = [dato.text() for dato in fila]
+            alquiler = conexion.Conexion.get_alquiler(str(datos[0]))
+            Alquiler.populate_alquiler_fields(alquiler)
+            recibos = conexion.Conexion.listar_recibos_by_alquiler(str(alquiler["id"]))
+            eventos.Eventos.cargar_tabla_recibos(recibos)
+        except Exception as error:
+            print("error cargar_alquiler", error)
 
 
     @staticmethod
@@ -109,12 +200,12 @@ class Alquiler:
             response["valid"] = False
             response["messages"].append("Para registrar un nuevo contrato no debes introducir un código de contrato ya existente")
 
-        if Alquiler._fecha_registro:
+        if Alquiler._fecha_firma:
             if not eventos.Eventos.validar_fecha(Alquiler._fecha_registro):
                 response["valid"] = False
                 response["messages"].append("Debes introducir una fecha válida")
         else:
-            Alquiler._fecha_registro = datetime.strftime(datetime.now(), '%d/%m/%Y')
+            Alquiler._fecha_firma = datetime.strftime(datetime.now(), '%d/%m/%Y')
 
         if Alquiler._dni_cliente:
             if not eventos.Eventos.validar_dni(Alquiler._dni_cliente):
@@ -153,7 +244,7 @@ class Alquiler:
             response["messages"].append("Es necesaria una fecha de fin para el alquiler")
 
         try:
-            registro = datetime.strptime(Alquiler._fecha_registro, '%d/%m/%Y')
+            registro = datetime.strptime(Alquiler._fecha_firma, '%d/%m/%Y')
             inicio = datetime.strptime(Alquiler._fecha_inicio, '%d/%m/%Y')
             fin = datetime.strptime(Alquiler._fecha_fin, '%d/%m/%Y')
 

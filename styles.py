@@ -102,7 +102,7 @@ def initialize_styles():
     facturas.Facturas.botones["btn_grabar_ven"].setProperty("qssClass", "general_button")
 
     alquileres.Alquiler.campos["id"].setProperty("qssClass", "non_editable_general_label")
-    alquileres.Alquiler.campos["fecha_registro"].setProperty("qssClass", "non_editable_general_label")
+    alquileres.Alquiler.campos["fecha_firma"].setProperty("qssClass", "non_editable_general_label")
     alquileres.Alquiler.campos["dni_cliente"].setProperty("qssClass", "general_label")
     alquileres.Alquiler.campos["id_propiedad"].setProperty("qssClass", "non_editable_general_label")
     alquileres.Alquiler.campos["id_vendedor"].setProperty("qssClass", "non_editable_general_label")

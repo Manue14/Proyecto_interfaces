@@ -4,6 +4,7 @@ from PyQt6.uic.properties import QtCore
 from datetime import datetime
 
 import facturas
+import alquileres
 import var
 import eventos
 import conexion
@@ -188,6 +189,7 @@ class Clientes:
             cliente = var.clase_conexion.get_cliente(str(datos[0]))
             Clientes.populate_fields(cliente)
             facturas.Facturas.populate_cliente_fields(cliente)
+            alquileres.Alquiler.populate_cliente_fields(cliente)
         except Exception as error:
             print("error cargar_cliente", error)
 

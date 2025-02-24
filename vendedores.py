@@ -5,6 +5,7 @@ import conexion_server
 import mapper
 from datetime import datetime
 import facturas
+import alquileres
 
 
 class Vendedores:
@@ -216,6 +217,7 @@ class Vendedores:
             vendedor = var.clase_conexion.get_vendedor(fila[0].text())
             Vendedores.populate_fields(vendedor)
             facturas.Facturas.populate_vendedor_fields(vendedor)
+            alquileres.Alquiler.populate_vendedor_fields(vendedor)
         except Exception as error:
             print("error cargar_vendedor", error)
 

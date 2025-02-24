@@ -14,6 +14,7 @@ class StateManager:
         "propiedad_query_object": [],
         "vendedor_query_object": [],
         "factura_query_object": [],
+        "alquiler_query_object": [],
         "precio_alquiler_propiedad": False,
         "precio_venta_propiedad": False,
         "check_alquiler_propiedad": False,
@@ -30,6 +31,8 @@ class StateManager:
         "last_vendedor_params": [],
         "last_factura_function": conexion.Conexion.listar_facturas,
         "last_factura_params": [],
+        "last_alquiler_function": conexion.Conexion.listar_alquileres,
+        "last_alquiler_params": []
     }
 
     @staticmethod
@@ -92,6 +95,9 @@ class StateManager:
             elif (key == "last_factura_function"):
                 StateManager.update_tabla_facturas()
 
+            elif (key == "last_alquiler_function"):
+                StateManager.update_tabla_alquileres()
+
         except Exception as e:
             print(e)
 
@@ -139,6 +145,7 @@ class StateManager:
         StateManager.update_tabla_propiedades()
         StateManager.update_tabla_vendedores()
         StateManager.update_tabla_facturas()
+        StateManager.update_tabla_alquileres()
         StateManager.update_propiedad_fields_state()
         StateManager.change_state("current_cli_pagina", 0)
         StateManager.change_state("current_pro_pagina", 0)
@@ -168,3 +175,8 @@ class StateManager:
     def update_tabla_facturas():
         StateManager.change_state("factura_query_object", StateManager.state["last_factura_function"]())
         eventos.Eventos.cargar_tabla_facturas()
+
+    @staticmethod
+    def update_tabla_alquileres():
+        StateManager.change_state("alquiler_query_object", StateManager.state["last_alquiler_function"]())
+        eventos.Eventos.cargar_tabla_alquileres()

@@ -273,8 +273,8 @@ class Mapper:
         alquiler = {
             "id": "",
             "dni_cliente": "",
-            "propiedad_id": "",
-            "agente_id": "",
+            "id_propiedad": "",
+            "id_vendedor": "",
             "fecha_firma": "",
             "fecha_inicio": "",
             "fecha_fin": "",
@@ -284,7 +284,7 @@ class Mapper:
 
     @staticmethod
     def map_alquiler(campos):
-        alquiler = {"id": campos["id"].text(), "fecha_registro": campos["fecha_registro"].text(),
+        alquiler = {"id": campos["id"].text(), "fecha_firma": campos["fecha_firma"].text(),
                     "dni_cliente": campos["dni_cliente"].text(), "id_propiedad": campos["id_propiedad"].text(),
                     "id_vendedor": campos["id_vendedor"].text(), "precio": campos["precio"].text(),
                     "fecha_inicio": campos["fecha_inicio"].text(), "fecha_fin": campos["fecha_fin"].text()}
@@ -295,7 +295,25 @@ class Mapper:
         query.bindValue(":dni_cliente", alquiler["dni_cliente"])
         query.bindValue(":id_propiedad", int(alquiler["id_propiedad"]))
         query.bindValue(":id_vendedor", int(alquiler["id_vendedor"]))
-        query.bindValue(":fecha_registro", alquiler["fecha_registro"])
+        query.bindValue(":fecha_firma", alquiler["fecha_firma"])
         query.bindValue(":fecha_inicio", alquiler["fecha_inicio"])
         query.bindValue(":fecha_fin", alquiler["fecha_fin"])
         query.bindValue(":precio", float(alquiler["precio"]))
+
+    @staticmethod
+    def initialize_recibo():
+        recibo = {
+            "id": "",
+            "alquiler_id": "",
+            "mensualidad": "",
+            "importe": "",
+            "pagado": ""
+        }
+        return recibo
+
+    @staticmethod
+    def bind_recibo_create_query(query, recibo):
+        query.bindValue(":alquiler_id", int(recibo["alquiler_id"]))
+        query.bindValue(":mensualidad", recibo["mensualidad"])
+        query.bindValue(":importe", float(recibo["importe"]))
+        query.bindValue(":pagado", recibo["pagado"])

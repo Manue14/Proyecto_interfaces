@@ -854,7 +854,6 @@ class Conexion:
             return []
         except Exception as error:
             print("Error al listar ventas de factura", error)
-        pass
 
     @staticmethod
     def get_venta(venta_id):
@@ -894,14 +893,14 @@ class Conexion:
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT INTO alquileres (dni_cli, propiedad_id, agente_id, fecha_firma, fecha_inicio, fecha_fin, precio_alquiler) "
-                          "VALUES (:dni_cliente, :id_propiedad, :id_vendedor, :fecha_registro, :fecha_inicio, :fecha_fin, :precio);")
-            mapper.Mapper.bind_venta_create_query(query, alquiler)
+                          "VALUES (:dni_cliente, :id_propiedad, :id_vendedor, :fecha_firma, :fecha_inicio, :fecha_fin, :precio);")
+            mapper.Mapper.bind_alquiler_create_query(query, alquiler)
             if query.exec():
                 return query.lastInsertId()
             else:
                 return -1
         except Exception as error:
-            print("Error al dar de alta la venta", error)
+            print("Error al dar de alta el alquiler", error)
 
     @staticmethod
     def get_alquiler(alquiler_id):
@@ -920,3 +919,61 @@ class Conexion:
                 return alquiler
         except Exception as error:
             print("Error al obtener venta desde la base de datos", error)
+
+    @staticmethod
+    def listar_alquileres():
+        try:
+            alquileres = []
+            alquiler = mapper.Mapper.initialize_alquiler()
+            keys = list(alquiler.keys())
+
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM alquileres ORDER BY id ASC;")
+
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        alquiler[keys[i]] = str(query.value(i))
+                    alquileres.append(alquiler.copy())
+            return alquileres
+        except sqlite3.IntegrityError:
+            return []
+        except Exception as error:
+            print("error listado alquileres", error)
+            return []
+
+    @staticmethod
+    def alta_recibo(recibo):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("INSERT INTO recibos (alquiler_id, mensualidad, importe, pagado) "
+                          "VALUES (:alquiler_id, :mensualidad, :importe, :pagado);")
+            mapper.Mapper.bind_recibo_create_query(query, recibo)
+            if query.exec():
+                return query.lastInsertId()
+            else:
+                return -1
+        except Exception as error:
+            print("Error al dar de alta el recibo", error)
+
+    @staticmethod
+    def listar_recibos_by_alquiler(alquiler_id):
+        try:
+            recibos = []
+            recibo = mapper.Mapper.initialize_recibo()
+            keys = list(recibo.keys())
+
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM recibos WHERE alquiler_id = :id;")
+            query.bindValue(":id", str(alquiler_id))
+
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        recibo[keys[i]] = str(query.value(i))
+                    recibos.append(recibo.copy())
+            return recibos
+        except sqlite3.IntegrityError:
+            return []
+        except Exception as error:
+            print("Error al listar recibos de alquiler", error)
