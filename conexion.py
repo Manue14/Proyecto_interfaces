@@ -941,6 +941,21 @@ class Conexion:
         except Exception as error:
             print("error listado alquileres", error)
             return []
+        
+    @staticmethod
+    def eliminar_alquiler(alquiler_id):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("DELETE FROM alquileres WHERE id = :id;")
+            query.bindValue(":id", alquiler_id)
+
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as error:
+            print("Error al eliminar alquiler", error)
+            return False
 
     @staticmethod
     def alta_recibo(recibo):
@@ -977,3 +992,53 @@ class Conexion:
             return []
         except Exception as error:
             print("Error al listar recibos de alquiler", error)
+
+    @staticmethod
+    def get_recibo(recibo_id):
+        try:
+            recibo = mapper.Mapper.initialize_recibo()
+            keys = list(recibo.keys())
+
+            query = QtSql.QSqlQuery()
+            query.prepare("SELECT * FROM recibos WHERE id = :recibo_id;")
+
+            query.bindValue(":recibo_id", recibo_id)
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        recibo[keys[i]] = str(query.value(i))
+                return recibo
+        except Exception as error:
+            print("Error al obtener recibo desde la base de datos", error)
+
+    @staticmethod
+    def update_recibo(recibo):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("UPDATE recibos SET pagado = :pagado WHERE id = :id")
+
+            query.bindValue(":pagado", int(recibo["pagado"]))
+            query.bindValue(":id", int(recibo["id"]))
+
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as error:
+            print("Error al actualizar recibo en la base de datos")
+            return False
+        
+    @staticmethod
+    def eliminar_recibo(recibo_id):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("DELETE FROM recibos WHERE id = :id;")
+            query.bindValue(":id", recibo_id)
+
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as error:
+            print("Error al eliminar recibo", error)
+            return False

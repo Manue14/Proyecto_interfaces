@@ -241,7 +241,7 @@ class Facturas:
 
                 propiedad = conexion.Conexion.get_propiedad(venta["codigo_propiedad"])
                 propiedad["estado"] = "Vendido"
-                propiedad["fecha_baja"] = datetime.strftime(datetime.now(), '%d/%m/%Y')
+                propiedad["fecha_baja"] = factura["fecha_registro"]
                 conexion.Conexion.modificar_propiedad(propiedad)
                 var.state_manager.update_tabla_propiedades()
                 eventos.Eventos.limpiar_panel_propiedades()

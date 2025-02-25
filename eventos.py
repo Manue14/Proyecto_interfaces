@@ -12,7 +12,7 @@ import shutil
 
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QCheckBox
 from reportlab.lib.testutils import setOutDir
 
 import alquileres
@@ -619,8 +619,7 @@ class Eventos:
         delete_button.setIcon(QIcon("./img/papelera.png"))
         delete_button.setProperty("qssClass", "delete_button")
         styles.reload_style(delete_button)
-        #delete_button.setStyleSheet("background-color: #efefef;")
-        #delete_button.clicked.connect(lambda: facturas.Facturas.eliminar_factura(factura["id"]))
+        delete_button.clicked.connect(lambda: alquileres.Alquiler.eliminar_alquiler(alquiler["id"]))
         layout.addWidget(delete_button)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -636,19 +635,36 @@ class Eventos:
         var.ui.tab_recibos.setItem(index, 1, QtWidgets.QTableWidgetItem(recibo["propiedad_id"]))
         var.ui.tab_recibos.setItem(index, 2, QtWidgets.QTableWidgetItem(recibo["mensualidad"]))
         var.ui.tab_recibos.setItem(index, 3, QtWidgets.QTableWidgetItem(recibo["importe"] + " €"))
-        var.ui.tab_recibos.setItem(index, 4, QtWidgets.QTableWidgetItem(recibo["pagado"]))
 
         var.ui.tab_recibos.item(index, 0).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
         var.ui.tab_recibos.item(index, 1).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
         var.ui.tab_recibos.item(index, 2).setTextAlignment(Qt.AlignmentFlag.AlignVCenter)
         var.ui.tab_recibos.item(index, 3).setTextAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignRight)
-        var.ui.tab_recibos.item(index, 4).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
         var.ui.tab_recibos.item(index, 0)
         var.ui.tab_recibos.item(index, 1)
         var.ui.tab_recibos.item(index, 2)
         var.ui.tab_recibos.item(index, 3)
-        var.ui.tab_recibos.item(index, 4)
+
+        #Add checkbox to table
+        container = QWidget()
+        layout = QVBoxLayout()
+        checkbox = QCheckBox()
+        checkbox.setFixedSize(30, 20)
+        checkbox.clicked.connect(lambda: alquileres.Alquiler.toogle_recibo_pagado(recibo["id"], checkbox))
+        #delete_button.clicked.connect(lambda: facturas.Facturas.eliminar_factura(factura["id"]))
+        layout.addWidget(checkbox)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        container.setLayout(layout)
+
+        var.ui.tab_recibos.setCellWidget(index, 4, container)
+
+        if int(recibo["pagado"]) == 0:
+            checkbox.setChecked(False)
+        else:
+            checkbox.setChecked(True)
 
     def resize_cli_tab(self):
         try:
@@ -744,7 +760,7 @@ class Eventos:
         try:
             header = var.ui.tab_recibos.horizontalHeader()
             for i in range(header.count()):
-                if (i == 2):
+                if (i == 2 or i == 3):
                     header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
                 else:
                     header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)

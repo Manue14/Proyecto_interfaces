@@ -69,7 +69,7 @@ class Alquiler:
             Alquiler.campos["precio"].setText("")
 
             Alquiler.campos["precio"].setAlignment(Qt.AlignmentFlag.AlignRight)
-            eventos.Eventos.observar_non_editable(Alquiler.campos["precios"], True)
+            eventos.Eventos.observar_non_editable(Alquiler.campos["precio"], True)
             return
 
         Alquiler.campos["id_propiedad"].setText(propiedad["codigo"])
@@ -158,6 +158,13 @@ class Alquiler:
             Alquiler.populate_alquiler_fields(conexion.Conexion.get_alquiler(last_inserted_id))
             recibos = conexion.Conexion.listar_recibos_by_alquiler(last_inserted_id)
 
+            propiedad = conexion.Conexion.get_propiedad(alquiler["id_propiedad"])
+            propiedad["estado"] = "Alquilado"
+            propiedad["fecha_baja"] = alquiler["fecha_firma"]
+            conexion.Conexion.modificar_propiedad(propiedad)
+            var.state_manager.update_tabla_propiedades()
+            eventos.Eventos.limpiar_panel_propiedades()
+
             eventos.Eventos.cargar_tabla_recibos(recibos)
             var.state_manager.update_tabla_alquileres()
 
@@ -167,8 +174,18 @@ class Alquiler:
     @staticmethod
     def eliminar_alquiler(id_alquiler):
         try:
-            contrato = conexion.Conexion.get_alquiler(id_alquiler)
-            #Borrar alquiler y mensualidades relacionadas
+            recibos = conexion.Conexion.listar_recibos_by_alquiler(id_alquiler)
+
+            for recibo in recibos:
+                conexion.Conexion.eliminar_recibo(recibo["id"])
+
+            if conexion.Conexion.eliminar_alquiler(id_alquiler):
+                eventos.Eventos.mensaje_exito("Aviso", "Alquiler eliminado con éxito")
+                var.state_manager.update_tabla_alquileres()
+                eventos.Eventos.limpiar_panel()
+            else:
+                eventos.Eventos.mensaje_error("Aviso", "No se pudo eliminar el alquiler")
+
         except Exception as error:
             print("Error al eliminar alquiler", error)
 
@@ -184,6 +201,20 @@ class Alquiler:
             eventos.Eventos.cargar_tabla_recibos(recibos)
         except Exception as error:
             print("error cargar_alquiler", error)
+
+    @staticmethod
+    def toogle_recibo_pagado(id_recibo, checkbox):
+        recibo = conexion.Conexion.get_recibo(id_recibo)
+        if int(recibo["pagado"]) == 0:
+            recibo["pagado"] = 1
+        else:
+            recibo["pagado"] = 0
+
+        if conexion.Conexion.update_recibo(recibo):
+            if int(recibo["pagado"]) == 0:
+                checkbox.setChecked(False)
+            else:
+                checkbox.setChecked(True)
 
 
     @staticmethod
@@ -201,7 +232,7 @@ class Alquiler:
             response["messages"].append("Para registrar un nuevo contrato no debes introducir un código de contrato ya existente")
 
         if Alquiler._fecha_firma:
-            if not eventos.Eventos.validar_fecha(Alquiler._fecha_registro):
+            if not eventos.Eventos.validar_fecha(Alquiler._fecha_firma):
                 response["valid"] = False
                 response["messages"].append("Debes introducir una fecha válida")
         else:
