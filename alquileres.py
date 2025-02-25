@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 from reportlab.rl_settings import eps_ttf_embed
 
 from PyQt6.QtCore import Qt
-from PyQt6.uic.properties import QtCore
 
 import conexion
 import eventos
@@ -148,6 +147,7 @@ class Alquiler:
             for mensualidad in mensualidades:
                 recibo = mapper.Mapper.initialize_recibo()
                 recibo["alquiler_id"] = last_inserted_id
+                recibo["propiedad_id"] = alquiler["id_propiedad"]
                 recibo["mensualidad"] = mensualidad
                 recibo["importe"] = alquiler["precio"]
                 recibo["pagado"] = 0
@@ -157,10 +157,10 @@ class Alquiler:
 
             Alquiler.populate_alquiler_fields(conexion.Conexion.get_alquiler(last_inserted_id))
             recibos = conexion.Conexion.listar_recibos_by_alquiler(last_inserted_id)
-            eventos.Eventos.cargar_tabla_recibos(recibos)
 
-            #var.state_manager.update_tabla_alquileres()
-            #var.state_manager.update_tabla_mensualidades()
+            eventos.Eventos.cargar_tabla_recibos(recibos)
+            var.state_manager.update_tabla_alquileres()
+
         except Exception as error:
             print("Error al dar de alta el alquiler", error)
 

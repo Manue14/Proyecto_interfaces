@@ -305,6 +305,7 @@ class Mapper:
         recibo = {
             "id": "",
             "alquiler_id": "",
+            "propiedad_id": "",
             "mensualidad": "",
             "importe": "",
             "pagado": ""
@@ -314,6 +315,7 @@ class Mapper:
     @staticmethod
     def bind_recibo_create_query(query, recibo):
         query.bindValue(":alquiler_id", int(recibo["alquiler_id"]))
+        query.bindValue(":propiedad_id", int(recibo["propiedad_id"]))
         query.bindValue(":mensualidad", recibo["mensualidad"])
         query.bindValue(":importe", float(recibo["importe"]))
         query.bindValue(":pagado", recibo["pagado"])

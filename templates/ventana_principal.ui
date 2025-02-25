@@ -49,7 +49,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="pestana_clientes">
        <attribute name="title">
@@ -3719,6 +3719,7 @@
             <property name="font">
              <font>
               <pointsize>12</pointsize>
+              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -3918,6 +3919,7 @@
             <property name="font">
              <font>
               <pointsize>12</pointsize>
+              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -4064,6 +4066,7 @@
               <property name="font">
                <font>
                 <pointsize>12</pointsize>
+                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
@@ -4183,6 +4186,7 @@
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
+                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
@@ -4302,12 +4306,12 @@
         </property>
         <column>
          <property name="text">
-          <string>IdVenta</string>
+          <string>Venta</string>
          </property>
         </column>
         <column>
          <property name="text">
-          <string>IdPropiedad</string>
+          <string>Propiedad</string>
          </property>
         </column>
         <column>
@@ -4447,6 +4451,7 @@
             <property name="font">
              <font>
               <pointsize>12</pointsize>
+              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -4696,6 +4701,7 @@
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
+                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
@@ -4957,6 +4963,12 @@
           </item>
           <item row="2" column="0" colspan="3">
            <widget class="QTableWidget" name="tab_recibos">
+            <property name="selectionMode">
+             <enum>QAbstractItemView::SingleSelection</enum>
+            </property>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectRows</enum>
+            </property>
             <column>
              <property name="text">
               <string>Recibo</string>
@@ -4964,7 +4976,7 @@
             </column>
             <column>
              <property name="text">
-              <string>New Column</string>
+              <string>Propiedad</string>
              </property>
             </column>
             <column>
@@ -4979,7 +4991,7 @@
             </column>
             <column>
              <property name="text">
-              <string>New Column</string>
+              <string>Gestión</string>
              </property>
             </column>
             <column>
@@ -5014,7 +5026,7 @@
         </column>
         <column>
          <property name="text">
-          <string>New Column</string>
+          <string>DNI</string>
          </property>
         </column>
         <column>
@@ -5034,7 +5046,7 @@
      <x>0</x>
      <y>0</y>
      <width>1796</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_archivo">

@@ -15,6 +15,7 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton
 from reportlab.lib.testutils import setOutDir
 
+import alquileres
 import eventos
 import facturas
 import var
@@ -469,15 +470,15 @@ class Eventos:
         var.ui.tab_cli.setItem(index, 5, QtWidgets.QTableWidgetItem(cliente["municipio"]))
         var.ui.tab_cli.setItem(index, 6, QtWidgets.QTableWidgetItem("  " + cliente["fecha_baja"] + "  "))
 
-        '''
-        var.ui.tab_cli.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-        var.ui.tab_cli.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-        var.ui.tab_cli.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-        var.ui.tab_cli.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-        var.ui.tab_cli.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-        var.ui.tab_cli.item(index, 5).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft.AlignVCenter)
-        var.ui.tab_cli.item(index, 6).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter.AlignVCenter)
-        '''
+
+        var.ui.tab_cli.item(index, 0).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        var.ui.tab_cli.item(index, 1).setTextAlignment(Qt.AlignmentFlag.AlignVCenter)
+        var.ui.tab_cli.item(index, 2).setTextAlignment(Qt.AlignmentFlag.AlignVCenter)
+        var.ui.tab_cli.item(index, 3).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        var.ui.tab_cli.item(index, 4).setTextAlignment(Qt.AlignmentFlag.AlignVCenter)
+        var.ui.tab_cli.item(index, 5).setTextAlignment(Qt.AlignmentFlag.AlignVCenter)
+        var.ui.tab_cli.item(index, 6).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+
 
         var.ui.tab_cli.item(index, 0)
         var.ui.tab_cli.item(index, 1)
@@ -501,6 +502,16 @@ class Eventos:
         var.ui.tab_pro.setItem(index, 7, QtWidgets.QTableWidgetItem(propiedad["operaciones"]))
         var.ui.tab_pro.setItem(index, 8, QtWidgets.QTableWidgetItem(propiedad["fecha_baja"]))
 
+        var.ui.tab_pro.item(index, 0).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        var.ui.tab_pro.item(index, 1).setTextAlignment(Qt.AlignmentFlag.AlignVCenter)
+        var.ui.tab_pro.item(index, 2).setTextAlignment(Qt.AlignmentFlag.AlignVCenter)
+        var.ui.tab_pro.item(index, 3).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        var.ui.tab_pro.item(index, 4).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        var.ui.tab_pro.item(index, 5).setTextAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignRight)
+        var.ui.tab_pro.item(index, 6).setTextAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignRight)
+        var.ui.tab_pro.item(index, 7).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        var.ui.tab_pro.item(index, 8).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+
         var.ui.tab_pro.item(index, 0)
         var.ui.tab_pro.item(index, 1)
         var.ui.tab_pro.item(index, 2)
@@ -515,9 +526,14 @@ class Eventos:
         var.ui.tab_ven.setRowCount(index + 1)
 
         var.ui.tab_ven.setItem(index, 0, QtWidgets.QTableWidgetItem(vendedor["codigo"]))
-        var.ui.tab_ven.setItem(index, 1, QtWidgets.QTableWidgetItem(vendedor["nombre"]))
-        var.ui.tab_ven.setItem(index, 2, QtWidgets.QTableWidgetItem(" " + vendedor["movil"] + " "))
+        var.ui.tab_ven.setItem(index, 1, QtWidgets.QTableWidgetItem(vendedor["movil"]))
+        var.ui.tab_ven.setItem(index, 2, QtWidgets.QTableWidgetItem(" " + vendedor["nombre"] + " "))
         var.ui.tab_ven.setItem(index, 3, QtWidgets.QTableWidgetItem(vendedor["provincia"]))
+
+        var.ui.tab_ven.item(index, 0).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        var.ui.tab_ven.item(index, 1).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        var.ui.tab_ven.item(index, 2).setTextAlignment(Qt.AlignmentFlag.AlignVCenter)
+        var.ui.tab_ven.item(index, 3).setTextAlignment(Qt.AlignmentFlag.AlignVCenter)
 
         var.ui.tab_ven.item(index, 0)
         var.ui.tab_ven.item(index, 1)
@@ -530,6 +546,10 @@ class Eventos:
         var.ui.tab_fac.setItem(index, 0, QtWidgets.QTableWidgetItem(factura["id"]))
         var.ui.tab_fac.setItem(index, 1, QtWidgets.QTableWidgetItem(factura["dni_cliente"]))
         var.ui.tab_fac.setItem(index, 2, QtWidgets.QTableWidgetItem(factura["fecha_registro"]))
+
+        var.ui.tab_fac.item(index, 0).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        var.ui.tab_fac.item(index, 1).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        var.ui.tab_fac.item(index, 2).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
         var.ui.tab_fac.item(index, 0)
         var.ui.tab_fac.item(index, 1)
@@ -565,6 +585,13 @@ class Eventos:
         var.ui.tab_fac_ven.setItem(index, 4, QtWidgets.QTableWidgetItem(propiedad["municipio"]))
         var.ui.tab_fac_ven.setItem(index, 5, QtWidgets.QTableWidgetItem(propiedad["precio_venta"]))
 
+        var.ui.tab_fac_ven.item(index, 0).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        var.ui.tab_fac_ven.item(index, 1).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        var.ui.tab_fac_ven.item(index, 2).setTextAlignment(Qt.AlignmentFlag.AlignVCenter)
+        var.ui.tab_fac_ven.item(index, 3).setTextAlignment(Qt.AlignmentFlag.AlignVCenter)
+        var.ui.tab_fac_ven.item(index, 4).setTextAlignment(Qt.AlignmentFlag.AlignVCenter)
+        var.ui.tab_fac_ven.item(index, 5).setTextAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignRight)
+
         var.ui.tab_fac_ven.item(index, 0)
         var.ui.tab_fac_ven.item(index, 1)
         var.ui.tab_fac_ven.item(index, 2)
@@ -577,6 +604,9 @@ class Eventos:
 
         var.ui.tab_alq.setItem(index, 0, QtWidgets.QTableWidgetItem(alquiler["id"]))
         var.ui.tab_alq.setItem(index, 1, QtWidgets.QTableWidgetItem(alquiler["dni_cliente"]))
+
+        var.ui.tab_alq.item(index, 0).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        var.ui.tab_alq.item(index, 1).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
         var.ui.tab_alq.item(index, 0)
         var.ui.tab_alq.item(index, 1)
@@ -597,16 +627,28 @@ class Eventos:
         layout.setSpacing(0)
         container.setLayout(layout)
 
-        var.ui.tab_fac.setCellWidget(index, 2, container)
+        var.ui.tab_alq.setCellWidget(index, 2, container)
 
     def show_recibo_on_table(recibo, index):
         var.ui.tab_recibos.setRowCount(index + 1)
 
         var.ui.tab_recibos.setItem(index, 0, QtWidgets.QTableWidgetItem(recibo["id"]))
-        var.ui.tab_recibos.setItem(index, 1, QtWidgets.QTableWidgetItem(recibo["id"]))
+        var.ui.tab_recibos.setItem(index, 1, QtWidgets.QTableWidgetItem(recibo["propiedad_id"]))
         var.ui.tab_recibos.setItem(index, 2, QtWidgets.QTableWidgetItem(recibo["mensualidad"]))
         var.ui.tab_recibos.setItem(index, 3, QtWidgets.QTableWidgetItem(recibo["importe"] + " €"))
-        var.ui.tab_recibos.setItem(index, 0, QtWidgets.QTableWidgetItem(recibo["pagado"]))
+        var.ui.tab_recibos.setItem(index, 4, QtWidgets.QTableWidgetItem(recibo["pagado"]))
+
+        var.ui.tab_recibos.item(index, 0).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        var.ui.tab_recibos.item(index, 1).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        var.ui.tab_recibos.item(index, 2).setTextAlignment(Qt.AlignmentFlag.AlignVCenter)
+        var.ui.tab_recibos.item(index, 3).setTextAlignment(Qt.AlignmentFlag.AlignVCenter | Qt.AlignmentFlag.AlignRight)
+        var.ui.tab_recibos.item(index, 4).setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        var.ui.tab_recibos.item(index, 0)
+        var.ui.tab_recibos.item(index, 1)
+        var.ui.tab_recibos.item(index, 2)
+        var.ui.tab_recibos.item(index, 3)
+        var.ui.tab_recibos.item(index, 4)
 
     def resize_cli_tab(self):
         try:
@@ -642,7 +684,7 @@ class Eventos:
         try:
             header = var.ui.tab_ven.horizontalHeader()
             for i in range(header.count()):
-                if (i == 1 or i == 3):
+                if (i == 2 or i == 3):
                     header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
                 else:
                     header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
@@ -783,6 +825,14 @@ class Eventos:
             objetos_panel_fac = facturas.Facturas.campos
 
             for key, value in objetos_panel_fac.items():
+                value.setText("")
+
+        if var.ui.panel_principal.currentIndex() == 4:
+            var.ui.tab_recibos.setRowCount(0)
+            alquileres.Alquiler.inicializar_campos()
+            objetos_panel_alq = alquileres.Alquiler.campos
+
+            for key, value in objetos_panel_alq.items():
                 value.setText("")
 
     @staticmethod

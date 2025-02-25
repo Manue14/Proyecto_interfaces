@@ -946,8 +946,8 @@ class Conexion:
     def alta_recibo(recibo):
         try:
             query = QtSql.QSqlQuery()
-            query.prepare("INSERT INTO recibos (alquiler_id, mensualidad, importe, pagado) "
-                          "VALUES (:alquiler_id, :mensualidad, :importe, :pagado);")
+            query.prepare("INSERT INTO recibos (alquiler_id, propiedad_id, mensualidad, importe, pagado) "
+                          "VALUES (:alquiler_id, :propiedad_id, :mensualidad, :importe, :pagado);")
             mapper.Mapper.bind_recibo_create_query(query, recibo)
             if query.exec():
                 return query.lastInsertId()
