@@ -3,6 +3,8 @@ from PyQt6 import QtSql, QtWidgets
 from PyQt6.uic.properties import QtGui
 import sqlite3
 
+from win32ctypes.pywin32.pywintypes import datetime
+
 import var
 import mapper
 
@@ -921,6 +923,23 @@ class Conexion:
             print("Error al obtener venta desde la base de datos", error)
 
     @staticmethod
+    def update_alquiler(alquiler):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare("UPDATE alquileres SET fecha_fin = :fecha_fin WHERE id = :id;")
+
+            query.bindValue(":id", alquiler["id"])
+            query.bindValue(":fecha_fin", alquiler["fecha_fin"])
+
+            if query.exec():
+                return True
+            else:
+                return False
+        except Exception as error:
+            print("Error al actualizar alquiler", error)
+            return False
+
+    @staticmethod
     def listar_alquileres():
         try:
             alquileres = []
@@ -945,14 +964,40 @@ class Conexion:
     @staticmethod
     def eliminar_alquiler(alquiler_id):
         try:
-            query = QtSql.QSqlQuery()
-            query.prepare("DELETE FROM alquileres WHERE id = :id;")
-            query.bindValue(":id", alquiler_id)
+            recibos = Conexion.listar_recibos_by_alquiler(alquiler_id)
 
-            if query.exec():
-                return True
+            last_paid_recibo = None
+            for recibo in recibos:
+                if int(recibo["pagado"]) == 1:
+                    last_paid_recibo = recibo
+
+            recibos_to_delete = []
+            if last_paid_recibo is None:
+                recibos_to_delete = recibos
             else:
-                return False
+                for recibo in recibos:
+                    if datetime.strptime(recibo["fecha"], "%d/%m/%Y") > datetime.strptime(last_paid_recibo["fecha"],
+                                                                                          "%d/%m/%Y"):
+                        recibos_to_delete.append(recibo)
+
+            for recibo in recibos_to_delete:
+                Conexion.eliminar_recibo(recibo["id"])
+
+            if last_paid_recibo is None:
+                query = QtSql.QSqlQuery()
+                query.prepare("DELETE FROM alquileres WHERE id = :id;")
+                query.bindValue(":id", alquiler_id)
+
+                if query.exec():
+                    return True
+                else:
+                    return False
+            else:
+                alquiler = Conexion.get_alquiler(alquiler_id)
+                alquiler["fecha_fin"] = last_paid_recibo["fecha"]
+                success = Conexion.update_alquiler(alquiler)
+                return success
+
         except Exception as error:
             print("Error al eliminar alquiler", error)
             return False
@@ -961,8 +1006,8 @@ class Conexion:
     def alta_recibo(recibo):
         try:
             query = QtSql.QSqlQuery()
-            query.prepare("INSERT INTO recibos (alquiler_id, propiedad_id, mensualidad, importe, pagado) "
-                          "VALUES (:alquiler_id, :propiedad_id, :mensualidad, :importe, :pagado);")
+            query.prepare("INSERT INTO recibos (alquiler_id, propiedad_id, mensualidad, fecha, importe, pagado) "
+                          "VALUES (:alquiler_id, :propiedad_id, :mensualidad, :fecha, :importe, :pagado);")
             mapper.Mapper.bind_recibo_create_query(query, recibo)
             if query.exec():
                 return query.lastInsertId()

@@ -307,6 +307,7 @@ class Mapper:
             "alquiler_id": "",
             "propiedad_id": "",
             "mensualidad": "",
+            "fecha": "",
             "importe": "",
             "pagado": ""
         }
@@ -317,5 +318,6 @@ class Mapper:
         query.bindValue(":alquiler_id", int(recibo["alquiler_id"]))
         query.bindValue(":propiedad_id", int(recibo["propiedad_id"]))
         query.bindValue(":mensualidad", recibo["mensualidad"])
+        query.bindValue(":fecha", recibo["fecha"])
         query.bindValue(":importe", float(recibo["importe"]))
         query.bindValue(":pagado", recibo["pagado"])

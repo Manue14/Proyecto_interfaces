@@ -115,7 +115,10 @@ class Alquiler:
             key = month + year
 
             if key not in mensualidades_map.keys():
-                mensualidades_map[key] = (month + "-" + year).capitalize()
+                date_list = []
+                date_list.append(date.strftime('%d/%m/%Y'))
+                date_list.append((month + "-" + year).capitalize())
+                mensualidades_map[key] = date_list
 
         return mensualidades_map.values()
     
@@ -148,7 +151,8 @@ class Alquiler:
                 recibo = mapper.Mapper.initialize_recibo()
                 recibo["alquiler_id"] = last_inserted_id
                 recibo["propiedad_id"] = alquiler["id_propiedad"]
-                recibo["mensualidad"] = mensualidad
+                recibo["mensualidad"] = mensualidad[1]
+                recibo["fecha"] = mensualidad[0]
                 recibo["importe"] = alquiler["precio"]
                 recibo["pagado"] = 0
                 conexion.Conexion.alta_recibo(recibo)
@@ -174,15 +178,12 @@ class Alquiler:
     @staticmethod
     def eliminar_alquiler(id_alquiler):
         try:
-            recibos = conexion.Conexion.listar_recibos_by_alquiler(id_alquiler)
-
-            for recibo in recibos:
-                conexion.Conexion.eliminar_recibo(recibo["id"])
 
             if conexion.Conexion.eliminar_alquiler(id_alquiler):
                 eventos.Eventos.mensaje_exito("Aviso", "Alquiler eliminado con éxito")
                 var.state_manager.update_tabla_alquileres()
-                eventos.Eventos.limpiar_panel()
+                recibos = conexion.Conexion.listar_recibos_by_alquiler(id_alquiler)
+                eventos.Eventos.cargar_tabla_recibos(recibos)
             else:
                 eventos.Eventos.mensaje_error("Aviso", "No se pudo eliminar el alquiler")
 
