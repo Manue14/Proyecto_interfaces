@@ -60,14 +60,16 @@ class Informes:
                         x = 55
                         y = 625
 
-                    var.report.setFont('Helvetica', size=9)
+                    var.report.setFont('Helvetica', size=9) #1letra = 5 -> ¿Mitad del fontSize?
                     dni = '***' + str(query.value(0)[4:7] + '***')
-                    var.report.drawCentredString(x + 10, y, str(dni))
-                    var.report.drawString(x + 29, y, str(query.value(1))) #1 letra = 19
-                    var.report.drawString(x + 48, y, str(query.value(2)))
+                    var.report.drawCentredString(x + 10, y, str(dni)) #if centered: 1 letra = 19
+                    var.report.drawString(x + 45, y, str(query.value(1))) #if right: 1 letra = 35
+                    var.report.drawString(x + 180, y, str(query.value(2)))
                     var.report.drawString(x + 220, y, str(query.value(3)))
                     var.report.drawString(x + 305, y, str(query.value(4)))
                     var.report.drawString(x + 390, y, str(query.value(5)))
+                    var.report.drawString(555, y, "a")
+                    var.report.drawString(560, y, "b")
                     y -= 25
             totalPageCount = var.report.getPageNumber()
             print(totalPageCount)
