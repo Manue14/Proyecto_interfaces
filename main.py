@@ -130,7 +130,8 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btn_alq_contrato_baja.clicked.connect(lambda: eventos.Eventos.abrir_calendar(1))
         var.ui.btn_alq_alta.clicked.connect(lambda: eventos.Eventos.abrir_calendar(2))
         var.ui.btn_alq_grabar.clicked.connect(alquileres.Alquiler.alta_alquiler)
-        var.ui.btn_alq_cargar_mensualidades.clicked.connect(alquileres.Alquiler.aaaa)
+
+        var.dlg_buscar_propiedad.ui.btn_buscar_pro.clicked.connect(eventos.Eventos.generar_informe_propiedades)
 
         '''
         Zona eventos combox

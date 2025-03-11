@@ -5,7 +5,7 @@ import time
 import re
 from datetime import datetime
 import os
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtGui, QtWidgets
 import locale
 import zipfile
 import shutil
@@ -13,16 +13,14 @@ import shutil
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QPushButton, QCheckBox
-from reportlab.lib.testutils import setOutDir
 
 import alquileres
-import eventos
 import facturas
+import informes
 import var
 import clientes
 import propiedades
 import conexion
-import conexion_server
 import styles
 import vendedores
 
@@ -89,6 +87,14 @@ class Eventos:
         listado = var.clase_conexion.listar_municipios(provId)
         for mun in listado:
             widget.addItem(str(mun[0]), mun[1])
+
+    @staticmethod
+    def cargar_all_municipios(widget):
+        widget.clear()
+        listado = var.clase_conexion.listar_all_municipios()
+        listado.sort()
+        for mun in listado:
+            widget.addItem(mun)
 
     def observar_dni(widget):
         try:
@@ -976,8 +982,15 @@ class Eventos:
         else:
             return False
 
+    @staticmethod
     def abrir_dlg_buscar_propiedades():
         try:
             var.dlg_buscar_propiedad.show()
+            Eventos.cargar_all_municipios(var.dlg_buscar_propiedad.ui.cmb_buscar_pro_municipio)
         except Exception as error:
             print("Error al abrir la ventana de acerca de ", error)
+
+    @staticmethod
+    def generar_informe_propiedades():
+        municipio = var.dlg_buscar_propiedad.ui.cmb_buscar_pro_municipio.currentText()
+        informes.Informes.reportPropiedades(municipio)

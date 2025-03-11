@@ -69,7 +69,8 @@ class Mapper:
                      "direccion": campos["direccion"].text(),
                      "provincia": campos["provincia"].currentText(),
                      "municipio": campos["municipio"].currentText(),
-                     "postal": campos["postal"].text(), "tipo": campos["tipo"].currentText(),
+                     "postal": campos["postal"].text(),
+                     "tipo": campos["tipo"].currentText(),
                      "habitaciones": campos["habitaciones"].text(),
                      "banos": campos["banos"].text(),
                      "superficie": campos["superficie"].text(),
@@ -78,7 +79,8 @@ class Mapper:
                      "descripcion": campos["descripcion"].toPlainText(),
                      "propietario": campos["propietario"].text(),
                      "movil": campos["movil"].text(),
-                     "operaciones": "", "estado": ""}
+                     "operaciones": "",
+                     "estado": ""}
 
         if campos["check_alquiler"].isChecked():
             propiedad["operaciones"] = propiedad["operaciones"] + "-" + campos["check_alquiler"].text()

@@ -3,6 +3,8 @@ from reportlab.pdfgen import canvas
 from datetime import datetime
 from PIL import Image
 import os, shutil, sys, subprocess
+
+import conexion
 import var
 
 class Informes:
@@ -25,7 +27,7 @@ class Informes:
             items = ['DNI', 'APELLIDOS', 'NOMBRE', 'MOVIL', 'PROVINCIA', 'MUNICIPIO']
             var.report.setFont('Helvetica-Bold', size=10)
             var.report.drawString(55, 650, str(items[0]))
-            var.report.drawString(95, 650, str(items[1]))
+            var.report.drawString(105, 650, str(items[1]))
             var.report.drawString(200, 650, str(items[2]))
             var.report.drawString(285, 650, str(items[3]))
             var.report.drawString(390, 650, str(items[4]))
@@ -47,8 +49,8 @@ class Informes:
 
                         items = ['DNI', 'APELLIDOS', 'NOMBRE', 'MOVIL', 'PROVINCIA', 'MUNICIPIO']
                         var.report.setFont('Helvetica-Bold', size=10)
-                        var.report.drawString(70, 650, str(items[0]))
-                        var.report.drawString(95, 650, str(items[1]))
+                        var.report.drawString(55, 650, str(items[0]))
+                        var.report.drawString(105, 650, str(items[1]))
                         var.report.drawString(200, 650, str(items[2]))
                         var.report.drawString(285, 650, str(items[3]))
                         var.report.drawString(390, 650, str(items[4]))
@@ -61,8 +63,8 @@ class Informes:
                     var.report.setFont('Helvetica', size=9)
                     dni = '***' + str(query.value(0)[4:7] + '***')
                     var.report.drawCentredString(x + 10, y, str(dni))
-                    var.report.drawString(x + 50, y, str(query.value(1)))
-                    var.report.drawString(x + 140, y, str(query.value(2)))
+                    var.report.drawString(x + 29, y, str(query.value(1))) #1 letra = 19
+                    var.report.drawString(x + 48, y, str(query.value(2)))
                     var.report.drawString(x + 220, y, str(query.value(3)))
                     var.report.drawString(x + 305, y, str(query.value(4)))
                     var.report.drawString(x + 390, y, str(query.value(5)))
@@ -80,9 +82,77 @@ class Informes:
         except Exception as error:
             print(error)
 
-    def reportPropiedades(self):
-        print("Hola")
-        #código, dirección, tipo propiedad, tipo operación, precio alquiler, precio compra
+    @staticmethod
+    def reportPropiedades(municipio):  #código, dirección, tipo propiedad, tipo operación, precio alquiler, precio compra
+        try:
+            rootPath = '.' + Informes.separator + 'informes'
+            if not os.path.exists(rootPath):
+                os.makedirs(rootPath)
+            fecha = datetime.today()
+            fecha = fecha.strftime("%Y_%m_%d_%H_%M_%S")
+            nomepdfprop = fecha + "_listadopropiedades" + municipio + ".pdf"
+            pdf_path = os.path.join(rootPath, nomepdfprop)
+            var.report = canvas.Canvas(pdf_path)
+            titulo = "Listado Propiedades en " + municipio
+            #query0 = QtSql.Query() ¿query para el número de páginas?
+            Informes.topInforme(titulo)
+            Informes.footInforme(titulo)
+            items = ['CÓDIGO', 'DIRECCIÓN', 'TIPO', 'OPERACIÓN', 'PRECIO ALQUILER', 'PRECIO COMPRA']
+            var.report.setFont('Helvetica-Bold', size=10)
+            var.report.drawString(55, 650, str(items[0]))
+            var.report.drawString(95, 650, str(items[1]))
+            var.report.drawString(200, 650, str(items[2]))
+            var.report.drawString(285, 650, str(items[3]))
+            var.report.drawString(390, 650, str(items[4]))
+            var.report.drawString(460, 650, str(items[5]))
+            var.report.line(50, 645, 525, 645)
+
+            propiedades = conexion.Conexion.filtrar_propiedades_by_municipio(municipio)
+
+            x = 55
+            y = 625
+            for propiedad in propiedades:
+                if y <= 90:
+                    var.report.setFont('Helvetica-Oblique', size=8)
+                    var.report.drawString(450, 80, 'Página siguiente...')
+                    var.report.showPage()  # crea una página nueva
+                    Informes.topInforme(titulo)
+                    Informes.footInforme(titulo)
+
+                    items = ['CÓDIGO', 'DIRECCIÓN', 'TIPO', 'OPERACIÓN', 'PRECIO ALQUILER', 'PRECIO COMPRA']
+                    var.report.setFont('Helvetica-Bold', size=10)
+                    var.report.drawString(55, 650, str(items[0]))
+                    var.report.drawString(95, 650, str(items[1]))
+                    var.report.drawString(200, 650, str(items[2]))
+                    var.report.drawString(285, 650, str(items[3]))
+                    var.report.drawString(390, 650, str(items[4]))
+                    var.report.drawString(460, 650, str(items[5]))
+                    var.report.line(50, 645, 525, 645)
+
+                    x = 55
+                    y = 625
+
+                var.report.setFont('Helvetica', size=9)
+                var.report.drawCentredString(x + 10, y, propiedad["codigo"])
+                var.report.drawString(x + 50, y, propiedad["direccion"])
+                var.report.drawString(x + 140, y, propiedad["tipo"])
+                var.report.drawString(x + 220, y, propiedad["operaciones"])
+                var.report.drawString(x + 305, y, propiedad["precio_alquiler"])
+                var.report.drawString(x + 390, y, propiedad["precio_venta"])
+                y -= 25
+
+            totalPageCount = var.report.getPageNumber()
+            print(totalPageCount)
+            var.report.save()
+            for file in os.listdir(rootPath):
+                if file.endswith(nomepdfprop):
+                    if sys.platform == "win32":
+                        os.startfile(pdf_path)
+                    elif sys.platform == "linux":
+                        subprocess.call([pdf_path])
+
+        except Exception as error:
+            print(error)
 
     def topInforme(titulo):
         try:

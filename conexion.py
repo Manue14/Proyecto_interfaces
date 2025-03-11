@@ -537,6 +537,42 @@ class Conexion:
             print("Error al filtrar propiedades en la base de datos", error)
             return []
 
+    @staticmethod
+    def filtrar_propiedades_by_municipio(municipio):
+        """
+        :param municipio: municipio para filtrar
+        :type municipio: str
+        :return: listado de propiedades filtradas
+        :rtype: list
+
+        Método que devuelve una lista de propiedades filtradas
+
+        """
+        try:
+            propiedades = []
+            propiedad = mapper.Mapper.initialize_propiedad()
+            keys = list(propiedad.keys())
+
+            query = QtSql.QSqlQuery()
+            if not var.state_manager.state["historico_pro"]:
+                query.prepare("SELECT * FROM propiedades WHERE muniprop = :muniprop AND bajaprop IS NULL;")
+            else:
+                query.prepare("SELECT * FROM propiedades WHERE muniprop = :muniprop;")
+
+            query.bindValue(":muniprop", municipio)
+
+            if query.exec():
+                while query.next():
+                    for i in range(query.record().count()):
+                        propiedad[keys[i]] = str(query.value(i))
+                    propiedades.append(propiedad.copy())
+            return propiedades
+        except sqlite3.IntegrityError:
+            return []
+        except Exception as error:
+            print("Error al filtrar propiedades en la base de datos", error)
+            return []
+
 
     def alta_vendedor(vendedor):
         """
