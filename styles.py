@@ -111,7 +111,6 @@ def initialize_styles():
     alquileres.Alquiler.campos["fecha_fin"].setProperty("qssClass", "non_editable_general_label")
 
     alquileres.Alquiler.botones["btn_grabar"].setProperty("qssClass", "general_button")
-    alquileres.Alquiler.botones["btn_cargar_mensualidades"].setProperty("qssClass", "general_button")
 
     for widget in clientes.Clientes.campos.values():
         reload_style(widget)

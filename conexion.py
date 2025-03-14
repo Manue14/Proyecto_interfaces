@@ -858,6 +858,15 @@ class Conexion:
 
     @staticmethod
     def alta_venta(venta):
+        """
+        :param venta: venta para registrar
+        :type venta: dict
+        :return: el id de la venta registrada o -1 si error
+        :rtype: int
+
+        Método que registra una venta en la base de datos
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT INTO ventas (facventa, codprop, codagente, precioventa) "
@@ -872,6 +881,15 @@ class Conexion:
 
     @staticmethod
     def listar_ventas_by_factura(factura_id):
+        """
+        :param factura_id: id de una factura por el que filtrar
+        :type municipio: int
+        :return: listado de ventas filtradas
+        :rtype: list
+
+        Método que devuelve una lista de ventas correspondientes a una factura
+
+        """
         try:
             ventas = []
             venta = mapper.Mapper.initialize_venta()
@@ -894,6 +912,15 @@ class Conexion:
 
     @staticmethod
     def get_venta(venta_id):
+        """
+        :param venta_id: id de la venta que se busca
+        :type municipio: int
+        :return: la venta con el id correspondiente
+        :rtype: dict
+
+        Método que devuelve una venta a partir de su id
+
+        """
         try:
             venta = mapper.Mapper.initialize_venta()
             keys = list(venta.keys())
@@ -912,6 +939,15 @@ class Conexion:
 
     @staticmethod
     def eliminar_venta(venta):
+        """
+        :param venta: venta a borrar
+        :type venta: dict
+        :return: True si éxito, False si error
+        :rtype: bool
+
+        Método que borra una venta
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("DELETE FROM ventas WHERE idventa = :id;")
@@ -927,6 +963,15 @@ class Conexion:
 
     @staticmethod
     def alta_alquiler(alquiler):
+        """
+        :param alquiler: alquiler para registrar
+        :type alquiler: dict
+        :return: id del alquiler registrado o -1 si error
+        :rtype: int
+
+        Método que registra un alquiler
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT INTO alquileres (dni_cli, propiedad_id, agente_id, fecha_firma, fecha_inicio, fecha_fin, precio_alquiler) "
@@ -941,6 +986,15 @@ class Conexion:
 
     @staticmethod
     def get_alquiler(alquiler_id):
+        """
+        :param alquiler_id: id para filtrar
+        :type alquiler_id: int
+        :return: alquiler correspondiente al id
+        :rtype: dict
+
+        Método que devuelve una alquiler a partir de su id
+
+        """
         try:
             alquiler = mapper.Mapper.initialize_alquiler()
             keys = list(alquiler.keys())
@@ -959,6 +1013,15 @@ class Conexion:
 
     @staticmethod
     def update_alquiler(alquiler):
+        """
+        :param alquiler: alquiler a actualizar
+        :type alquiler: dict
+        :return: True si éxito, False si error
+        :rtype: bool
+
+        Método que actualiza un alquiler
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("UPDATE alquileres SET fecha_fin = :fecha_fin WHERE id = :id;")
@@ -976,6 +1039,15 @@ class Conexion:
 
     @staticmethod
     def listar_alquileres():
+        """
+        :param none
+        :type none: none
+        :return: listado de todos los alquileres
+        :rtype: list
+
+        Método que devuelve una lista de todos los alquileres
+
+        """
         try:
             alquileres = []
             alquiler = mapper.Mapper.initialize_alquiler()
@@ -998,6 +1070,15 @@ class Conexion:
         
     @staticmethod
     def eliminar_alquiler(alquiler_id):
+        """
+        :param alquiler_id: id del alquiler a eliminar
+        :type alquiler_id: int
+        :return: True si éxito, False si error
+        :rtype: bool
+
+        Método que borra un alquiler a partir de su id
+
+        """
         try:
             recibos = Conexion.listar_recibos_by_alquiler(alquiler_id)
 
@@ -1039,6 +1120,15 @@ class Conexion:
 
     @staticmethod
     def alta_recibo(recibo):
+        """
+        :param recibo: recibo para crear
+        :type recibo: dict
+        :return: el id del recibo insertado o -1 si error
+        :rtype: int
+
+        Método que registra un recibo
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("INSERT INTO recibos (alquiler_id, propiedad_id, mensualidad, fecha, importe, pagado) "
@@ -1053,6 +1143,15 @@ class Conexion:
 
     @staticmethod
     def listar_recibos_by_alquiler(alquiler_id):
+        """
+        :param alquiler_id: id del alquiler por el que filtrar
+        :type alquiler_id: int
+        :return: listado de recibos filtrados
+        :rtype: list
+
+        Método que devuelve una lista de recibos según el id de su alquiler
+
+        """
         try:
             recibos = []
             recibo = mapper.Mapper.initialize_recibo()
@@ -1075,6 +1174,15 @@ class Conexion:
 
     @staticmethod
     def get_recibo(recibo_id):
+        """
+        :param recibo_id: id del recibo que se quiere obtener
+        :type recibo: int
+        :return: recibo del id correspondiente
+        :rtype: dict
+
+        Método que devuelve un recibo a partir de su id
+
+        """
         try:
             recibo = mapper.Mapper.initialize_recibo()
             keys = list(recibo.keys())
@@ -1093,6 +1201,15 @@ class Conexion:
 
     @staticmethod
     def update_recibo(recibo):
+        """
+        :param recibo: recibo para actualizar
+        :type recibo: dict
+        :return: True si éxito, False si error
+        :rtype: bool
+
+        Método que actualiza un recibo
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("UPDATE recibos SET pagado = :pagado WHERE id = :id")
@@ -1110,6 +1227,15 @@ class Conexion:
         
     @staticmethod
     def eliminar_recibo(recibo_id):
+        """
+        :param recibo: id del recibo a borrar
+        :type municipio: int
+        :return: True si éxito, False si error
+        :rtype: bool
+
+        Método que borra un recibo por su id
+
+        """
         try:
             query = QtSql.QSqlQuery()
             query.prepare("DELETE FROM recibos WHERE id = :id;")

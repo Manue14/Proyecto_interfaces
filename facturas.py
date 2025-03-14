@@ -9,6 +9,7 @@ import var
 import conexion
 import eventos
 import clientes
+import informes
 
 class Facturas:
     campos = {}
@@ -221,6 +222,21 @@ class Facturas:
                     eventos.Eventos.mensaje_error("Aviso", "No se pudo eliminar la factura")
         except Exception as error:
             print("Error al eliminar factura", error)
+
+    @staticmethod
+    def generar_informe():
+        Facturas.inicializar_campos()
+        Facturas.inicializar_valores()
+
+        subtotal = Facturas.campos["subtotal"].text()
+        impuestos = Facturas.campos["impuestos"].text()
+        total = Facturas.campos["total"].text()
+
+        if not Facturas._numero:
+            eventos.Eventos.mensaje_error("Aviso", "Para generar un informe es necesario seleccionar una factura")
+            return
+        
+        informes.Informes.reportFactura(Facturas._numero, subtotal, impuestos, total)
 
     @staticmethod
     def alta_venta():

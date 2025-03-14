@@ -42,8 +42,7 @@ class Alquiler:
     @staticmethod
     def inicializar_botones():
         Alquiler.botones = {
-            "btn_grabar": var.ui.btn_alq_grabar,
-            "btn_cargar_mensualidades": var.ui.btn_alq_cargar_mensualidades
+            "btn_grabar": var.ui.btn_alq_grabar
         }
 
     @staticmethod
@@ -121,12 +120,6 @@ class Alquiler:
                 mensualidades_map[key] = date_list
 
         return mensualidades_map.values()
-    
-    @staticmethod
-    def aaaa():
-        mensualidades = Alquiler.calcular_mensualidades("01/01/2025", "01/11/2026")
-        for mensualidad in mensualidades:
-            print(mensualidad)
 
     @staticmethod
     def alta_alquiler():

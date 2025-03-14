@@ -658,7 +658,6 @@ class Eventos:
         checkbox = QCheckBox()
         checkbox.setFixedSize(30, 20)
         checkbox.clicked.connect(lambda: alquileres.Alquiler.toogle_recibo_pagado(recibo["id"], checkbox))
-        #delete_button.clicked.connect(lambda: facturas.Facturas.eliminar_factura(factura["id"]))
         layout.addWidget(checkbox)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -671,6 +670,22 @@ class Eventos:
             checkbox.setChecked(False)
         else:
             checkbox.setChecked(True)
+
+        container = QWidget()
+        layout = QVBoxLayout()
+        informe_button = QPushButton()
+        informe_button.setFixedSize(30, 20)
+        informe_button.setIcon(QIcon("./img/informe.png"))
+        informe_button.setStyleSheet("background-color: transparent; border: none;")
+        styles.reload_style(informe_button)
+        informe_button.clicked.connect(lambda: informes.Informes.report_mensualidad(recibo["id"]))
+        layout.addWidget(informe_button)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        container.setLayout(layout)
+
+        var.ui.tab_recibos.setCellWidget(index, 5, container)
 
     def resize_cli_tab(self):
         try:

@@ -49,7 +49,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="pestana_clientes">
        <attribute name="title">
@@ -3719,7 +3719,6 @@
             <property name="font">
              <font>
               <pointsize>12</pointsize>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -3838,12 +3837,12 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="2">
-             <widget class="QPushButton" name="btn_fac_cli_buscar">
+            <item row="4" column="1" alignment="Qt::AlignHCenter">
+             <widget class="QPushButton" name="btn_fac_informes">
               <property name="maximumSize">
                <size>
-                <width>30</width>
-                <height>16777215</height>
+                <width>26</width>
+                <height>26</height>
                </size>
               </property>
               <property name="styleSheet">
@@ -3854,14 +3853,13 @@
               </property>
               <property name="icon">
                <iconset>
-                <normaloff>../img/search-icon.png</normaloff>../img/search-icon.png</iconset>
+                <normaloff>../img/informe.png</normaloff>../img/informe.png</iconset>
               </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QPushButton" name="btn_fac_informes">
-              <property name="text">
-               <string>Informes</string>
+              <property name="iconSize">
+               <size>
+                <width>25</width>
+                <height>25</height>
+               </size>
               </property>
              </widget>
             </item>
@@ -3919,7 +3917,6 @@
             <property name="font">
              <font>
               <pointsize>12</pointsize>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -4066,7 +4063,6 @@
               <property name="font">
                <font>
                 <pointsize>12</pointsize>
-                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>
@@ -4186,7 +4182,6 @@
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
-                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
@@ -4451,7 +4446,6 @@
             <property name="font">
              <font>
               <pointsize>12</pointsize>
-              <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
@@ -4557,26 +4551,6 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="2">
-             <widget class="QPushButton" name="btn_alq_cli_buscar">
-              <property name="maximumSize">
-               <size>
-                <width>30</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: transparent; border: none;</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>../img/search-icon.png</normaloff>../img/search-icon.png</iconset>
-              </property>
-             </widget>
-            </item>
             <item row="2" column="0">
              <widget class="QLabel" name="label_54">
               <property name="text">
@@ -4663,6 +4637,59 @@
           </rect>
          </property>
          <layout class="QGridLayout" name="gridLayout_13">
+          <item row="1" column="0" colspan="3">
+           <widget class="QTableWidget" name="tab_recibos">
+            <property name="selectionMode">
+             <enum>QAbstractItemView::SingleSelection</enum>
+            </property>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectRows</enum>
+            </property>
+            <column>
+             <property name="text">
+              <string>Recibo</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Propiedad</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Mensualidad</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Importe</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Gestión</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Impresión</string>
+             </property>
+            </column>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <spacer name="horizontalSpacer_45">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
           <item row="0" column="1">
            <layout class="QVBoxLayout" name="verticalLayout_6">
             <item>
@@ -4701,19 +4728,11 @@
                 <property name="font">
                  <font>
                   <pointsize>12</pointsize>
-                  <weight>75</weight>
                   <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
                  <string>Mensualidades</string>
-                </property>
-               </widget>
-              </item>
-              <item alignment="Qt::AlignHCenter">
-               <widget class="QPushButton" name="btn_alq_informes">
-                <property name="text">
-                 <string>Informes</string>
                 </property>
                </widget>
               </item>
@@ -4929,78 +4948,6 @@
             </property>
            </spacer>
           </item>
-          <item row="0" column="2">
-           <spacer name="horizontalSpacer_45">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="1" column="1" alignment="Qt::AlignHCenter">
-           <widget class="QPushButton" name="btn_alq_cargar_mensualidades">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>130</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Cargar Mensualidades</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0" colspan="3">
-           <widget class="QTableWidget" name="tab_recibos">
-            <property name="selectionMode">
-             <enum>QAbstractItemView::SingleSelection</enum>
-            </property>
-            <property name="selectionBehavior">
-             <enum>QAbstractItemView::SelectRows</enum>
-            </property>
-            <column>
-             <property name="text">
-              <string>Recibo</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Propiedad</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Mensualidad</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Importe</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Gestión</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Impresión</string>
-             </property>
-            </column>
-           </widget>
-          </item>
          </layout>
         </widget>
        </widget>
@@ -5046,7 +4993,7 @@
      <x>0</x>
      <y>0</y>
      <width>1796</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_archivo">
